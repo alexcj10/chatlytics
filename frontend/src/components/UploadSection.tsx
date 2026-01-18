@@ -87,7 +87,7 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                 <input
                     type="file"
                     id="file-upload"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50"
                     onChange={onFileChange}
                     disabled={loading}
                     accept=".txt"
@@ -95,14 +95,14 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
 
                 <div className="flex flex-col items-center justify-center gap-6">
                     <div className={cn(
-                        "w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center transition-transform group-hover:scale-110 duration-500",
+                        "w-16 h-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center transition-transform group-hover:scale-110 duration-500",
                         dragActive && "scale-110 border-indigo-500/50"
                     )}>
                         {loading ? (
-                            <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+                            <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
                         ) : (
                             <Upload className={cn(
-                                "w-10 h-10 text-zinc-500 transition-colors",
+                                "w-8 h-8 text-zinc-500 transition-colors",
                                 dragActive ? "text-indigo-500" : "group-hover:text-zinc-300"
                             )} />
                         )}
