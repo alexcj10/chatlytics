@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Chatlytics | WhatsApp Analytics",
+  title: "Chatlytics",
   description: "Deep insights into your WhatsApp conversations.",
 };
 
