@@ -268,7 +268,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
                 {/* Common Words - Simple Table */}
                 <ChartContainer title="Information Insights" subtitle="Most frequent phrases and emojis" icon={<MessageSquare className="text-amber-500" />}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 h-full">
+                    <div className="space-y-6">
+                        {/* Top Common Words */}
                         <div className="space-y-4">
                             <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Common Words</h4>
                             <div className="space-y-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
@@ -280,13 +281,14 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 ))}
                             </div>
                         </div>
-                        <div className="space-y-4 overflow-hidden">
+                        {/* Top Emojis - Horizontal scrollable on mobile */}
+                        <div className="space-y-4">
                             <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Emojis</h4>
-                            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
+                            <div className="flex flex-wrap gap-2">
                                 {data.emoji_analysis && Object.entries(data.emoji_analysis).map(([emoji, count]: any) => (
-                                    <div key={emoji} className="flex flex-col items-center justify-center p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
-                                        <span className="text-2xl mb-1">{emoji}</span>
-                                        <span className="text-[10px] text-zinc-500 font-mono">{count}</span>
+                                    <div key={emoji} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
+                                        <span className="text-xl">{emoji}</span>
+                                        <span className="text-xs text-zinc-500 font-mono">{count}</span>
                                     </div>
                                 ))}
                             </div>
