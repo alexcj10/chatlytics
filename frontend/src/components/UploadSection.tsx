@@ -112,7 +112,7 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                         <p className="text-xl font-medium text-zinc-200 mb-1">
                             {loading ? 'Processing chat...' : (dragActive ? 'Drop it here' : 'Drop your chat file here')}
                         </p>
-                        <p className="text-zinc-500"> or click to browse files </p>
+                        {!loading && <p className="text-zinc-500">or click to browse files</p>}
                     </div>
 
                     <div className="flex items-center gap-4 px-5 py-2.5 rounded-full bg-zinc-950 border border-zinc-800/50 text-sm text-zinc-400">
