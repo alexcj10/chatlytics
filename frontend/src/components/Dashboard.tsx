@@ -68,8 +68,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         <TrendingUp className="w-4 h-4" />
                         Active Analytics Sessions
                     </div>
-                    <div className="flex items-center gap-2 sm:gap-4">
-                        <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3 truncate max-w-[150px] sm:max-w-none">
+                    <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                        <h1 className="text-base sm:text-2xl md:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3 truncate">
                             {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
                         </h1>
                         <div className="relative" ref={dropdownRef}>
@@ -241,6 +241,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip
                                     contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px' }}
+                                    cursor={{ fill: '#18181b' }}
                                 />
                                 <Bar dataKey="message_count" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
@@ -279,9 +280,9 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 ))}
                             </div>
                         </div>
-                        <div className="space-y-4">
+                        <div className="space-y-4 overflow-hidden">
                             <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Emojis</h4>
-                            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
+                            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                                 {data.emoji_analysis && Object.entries(data.emoji_analysis).map(([emoji, count]: any) => (
                                     <div key={emoji} className="flex flex-col items-center justify-center p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
                                         <span className="text-2xl mb-1">{emoji}</span>

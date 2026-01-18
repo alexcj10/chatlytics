@@ -45,7 +45,7 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {cards.map((card, i) => (
                 <div
                     key={i}
@@ -58,8 +58,8 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
                             {card.icon}
                         </div>
                         <div>
-                            <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-0.5">{card.label}</p>
-                            <p className="text-2xl font-bold text-white tabular-nums tracking-tight">{card.value}</p>
+                            <p className="text-[10px] sm:text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-0.5 whitespace-nowrap">{card.label}</p>
+                            <p className="text-xl sm:text-2xl font-bold text-white tabular-nums tracking-tight">{card.value}</p>
                         </div>
                     </div>
                 </div>
