@@ -9,11 +9,13 @@ export default function Home() {
   const [data, setData] = useState<any>(null);
   const [selectedUser, setSelectedUser] = useState<string>('Overall');
   const [loading, setLoading] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
   const handleDataLoaded = (analyticsData: any) => {
     setData(analyticsData);
     setSelectedUser('Overall');
     setLoading(false);
+    setShowUpload(false);
   };
 
   return (
@@ -32,13 +34,17 @@ export default function Home() {
 
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
-              <a href="#" className="flex items-center gap-2 text-indigo-400">
+              <button
+                onClick={() => data && setShowUpload(false)}
+                className={`flex items-center gap-2 transition-colors ${!showUpload && data ? 'text-indigo-400' : 'hover:text-white'}`}
+                disabled={!data}
+              >
                 <LayoutDashboard className="w-4 h-4" />
                 Dashboard
-              </a>
+              </button>
             </nav>
             <div className="h-4 w-[1px] bg-zinc-800" />
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors">
+            <a href="https://github.com/alexcj10/chatlytics" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors">
               <Github className="w-5 h-5" />
             </a>
           </div>
@@ -46,7 +52,7 @@ export default function Home() {
       </header>
 
       <main className="max-w-[1600px] mx-auto px-6 py-8">
-        {!data ? (
+        {!data || showUpload ? (
           <div className="h-[calc(100vh-160px)] flex items-center justify-center">
             <UploadSection onDataLoaded={handleDataLoaded} loading={loading} setLoading={setLoading} />
           </div>
@@ -57,7 +63,7 @@ export default function Home() {
               user={selectedUser}
               users={data.users}
               onSelectUser={setSelectedUser}
-              onReset={() => setData(null)}
+              onReset={() => setShowUpload(true)}
             />
           </div>
         )}
