@@ -110,16 +110,16 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 <div className="flex items-center gap-2 export-exclude">
                     <button
                         onClick={onReset}
-                        className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                        className="flex items-center gap-2 p-2 lg:px-4 lg:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
                         aria-label="Upload New"
                     >
                         <RefreshCcw className="w-4 h-4" />
-                        <span className="hidden sm:inline">Upload New</span>
+                        <span className="hidden lg:inline">Upload New</span>
                     </button>
                     <button
                         onClick={handleExport}
                         disabled={isExporting}
-                        className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 p-2 lg:px-4 lg:py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
                         aria-label="Export PDF"
                     >
                         {isExporting ? (
@@ -127,7 +127,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         ) : (
                             <Download className="w-4 h-4" />
                         )}
-                        <span className="hidden sm:inline">{isExporting ? "Exporting..." : "Export PDF"}</span>
+                        <span className="hidden lg:inline">{isExporting ? "Exporting..." : "Export PDF"}</span>
                     </button>
                 </div>
             </div>
