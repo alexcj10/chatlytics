@@ -7,18 +7,20 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell
 } from 'recharts';
-import { Download, RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon } from 'lucide-react';
+import { Download, RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
 
 interface DashboardProps {
     data: any;
     user: string;
+    users: string[];
+    onSelectUser: (user: string) => void;
     onReset: () => void;
 }
 
 const COLORS = ['#6366f1', '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e', '#f97316'];
 
-export function Dashboard({ data, user, onReset }: DashboardProps) {
+export function Dashboard({ data, user, users, onSelectUser, onReset }: DashboardProps) {
     if (!data) return null;
 
     return (
@@ -30,12 +32,26 @@ export function Dashboard({ data, user, onReset }: DashboardProps) {
                         <TrendingUp className="w-4 h-4" />
                         Active Analytics Sessions
                     </div>
-                    <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-                        {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
-                        <span className="text-sm font-normal text-zinc-500 px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800">
-                            Live Data
-                        </span>
-                    </h1>
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+                            {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
+                        </h1>
+                        <div className="relative group">
+                            <select
+                                value={user}
+                                onChange={(e) => onSelectUser(e.target.value)}
+                                className="appearance-none pl-10 pr-10 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 hover:border-zinc-700 transition-all cursor-pointer"
+                            >
+                                {users.map((u) => (
+                                    <option key={u} value={u} className="bg-zinc-900 text-zinc-300">
+                                        {u}
+                                    </option>
+                                ))}
+                            </select>
+                            <Users className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <ChevronDown className="w-4 h-4 text-zinc-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none group-hover:text-zinc-300 transition-colors" />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-3">

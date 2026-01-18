@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { UploadSection } from '@/components/UploadSection';
 import { Dashboard } from '@/components/Dashboard';
-import { Sidebar } from '@/components/Sidebar';
 import { MessageSquare, LayoutDashboard, Github } from 'lucide-react';
 
 export default function Home() {
@@ -52,15 +51,12 @@ export default function Home() {
             <UploadSection onDataLoaded={handleDataLoaded} loading={loading} setLoading={setLoading} />
           </div>
         ) : (
-          <div className="lg:grid lg:grid-cols-[280px_1fr] gap-8">
-            <Sidebar
-              users={data.users}
-              selectedUser={selectedUser}
-              onSelect={setSelectedUser}
-            />
+          <div>
             <Dashboard
               data={data.analytics[selectedUser]}
               user={selectedUser}
+              users={data.users}
+              onSelectUser={setSelectedUser}
               onReset={() => setData(null)}
             />
           </div>
