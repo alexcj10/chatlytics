@@ -148,7 +148,10 @@ def most_busy_month(df):
     )
     return monthly.loc[monthly['message_count'].idxmax()]
 
-def most_common_words(df, top_n=20):
+def most_common_words(df, selected_user='Overall', top_n=20):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+    
     df = df[df['user'] != 'group_notification']
     df = df[df['message'] != '<Media omitted>']
 
@@ -161,7 +164,10 @@ def most_common_words(df, top_n=20):
     return pd.Series(words).value_counts().head(top_n)
 
 
-def emoji_analysis(df, top_n=10):
+def emoji_analysis(df, selected_user='Overall', top_n=10):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
     emojis = []
 
     for msg in df['message']:
@@ -172,8 +178,12 @@ def emoji_analysis(df, top_n=10):
     return pd.Series(emojis).value_counts().head(top_n)
 
 
-def response_time_analysis(df):
-
+def response_time_analysis(df, selected_user='Overall'):
+    # For individual user, we still need the context of the chat to calculate response times 
+    # (time since *previous* message). 
+    # Ensuring we filter/calculate correctly for the selected user is tricky if we just filter the DF.
+    # Approach: Calculate all response times, then filter for the selected user.
+    
     df = df[df['user'] != 'group_notification']
     df = df.sort_values('date').reset_index(drop=True)
 
@@ -196,10 +206,17 @@ def response_time_analysis(df):
         if len(times) > 0
     }
 
+    if selected_user != 'Overall':
+        # Return only the selected user's response time if available
+        if selected_user in avg_response_time:
+             return {selected_user: avg_response_time[selected_user]}
+        else:
+             return {}
+
     return avg_response_time
 
-def conversation_initiator(df):
-
+def conversation_initiator(df, selected_user='Overall'):
+    
     df = df[df['user'] != 'group_notification']
     df = df.sort_values('date')
 
@@ -212,15 +229,26 @@ def conversation_initiator(df):
 
     # Count initiators
     initiator_counts = first_messages['user'].value_counts()
+    
+    if selected_user != 'Overall':
+        if selected_user in initiator_counts:
+            return pd.Series({selected_user: initiator_counts[selected_user]})
+        else:
+            return pd.Series([], dtype=int)
 
     return initiator_counts
 
-def longest_message(df):
+def longest_message(df, selected_user='Overall'):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
 
     temp = df[
         (df['user'] != 'group_notification') &
         (df['message'] != '<Media omitted>')
     ].copy()
+
+    if temp.empty:
+        return {}
 
     temp['char_length'] = temp['message'].str.len()
 
@@ -233,12 +261,17 @@ def longest_message(df):
         'date': longest['date']
     }
 
-def most_wordy_message(df):
+def most_wordy_message(df, selected_user='Overall'):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
    
     temp = df[
         (df['user'] != 'group_notification') &
         (df['message'] != '<Media omitted>')
     ].copy()
+
+    if temp.empty:
+        return {}
 
     temp['word_count'] = temp['message'].str.split().str.len()
 
@@ -251,5 +284,7 @@ def most_wordy_message(df):
         'date': most_wordy['date']
     }
 
-def most_busy_hour(df):
+def most_busy_hour(df, selected_user='Overall'):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
     return int(df['hour'].value_counts().idxmax())

@@ -9,7 +9,7 @@ interface AdvancedAnalyticsProps {
 }
 
 export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
-    if (!data || user !== 'Overall') return null;
+    if (!data) return null;
 
     const responseTimes = data.response_time_analysis || {};
     const initiators = data.conversation_initiator || {};
@@ -29,7 +29,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                         <p className="text-xs text-zinc-500">Average time to reply (mins)</p>
                     </div>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                     {Object.entries(responseTimes).map(([name, time]: any) => (
                         <div key={name} className="flex items-center justify-between">
                             <span className="text-sm text-zinc-400">{name}</span>
@@ -58,7 +58,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                         <p className="text-xs text-zinc-500">Who starts the chat most?</p>
                     </div>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                     {Object.entries(initiators).map(([name, count]: any) => (
                         <div key={name} className="flex items-center justify-between">
                             <span className="text-sm text-zinc-400">{name}</span>
@@ -79,7 +79,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                         <p className="text-xs text-zinc-500">Highest engagement periods</p>
                     </div>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                     <div className="p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
                         <div className="flex items-center justify-between mb-1">
                             <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Busiest Day</span>
