@@ -70,8 +70,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <TrendingUp className="w-4 h-4" />
                             Active Analytics Sessions
                         </div>
-                        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                            {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white truncate max-w-[280px] sm:max-w-none">
+                            {user === 'Overall' ? "Overall Conversation" : user}
                         </h1>
                     </div>
                     {/* Desktop Controls */}
@@ -101,7 +101,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                                     : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
                                                     }`}
                                             >
-                                                {u}
+                                                <span className="truncate block">{u}</span>
                                             </button>
                                         ))}
                                     </div>
@@ -141,7 +141,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         >
                             <div className="flex items-center gap-2">
                                 <Users className="w-4 h-4 text-zinc-500" />
-                                <span className="truncate">{user}</span>
+                                <span className="truncate max-w-[150px]">{user}</span>
                             </div>
                             <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                         </button>
@@ -161,7 +161,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                                 : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
                                                 }`}
                                         >
-                                            {u}
+                                            <span className="truncate block">{u}</span>
                                         </button>
                                     ))}
                                 </div>
