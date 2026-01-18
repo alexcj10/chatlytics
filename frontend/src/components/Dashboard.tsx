@@ -23,14 +23,18 @@ const COLORS = ['#6366f1', '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e', '#f97316'
 
 export function Dashboard({ data, user, users, onSelectUser, onReset }: DashboardProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const desktopDropdownRef = useRef<HTMLDivElement>(null);
+    const mobileDropdownRef = useRef<HTMLDivElement>(null);
     const dashboardRef = useRef<HTMLDivElement>(null);
     // Explicitly initializing state again to clear any HMR ghosts
     const [isExporting, setIsExporting] = useState<boolean>(false);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            const isClickInsideDesktop = desktopDropdownRef.current && desktopDropdownRef.current.contains(event.target as Node);
+            const isClickInsideMobile = mobileDropdownRef.current && mobileDropdownRef.current.contains(event.target as Node);
+
+            if (!isClickInsideDesktop && !isClickInsideMobile) {
                 setIsDropdownOpen(false);
             }
         }
@@ -76,7 +80,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                     </div>
                     {/* Desktop Controls */}
                     <div className="hidden lg:flex items-center gap-2 export-exclude">
-                        <div className="relative" ref={dropdownRef}>
+                        <div className="relative" ref={desktopDropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="flex items-center gap-2 pl-4 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
@@ -134,7 +138,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
                 {/* Mobile/Tablet Controls Row */}
                 <div className="flex lg:hidden items-center gap-2 export-exclude">
-                    <div className="relative flex-1" ref={dropdownRef}>
+                    <div className="relative flex-1" ref={mobileDropdownRef}>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
