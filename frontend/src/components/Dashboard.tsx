@@ -62,23 +62,23 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
     return (
         <div ref={dashboardRef} className="space-y-8 animate-in fade-in duration-1000 p-4 bg-[#09090b]">
             {/* Header Info */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b border-zinc-900">
+            <div className="flex flex-row items-end justify-between gap-4 pb-2 border-b border-zinc-900">
                 <div>
                     <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium mb-1">
                         <TrendingUp className="w-4 h-4" />
                         Active Analytics Sessions
                     </div>
-                    <div className="flex items-center gap-4">
-                        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3 truncate max-w-[150px] sm:max-w-none">
                             {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
                         </h1>
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center gap-2 pl-4 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                                className="flex items-center gap-2 p-2 sm:pl-4 sm:pr-3 sm:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                             >
                                 <Users className="w-4 h-4 text-zinc-500" />
-                                <span className="max-w-[200px] truncate">{user}</span>
+                                <span className="max-w-[200px] truncate hidden sm:block">{user}</span>
                                 <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
 
@@ -107,25 +107,27 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3 export-exclude">
+                <div className="flex items-center gap-2 export-exclude">
                     <button
                         onClick={onReset}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                        className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                        aria-label="Upload New"
                     >
                         <RefreshCcw className="w-4 h-4" />
-                        Upload New
+                        <span className="hidden sm:inline">Upload New</span>
                     </button>
                     <button
                         onClick={handleExport}
                         disabled={isExporting}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label="Export PDF"
                     >
                         {isExporting ? (
                             <RefreshCcw className="w-4 h-4 animate-spin" />
                         ) : (
                             <Download className="w-4 h-4" />
                         )}
-                        {isExporting ? "Exporting..." : "Export PDF"}
+                        <span className="hidden sm:inline">{isExporting ? "Exporting..." : "Export PDF"}</span>
                     </button>
                 </div>
             </div>
@@ -322,7 +324,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
 function ChartContainer({ title, subtitle, icon, children }: { title: string, subtitle: string, icon: React.ReactNode, children: React.ReactNode }) {
     return (
-        <section className="bg-zinc-900/20 border border-zinc-800/50 rounded-2xl p-6 backdrop-blur-sm">
+        <section className="bg-zinc-900/20 border border-zinc-800/50 rounded-2xl p-4 md:p-6 backdrop-blur-sm">
             <div className="flex items-start justify-between mb-8">
                 <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
