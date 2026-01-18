@@ -62,7 +62,7 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
     };
 
     return (
-        <div className="w-full max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <div className="w-full max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <div className="text-center mb-6 md:mb-10">
                 <h1 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-500">
                     Analyze Your Conversations
@@ -115,7 +115,7 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                         {!loading && <p className="text-zinc-500 text-sm">or click to browse files</p>}
                     </div>
 
-                    <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 px-3 md:px-5 py-2 md:py-2.5 rounded-full bg-zinc-950 border border-zinc-800/50 text-xs md:text-sm text-zinc-400">
+                    <div className="flex items-center justify-center gap-2 md:gap-4 px-3 md:px-5 py-2 md:py-2.5 rounded-full bg-zinc-950 border border-zinc-800/50 text-xs md:text-sm text-zinc-400 text-center">
                         <div className="flex items-center gap-1.5">
                             <FileText className="w-3 h-3 md:w-4 md:h-4" />
                             <span>.txt files only</span>
