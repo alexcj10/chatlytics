@@ -274,7 +274,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                 {/* Monthly Activity */}
                 <ChartContainer title="Monthly Trends" subtitle="Seasonality of your conversations" icon={<BarChart3 className="text-blue-500" />}>
-                    <div className="h-[300px] w-full">
+                    <div className="h-full min-h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={data.monthly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
@@ -291,7 +291,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
                 {/* Quarterly Activity */}
                 <ChartContainer title="Quarterly Growth" subtitle="Long-term engagement overview" icon={<PieChartIcon className="text-emerald-500" />}>
-                    <div className="h-[300px] w-full">
+                    <div className="h-full min-h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={data.quarterly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
@@ -309,7 +309,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
                 {/* Yearly Activity */}
                 <ChartContainer title="Yearly Overview" subtitle="High-level conversation volume by year" icon={<TrendingUp className="text-orange-500" />}>
-                    <div className="h-[300px] w-full">
+                    <div className="h-full min-h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={data.yearly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
@@ -385,7 +385,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
 function ChartContainer({ title, subtitle, icon, children }: { title: string, subtitle: string, icon: React.ReactNode, children: React.ReactNode }) {
     return (
-        <section className="bg-zinc-900/20 border border-zinc-800/50 rounded-2xl p-4 md:p-6 backdrop-blur-sm">
+        <section className="bg-zinc-900/20 border border-zinc-800/50 rounded-2xl p-4 md:p-6 backdrop-blur-sm flex flex-col h-full">
             <div className="flex items-start justify-between mb-8">
                 <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
@@ -400,7 +400,9 @@ function ChartContainer({ title, subtitle, icon, children }: { title: string, su
                     <Info className="w-4 h-4" />
                 </button>
             </div>
-            {children}
+            <div className="flex-1 min-h-0">
+                {children}
+            </div>
         </section>
     );
 }
