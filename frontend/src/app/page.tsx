@@ -33,14 +33,15 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-6">
-            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
+            <nav className="flex items-center gap-4 md:gap-6 text-sm font-medium text-zinc-400">
               <button
                 onClick={() => data && setShowUpload(false)}
                 className={`flex items-center gap-2 transition-colors ${!showUpload && data ? 'text-indigo-400' : 'hover:text-white'}`}
                 disabled={!data}
+                aria-label="Dashboard"
               >
                 <LayoutDashboard className="w-4 h-4" />
-                Dashboard
+                <span className="hidden md:inline">Dashboard</span>
               </button>
             </nav>
             <div className="h-4 w-[1px] bg-zinc-800" />
