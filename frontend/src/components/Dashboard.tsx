@@ -57,37 +57,39 @@ export function Dashboard({ data, user, onReset }: DashboardProps) {
             <StatsCards stats={data.basic_stats} links={data.links_shared} />
 
             {/* Charts Grid */}
+            {/* Timeline Chart - Full Width */}
+            <ChartContainer title="Message Activity Timeline" subtitle="Daily distribution of messages over time" icon={<Calendar className="text-indigo-500" />}>
+                <div className="h-[350px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={data.daily_timeline}>
+                            <defs>
+                                <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
+                            <XAxis
+                                dataKey="only_date"
+                                stroke="#52525b"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                                tickFormatter={(val) => new Date(val).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                            />
+                            <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                            <Tooltip
+                                contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
+                                itemStyle={{ color: '#818cf8' }}
+                            />
+                            <Area type="monotone" dataKey="message_count" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+            </ChartContainer>
+
+            {/* Charts Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Timeline Chart */}
-                <ChartContainer title="Message Activity Timeline" subtitle="Daily distribution of messages over time" icon={<Calendar className="text-indigo-500" />}>
-                    <div className="h-[350px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={data.daily_timeline}>
-                                <defs>
-                                    <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
-                                <XAxis
-                                    dataKey="only_date"
-                                    stroke="#52525b"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickFormatter={(val) => new Date(val).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                                />
-                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
-                                    itemStyle={{ color: '#818cf8' }}
-                                />
-                                <Area type="monotone" dataKey="message_count" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-                </ChartContainer>
 
                 {/* Hourly Distribution */}
                 <ChartContainer title="Hourly Distribution" subtitle="When are people most active during the day?" icon={<Clock className="text-purple-500" />}>
