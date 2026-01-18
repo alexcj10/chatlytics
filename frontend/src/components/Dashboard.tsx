@@ -63,7 +63,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
                             {isDropdownOpen && (
                                 <div className="absolute top-full left-0 mt-2 w-[280px] bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar p-1">
+                                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar overscroll-contain p-1">
                                         {users.map((u) => (
                                             <button
                                                 key={u}
@@ -72,8 +72,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                                     setIsDropdownOpen(false);
                                                 }}
                                                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${user === u
-                                                        ? 'bg-indigo-500/10 text-indigo-400'
-                                                        : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
+                                                    ? 'bg-indigo-500/10 text-indigo-400'
+                                                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
                                                     }`}
                                             >
                                                 {u}
