@@ -45,21 +45,21 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
     ];
 
     return (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {cards.map((card, i) => (
                 <div
                     key={i}
-                    className={`relative group overflow-hidden rounded-[1.5rem] border ${card.borderColor} bg-zinc-900/50 p-4 md:p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-900/80`}
+                    className={`relative group overflow-hidden rounded-xl md:rounded-[1.5rem] border ${card.borderColor} bg-zinc-900/50 p-4 md:p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-900/80`}
                 >
                     <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
                     <div className="relative flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner flex-shrink-0">
                             {card.icon}
                         </div>
-                        <div>
-                            <p className="text-[10px] sm:text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-0.5 whitespace-nowrap">{card.label}</p>
-                            <p className="text-xl sm:text-2xl font-bold text-white tabular-nums tracking-tight">{card.value}</p>
+                        <div className="min-w-0">
+                            <p className="text-[10px] sm:text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-0.5 truncate">{card.label}</p>
+                            <p className="text-xl sm:text-2xl font-bold text-white tabular-nums tracking-tight truncate">{card.value}</p>
                         </div>
                     </div>
                 </div>
