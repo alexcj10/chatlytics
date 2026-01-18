@@ -205,8 +205,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         <AreaChart data={data.daily_timeline}>
                             <defs>
                                 <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3} />
-                                    <stop offset="95%" stopColor="#22d3ee" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="#facc15" stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor="#facc15" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
@@ -223,7 +223,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
                                 itemStyle={{ color: '#818cf8' }}
                             />
-                            <Area type="monotone" dataKey="message_count" stroke="#22d3ee" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
+                            <Area type="monotone" dataKey="message_count" stroke="#facc15" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>
