@@ -75,7 +75,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         </h1>
                     </div>
                     {/* Desktop Controls */}
-                    <div className="hidden md:flex items-center gap-2 export-exclude">
+                    <div className="hidden lg:flex items-center gap-2 export-exclude">
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -132,8 +132,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                     </div>
                 </div>
 
-                {/* Mobile Controls Row */}
-                <div className="flex md:hidden items-center gap-2 export-exclude">
+                {/* Mobile/Tablet Controls Row */}
+                <div className="flex lg:hidden items-center gap-2 export-exclude">
                     <div className="relative flex-1" ref={dropdownRef}>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
