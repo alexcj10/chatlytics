@@ -7,7 +7,7 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell
 } from 'recharts';
-import { Download, RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users } from 'lucide-react';
+import { Download, RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
 import { generatePDFReport } from '@/utils/exportUtils';
 
@@ -308,7 +308,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 </ChartContainer>
 
                 {/* Yearly Activity */}
-                <ChartContainer title="Yearly Overview" subtitle="High-level conversation volume by year" icon={<TrendingUp className="text-orange-500" />}>
+                <ChartContainer title="Yearly Overview" subtitle="High-level conversation volume by year" icon={<History className="text-orange-500" />}>
                     <div className="h-full min-h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={data.yearly_activity}>
