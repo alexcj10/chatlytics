@@ -24,7 +24,7 @@ export function Sidebar({ users, selectedUser, onSelect }: SidebarProps) {
                     Select User
                 </h2>
 
-                <div className="space-y-1">
+                <div className="space-y-1 overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
                     {users.map((user) => (
                         <button
                             key={user}

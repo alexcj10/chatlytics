@@ -77,13 +77,13 @@ def get_all_analytics(df, selected_user):
         "most_busy_day": clean_series(most_busy_day(df)) if selected_user == 'Overall' else {},
         "most_busy_weekday": most_busy_weekday(df) if selected_user == 'Overall' else "",
         "most_busy_month": clean_series(most_busy_month(df)) if selected_user == 'Overall' else {},
-        "response_time_analysis": response_time_analysis(df) if selected_user == 'Overall' else {},
-        "conversation_initiator": {str(k): v for k, v in conversation_initiator(df).to_dict().items()} if selected_user == 'Overall' else {},
-        "longest_message": clean_message_dict(longest_message(df)) if selected_user == 'Overall' else {},
-        "most_wordy_message": clean_message_dict(most_wordy_message(df)) if selected_user == 'Overall' else {},
-        "most_common_words": {str(k): v for k, v in most_common_words(df).to_dict().items()} if selected_user == 'Overall' else {},
-        "emoji_analysis": {str(k): v for k, v in emoji_analysis(df).to_dict().items()} if selected_user == 'Overall' else {},
-        "most_busy_hour": most_busy_hour(df) if selected_user == 'Overall' else ""
+        "response_time_analysis": response_time_analysis(df, selected_user),
+        "conversation_initiator": {str(k): v for k, v in conversation_initiator(df, selected_user).to_dict().items()},
+        "longest_message": clean_message_dict(longest_message(df, selected_user)),
+        "most_wordy_message": clean_message_dict(most_wordy_message(df, selected_user)),
+        "most_common_words": {str(k): v for k, v in most_common_words(df, selected_user).to_dict().items()},
+        "emoji_analysis": {str(k): v for k, v in emoji_analysis(df, selected_user).to_dict().items()},
+        "most_busy_hour": most_busy_hour(df, selected_user)
     }
     return res
 
