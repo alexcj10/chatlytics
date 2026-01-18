@@ -49,7 +49,7 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
             {cards.map((card, i) => (
                 <div
                     key={i}
-                    className={`relative group overflow-hidden rounded-[1.5rem] border ${card.borderColor} bg-zinc-900/50 p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-900/80`}
+                    className={`relative group overflow-hidden rounded-[1.5rem] border ${card.borderColor} bg-zinc-900/50 p-4 md:p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-900/80`}
                 >
                     <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
