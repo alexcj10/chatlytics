@@ -132,7 +132,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     <h4 className="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-4">Longest Message</h4>
                     <p className="text-sm text-zinc-300 italic mb-4 line-clamp-3">"{data.longest_message?.message}"</p>
                     <div className="flex items-center justify-between mt-auto">
-                        <span className="text-xs font-medium text-white">Sent by {data.longest_message?.user}</span>
+                        <span className="text-xs font-medium text-white truncate max-w-[150px]">Sent by {data.longest_message?.user}</span>
                         <span className="text-[10px] py-1 px-2 rounded-md bg-zinc-800 text-zinc-400">{data.longest_message?.char_length} chars</span>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     <h4 className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-4">Most Wordy Message</h4>
                     <p className="text-sm text-zinc-300 italic mb-4 line-clamp-3">"{data.most_wordy_message?.message}"</p>
                     <div className="flex items-center justify-between mt-auto">
-                        <span className="text-xs font-medium text-white">Sent by {data.most_wordy_message?.user}</span>
+                        <span className="text-xs font-medium text-white truncate max-w-[150px]">Sent by {data.most_wordy_message?.user}</span>
                         <span className="text-[10px] py-1 px-2 rounded-md bg-zinc-800 text-zinc-400">{data.most_wordy_message?.word_count} words</span>
                     </div>
                 </div>
