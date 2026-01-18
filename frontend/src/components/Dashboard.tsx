@@ -62,28 +62,32 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
     return (
         <div ref={dashboardRef} className="space-y-8 animate-in fade-in duration-1000 p-4 bg-[#09090b]">
             {/* Header Info */}
-            <div className="flex flex-row items-end justify-between gap-4 pb-2 border-b border-zinc-900">
-                <div>
-                    <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium mb-1">
-                        <TrendingUp className="w-4 h-4" />
-                        Active Analytics Sessions
-                    </div>
-                    <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
-                        <h1 className="text-base sm:text-2xl md:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3 truncate">
+            <div className="flex flex-col gap-4 pb-2 border-b border-zinc-900">
+                {/* Title Row */}
+                <div className="flex items-end justify-between">
+                    <div>
+                        <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium mb-1">
+                            <TrendingUp className="w-4 h-4" />
+                            Active Analytics Sessions
+                        </div>
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                             {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
                         </h1>
+                    </div>
+                    {/* Desktop Controls */}
+                    <div className="hidden md:flex items-center gap-2 export-exclude">
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center gap-2 p-2 sm:pl-4 sm:pr-3 sm:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                                className="flex items-center gap-2 pl-4 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                             >
                                 <Users className="w-4 h-4 text-zinc-500" />
-                                <span className="max-w-[200px] truncate hidden sm:block">{user}</span>
+                                <span className="max-w-[200px] truncate">{user}</span>
                                 <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
 
                             {isDropdownOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-[280px] bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                                <div className="absolute top-full right-0 mt-2 w-[280px] bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                                     <div className="max-h-[220px] overflow-y-auto custom-scrollbar overscroll-contain p-1">
                                         {users.map((u) => (
                                             <button
@@ -104,22 +108,77 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 </div>
                             )}
                         </div>
+                        <button
+                            onClick={onReset}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                            aria-label="Upload New"
+                        >
+                            <RefreshCcw className="w-4 h-4" />
+                            <span>Upload New</span>
+                        </button>
+                        <button
+                            onClick={handleExport}
+                            disabled={isExporting}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                            aria-label="Export PDF"
+                        >
+                            {isExporting ? (
+                                <RefreshCcw className="w-4 h-4 animate-spin" />
+                            ) : (
+                                <Download className="w-4 h-4" />
+                            )}
+                            <span>{isExporting ? "Exporting..." : "Export PDF"}</span>
+                        </button>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 export-exclude">
+                {/* Mobile Controls Row */}
+                <div className="flex md:hidden items-center gap-2 export-exclude">
+                    <div className="relative flex-1" ref={dropdownRef}>
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <Users className="w-4 h-4 text-zinc-500" />
+                                <span className="truncate">{user}</span>
+                            </div>
+                            <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                                <div className="max-h-[220px] overflow-y-auto custom-scrollbar overscroll-contain p-1">
+                                    {users.map((u) => (
+                                        <button
+                                            key={u}
+                                            onClick={() => {
+                                                onSelectUser(u);
+                                                setIsDropdownOpen(false);
+                                            }}
+                                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${user === u
+                                                ? 'bg-indigo-500/10 text-indigo-400'
+                                                : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
+                                                }`}
+                                        >
+                                            {u}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <button
                         onClick={onReset}
-                        className="flex items-center gap-2 p-2 lg:px-4 lg:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                        className="flex items-center justify-center p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
                         aria-label="Upload New"
                     >
                         <RefreshCcw className="w-4 h-4" />
-                        <span className="hidden lg:inline">Upload New</span>
                     </button>
                     <button
                         onClick={handleExport}
                         disabled={isExporting}
-                        className="flex items-center gap-2 p-2 lg:px-4 lg:py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center justify-center p-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
                         aria-label="Export PDF"
                     >
                         {isExporting ? (
@@ -127,7 +186,6 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         ) : (
                             <Download className="w-4 h-4" />
                         )}
-                        <span className="hidden lg:inline">{isExporting ? "Exporting..." : "Export PDF"}</span>
                     </button>
                 </div>
             </div>
