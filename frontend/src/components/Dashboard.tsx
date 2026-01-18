@@ -168,7 +168,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
             </ChartContainer>
 
             {/* Charts Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
 
                 {/* Hourly Distribution */}
                 <ChartContainer title="Hourly Distribution" subtitle="When are people most active during the day?" icon={<Clock className="text-purple-500" />}>
@@ -213,7 +213,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
             <AdvancedAnalytics data={data} user={user} />
 
             {/* More Activity Charts */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                 {/* Monthly Activity */}
                 <ChartContainer title="Monthly Trends" subtitle="Seasonality of your conversations" icon={<BarChart3 className="text-blue-500" />}>
                     <div className="h-[300px] w-full">
@@ -267,7 +267,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
                 {/* Common Words - Simple Table */}
                 <ChartContainer title="Information Insights" subtitle="Most frequent phrases and emojis" icon={<MessageSquare className="text-amber-500" />}>
-                    <div className="grid grid-cols-2 gap-6 h-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 h-full">
                         <div className="space-y-4">
                             <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Common Words</h4>
                             <div className="space-y-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
