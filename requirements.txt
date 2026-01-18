@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pandas
+emoji
+wordcloud
+python-multipart
