@@ -18,6 +18,14 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
                 width: `${element.scrollWidth}px`,
                 height: `${element.scrollHeight}px`,
                 overflow: 'visible'
+            },
+            filter: (node: HTMLElement) => {
+                // Exclude elements marked for exclusion (like buttons)
+                // We check if the node has classList to avoid errors on non-element nodes
+                if (node.classList && node.classList.contains('export-exclude')) {
+                    return false;
+                }
+                return true;
             }
         };
 
