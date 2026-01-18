@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { Download, RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
+import { generatePDFReport } from '@/utils/exportUtils';
 
 interface DashboardProps {
     data: any;
@@ -23,6 +24,9 @@ const COLORS = ['#6366f1', '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e', '#f97316'
 export function Dashboard({ data, user, users, onSelectUser, onReset }: DashboardProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const dashboardRef = useRef<HTMLDivElement>(null);
+    // Explicitly initializing state again to clear any HMR ghosts
+    const [isExporting, setIsExporting] = useState<boolean>(false);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -36,10 +40,27 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
         };
     }, []);
 
+    const handleExport = async () => {
+        if (!data || !dashboardRef.current) {
+            console.error("No data or dashboard ref available for export");
+            return;
+        }
+
+        try {
+            setIsExporting(true);
+            await generatePDFReport(dashboardRef.current, user);
+        } catch (error) {
+            console.error("Error generating export:", error);
+            alert("Failed to generate PDF report.");
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
     if (!data) return null;
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-1000">
+        <div ref={dashboardRef} className="space-y-8 animate-in fade-in duration-1000 p-4 bg-[#09090b]">
             {/* Header Info */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b border-zinc-900">
                 <div>
@@ -94,9 +115,17 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         <RefreshCcw className="w-4 h-4" />
                         Upload New
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20">
-                        <Download className="w-4 h-4" />
-                        Export Report
+                    <button
+                        onClick={handleExport}
+                        disabled={isExporting}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isExporting ? (
+                            <RefreshCcw className="w-4 h-4 animate-spin" />
+                        ) : (
+                            <Download className="w-4 h-4" />
+                        )}
+                        {isExporting ? "Exporting..." : "Export PDF"}
                     </button>
                 </div>
             </div>
