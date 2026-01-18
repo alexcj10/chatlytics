@@ -127,33 +127,7 @@ export function Dashboard({ data, user, onReset }: DashboardProps) {
                     </div>
                 </ChartContainer>
 
-                {/* Common Words - Simple Table */}
-                <ChartContainer title="Information Insights" subtitle="Most frequent phrases and emojis" icon={<MessageSquare className="text-amber-500" />}>
-                    <div className="grid grid-cols-2 gap-6 h-full">
-                        <div className="space-y-4">
-                            <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Common Words</h4>
-                            <div className="space-y-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
-                                {data.most_common_words && Object.entries(data.most_common_words).map(([word, count]: any, i) => (
-                                    <div key={word} className="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/50 border border-zinc-800/50 group hover:border-zinc-700 transition-colors">
-                                        <span className="text-sm text-zinc-300 font-medium">{word}</span>
-                                        <span className="text-xs text-zinc-500 group-hover:text-indigo-400 font-mono transition-colors">{count}x</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="space-y-4">
-                            <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Emojis</h4>
-                            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
-                                {data.emoji_analysis && Object.entries(data.emoji_analysis).map(([emoji, count]: any) => (
-                                    <div key={emoji} className="flex flex-col items-center justify-center p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
-                                        <span className="text-2xl mb-1">{emoji}</span>
-                                        <span className="text-[10px] text-zinc-500 font-mono">{count}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </ChartContainer>
+
             </div>
 
             {/* Advanced Analytics Section */}
@@ -209,6 +183,34 @@ export function Dashboard({ data, user, onReset }: DashboardProps) {
                                 <Line type="monotone" dataKey="message_count" stroke="#f97316" strokeWidth={3} dot={{ r: 4, fill: '#f97316' }} />
                             </LineChart>
                         </ResponsiveContainer>
+                    </div>
+                </ChartContainer>
+
+                {/* Common Words - Simple Table */}
+                <ChartContainer title="Information Insights" subtitle="Most frequent phrases and emojis" icon={<MessageSquare className="text-amber-500" />}>
+                    <div className="grid grid-cols-2 gap-6 h-full">
+                        <div className="space-y-4">
+                            <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Common Words</h4>
+                            <div className="space-y-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
+                                {data.most_common_words && Object.entries(data.most_common_words).map(([word, count]: any, i) => (
+                                    <div key={word} className="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/50 border border-zinc-800/50 group hover:border-zinc-700 transition-colors">
+                                        <span className="text-sm text-zinc-300 font-medium">{word}</span>
+                                        <span className="text-xs text-zinc-500 group-hover:text-indigo-400 font-mono transition-colors">{count}x</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="space-y-4">
+                            <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Emojis</h4>
+                            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
+                                {data.emoji_analysis && Object.entries(data.emoji_analysis).map(([emoji, count]: any) => (
+                                    <div key={emoji} className="flex flex-col items-center justify-center p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
+                                        <span className="text-2xl mb-1">{emoji}</span>
+                                        <span className="text-[10px] text-zinc-500 font-mono">{count}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </ChartContainer>
             </div>
