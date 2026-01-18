@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StatsCards } from '@/components/StatsCards';
 import {
     LineChart, Line, AreaChart, Area, BarChart, Bar,
@@ -21,6 +21,21 @@ interface DashboardProps {
 const COLORS = ['#6366f1', '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e', '#f97316'];
 
 export function Dashboard({ data, user, users, onSelectUser, onReset }: DashboardProps) {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     if (!data) return null;
 
     return (
@@ -36,20 +51,37 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         <h1 className="text-3xl font-bold text-white flex items-center gap-3">
                             {user === 'Overall' ? "Global Conversation Overview" : `${user}'s Performance`}
                         </h1>
-                        <div className="relative group">
-                            <select
-                                value={user}
-                                onChange={(e) => onSelectUser(e.target.value)}
-                                className="appearance-none pl-10 pr-10 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 hover:border-zinc-700 transition-all cursor-pointer"
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className="flex items-center gap-2 pl-4 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                             >
-                                {users.map((u) => (
-                                    <option key={u} value={u} className="bg-zinc-900 text-zinc-300">
-                                        {u}
-                                    </option>
-                                ))}
-                            </select>
-                            <Users className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            <ChevronDown className="w-4 h-4 text-zinc-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none group-hover:text-zinc-300 transition-colors" />
+                                <Users className="w-4 h-4 text-zinc-500" />
+                                <span className="max-w-[200px] truncate">{user}</span>
+                                <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {isDropdownOpen && (
+                                <div className="absolute top-full left-0 mt-2 w-[280px] bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar p-1">
+                                        {users.map((u) => (
+                                            <button
+                                                key={u}
+                                                onClick={() => {
+                                                    onSelectUser(u);
+                                                    setIsDropdownOpen(false);
+                                                }}
+                                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${user === u
+                                                        ? 'bg-indigo-500/10 text-indigo-400'
+                                                        : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
+                                                    }`}
+                                            >
+                                                {u}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
