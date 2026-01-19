@@ -3,28 +3,53 @@ import jsPDF from 'jspdf';
 
 export async function generatePDFReport(element: HTMLElement, user: string): Promise<void> {
     try {
-        // Use html-to-image with explicit dimensions to ensure full capture
-        // even if the element is scrollable or larger than the viewport.
+        // STEP 1: DEEP SCAN for the true bottom of the content
+        // We cannot trust scrollHeight alone because of CSS transforms / absolute positioning / negative margins
+        let maxBottom = 0;
+
+        // Helper to recursively find the lowest point
+        const findDeepestBottom = (node: HTMLElement) => {
+            if (!node.getBoundingClientRect) return;
+            const rect = node.getBoundingClientRect();
+            // Calculate bottom position relative to the root element
+            const relativeBottom = rect.bottom - element.getBoundingClientRect().top + element.scrollTop;
+
+            if (relativeBottom > maxBottom) {
+                maxBottom = relativeBottom;
+            }
+
+            // Check all children
+            Array.from(node.children).forEach(child => findDeepestBottom(child as HTMLElement));
+        };
+
+        // Start scanning from the root
+        findDeepestBottom(element);
+
+        // Add a massive safety buffer to be 100% sure
+        const BOTTOM_BUFFER = 200;
+        const PADDING = 40;
+
+        // Also ensure width is sufficient
+        const finalWidth = element.scrollWidth + (PADDING * 2);
+        const finalHeight = maxBottom + BOTTOM_BUFFER;
+
+        // STEP 2: Configure options with the Calculated Deep Height
         const options = {
-            backgroundColor: '#09090b', // Match dark theme background
-            pixelRatio: 2, // 2x resolution for better quality
+            backgroundColor: '#09090b',
+            pixelRatio: 2,
             cacheBust: true,
-            width: element.scrollWidth,
-            height: element.scrollHeight,
+            width: finalWidth,
+            height: finalHeight,
             style: {
-                // Ensure the captured element is fully expanded and not constrained
-                transform: 'scale(1)',
-                transformOrigin: 'top left',
-                width: `${element.scrollWidth}px`,
-                height: `${element.scrollHeight}px`,
-                overflow: 'visible'
+                padding: `${PADDING}px`,
+                boxSizing: 'border-box',
+                // FORCE the height to accommodate the deepest element found
+                height: `${finalHeight}px`,
+                minHeight: `${finalHeight}px`,
+                overflow: 'visible',
             },
             filter: (node: HTMLElement) => {
-                // Exclude elements marked for exclusion (like buttons)
-                // We check if the node has classList to avoid errors on non-element nodes
-                if (node.classList && node.classList.contains('export-exclude')) {
-                    return false;
-                }
+                if (node.classList && node.classList.contains('export-exclude')) return false;
                 return true;
             }
         };
@@ -35,17 +60,18 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
         img.src = dataUrl;
         await new Promise((resolve) => { img.onload = resolve; });
 
-        // Create PDF with custom dimensions matching the captured image
-        // This creates a "long" single-page PDF that fits the dashboard exactly
         const pdf = new jsPDF({
             orientation: img.width > img.height ? 'landscape' : 'portrait',
             unit: 'px',
-            format: [img.width, img.height]
+            format: [img.width, img.height],
+            compress: true
         });
 
-        pdf.addImage(dataUrl, 'PNG', 0, 0, img.width, img.height);
+        pdf.addImage(dataUrl, 'PNG', 0, 0, img.width, img.height, undefined, 'FAST');
 
-        const filename = `Chatlytics_Report_${user.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+        const safeUsername = user.replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = `Chatlytics_${safeUsername}_${new Date().toISOString().split('T')[0]}.pdf`;
+
         pdf.save(filename);
     } catch (error) {
         console.error("PDF Generation failed:", error);
