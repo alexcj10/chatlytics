@@ -9,15 +9,18 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
             backgroundColor: '#09090b', // Match dark theme background
             pixelRatio: 2, // 2x resolution for better quality
             cacheBust: true,
-            width: element.scrollWidth,
-            height: element.scrollHeight + 50, // Add buffer to prevent bottom clipping
+            width: 1200, // Force Desktop Width
+            height: element.scrollHeight + 100, // Add buffer
+            windowWidth: 1200, // Force media queries to render as Desktop
             style: {
-                // Ensure the captured element is fully expanded and not constrained
+                // Ensure the captured element is fully expanded and fixed to desktop width
                 transform: 'scale(1)',
                 transformOrigin: 'top left',
-                width: `${element.scrollWidth}px`,
-                height: `${element.scrollHeight + 50}px`,
-                overflow: 'visible'
+                width: '1200px',
+                height: `${element.scrollHeight + 100}px`,
+                overflow: 'visible',
+                padding: '40px',
+                boxSizing: 'border-box'
             },
             filter: (node: HTMLElement) => {
                 // Exclude elements marked for exclusion (like buttons)
@@ -38,7 +41,7 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
         // Create PDF with custom dimensions matching the captured image
         // This creates a "long" single-page PDF that fits the dashboard exactly
         const pdf = new jsPDF({
-            orientation: img.width > img.height ? 'landscape' : 'portrait',
+            orientation: 'portrait', // Usually long vertical for full dashboard
             unit: 'px',
             format: [img.width, img.height]
         });
