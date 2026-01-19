@@ -219,10 +219,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 tickFormatter={(val) => new Date(val).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                             />
                             <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                            <Tooltip
-                                contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
-                                itemStyle={{ color: '#818cf8' }}
-                            />
+                            <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                             <Area type="monotone" dataKey="message_count" stroke="#facc15" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
                         </AreaChart>
                     </ResponsiveContainer>
@@ -240,10 +237,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="hour" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(h) => `${h}:00`} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
-                                    cursor={{ fill: '#18181b' }}
-                                />
+                                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                 <Bar dataKey="message_count" fill="#818cf8" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
@@ -258,10 +252,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" horizontal={false} />
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="day" type="category" stroke="#a1a1aa" fontSize={12} tickLine={false} axisLine={false} width={80} />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
-                                    cursor={{ fill: '#18181b' }}
-                                />
+                                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                 <Bar dataKey="message_count" fill="#d946ef" radius={[0, 4, 4, 0]} barSize={24} />
                             </BarChart>
                         </ResponsiveContainer>
@@ -284,9 +275,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="month" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px' }}
-                                />
+                                <Tooltip />
                                 <Area type="monotone" dataKey="message_count" stroke="#3b82f6" fillOpacity={0.1} fill="#3b82f6" />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -301,10 +290,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="quarter" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px' }}
-                                    cursor={{ fill: '#18181b' }}
-                                />
+                                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                 <Bar dataKey="message_count" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
@@ -319,9 +305,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="year" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px' }}
-                                />
+                                <Tooltip />
                                 <Line type="monotone" dataKey="message_count" stroke="#f97316" strokeWidth={3} dot={{ r: 4, fill: '#f97316' }} />
                             </LineChart>
                         </ResponsiveContainer>
@@ -368,10 +352,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                     <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                     <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                     <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                    <Tooltip
-                                        contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', fontSize: '14px' }}
-                                        cursor={{ fill: '#18181b' }}
-                                    />
+                                    <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                     <Bar dataKey="count" radius={[8, 8, 0, 0]} barSize={50}>
                                         {Object.entries(data.most_active_users).map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -389,7 +370,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
 function ChartContainer({ title, subtitle, icon, children }: { title: string, subtitle: string, icon: React.ReactNode, children: React.ReactNode }) {
     return (
-        <section className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 backdrop-blur-sm flex flex-col h-full">
+        <section className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 backdrop-blur-sm flex flex-col h-full relative overflow-hidden isolate">
             <div className="flex items-start justify-between mb-8">
                 <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
@@ -400,11 +381,11 @@ function ChartContainer({ title, subtitle, icon, children }: { title: string, su
                         <p className="text-xs text-zinc-500 leading-tight max-w-[200px]">{subtitle}</p>
                     </div>
                 </div>
-                <button className="text-zinc-600 hover:text-zinc-400 transition-colors">
+                <button className="text-zinc-600 hover:text-zinc-400 transition-colors -webkit-tap-highlight-color-transparent">
                     <Info className="w-4 h-4" />
                 </button>
             </div>
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 relative">
                 {children}
             </div>
         </section>
