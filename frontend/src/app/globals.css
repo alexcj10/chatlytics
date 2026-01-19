@@ -22,7 +22,7 @@
     --background: #09090b;
     --foreground: #fafafa;
     --card-bg: rgba(24, 24, 27, 0.6);
-    --card-border: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
     --muted: #18181b;
     --muted-foreground: #a1a1aa;
   }

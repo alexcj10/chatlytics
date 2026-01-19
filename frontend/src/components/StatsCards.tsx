@@ -19,28 +19,32 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
             value: stats['Total Number of Messages'].toLocaleString(),
             icon: <MessageSquare className="w-5 h-5 text-indigo-400" />,
             gradient: 'from-indigo-500/10 to-indigo-500/5',
-            borderColor: 'border-indigo-500/20'
+            borderColor: 'border-indigo-500/30',
+            bgColor: 'bg-indigo-950/20'
         },
         {
             label: 'Total Words',
             value: stats['Total Number of Words'].toLocaleString(),
             icon: <Type className="w-5 h-5 text-purple-400" />,
             gradient: 'from-purple-500/10 to-purple-500/5',
-            borderColor: 'border-purple-500/20'
+            borderColor: 'border-purple-500/30',
+            bgColor: 'bg-purple-950/20'
         },
         {
             label: 'Media Shared',
             value: stats['Total Number of Media Messages'].toLocaleString(),
             icon: <Image className="w-5 h-5 text-pink-400" />,
             gradient: 'from-pink-500/10 to-pink-400/5',
-            borderColor: 'border-pink-500/20'
+            borderColor: 'border-pink-500/30',
+            bgColor: 'bg-pink-950/20'
         },
         {
             label: 'Links Shared',
             value: links.toLocaleString(),
             icon: <LinkIcon className="w-5 h-5 text-sky-400" />,
             gradient: 'from-sky-500/10 to-sky-400/5',
-            borderColor: 'border-sky-500/20'
+            borderColor: 'border-sky-500/30',
+            bgColor: 'bg-sky-950/20'
         }
     ];
 
@@ -49,7 +53,7 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
             {cards.map((card, i) => (
                 <div
                     key={i}
-                    className={`relative group overflow-hidden rounded-xl md:rounded-[1.5rem] border ${card.borderColor} bg-zinc-900/50 p-4 md:p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-900/80`}
+                    className={`relative group overflow-hidden rounded-xl md:rounded-[1.5rem] border ${card.borderColor} ${card.bgColor} p-4 md:p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-900/80`}
                 >
                     <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 

@@ -80,7 +80,7 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                     "relative group border-2 border-dashed rounded-2xl md:rounded-[2rem] p-6 md:p-12 transition-all duration-300",
                     dragActive
                         ? "border-indigo-500 bg-indigo-500/5 shadow-[0_0_50px_-12px_rgba(99,102,241,0.25)]"
-                        : "border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 hover:bg-zinc-900/60",
+                        : "border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10",
                     loading && "pointer-events-none opacity-60"
                 )}
             >
@@ -139,7 +139,7 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                     { label: 'Word Analysis', desc: 'Common terms' },
                     { label: 'User Roles', desc: 'Who starts charts' }
                 ].map((item, i) => (
-                    <div key={i} className="p-2 md:p-4 rounded-xl md:rounded-2xl border border-zinc-800/30 bg-zinc-900/20">
+                    <div key={i} className="p-2 md:p-4 rounded-xl md:rounded-2xl border border-white/10 bg-white/5">
                         <p className="text-zinc-200 font-medium mb-0.5 md:mb-1 text-xs md:text-sm">{item.label}</p>
                         <p className="text-zinc-500 text-[10px] md:text-xs">{item.desc}</p>
                     </div>

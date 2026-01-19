@@ -66,7 +66,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
     return (
         <div ref={dashboardRef} className="space-y-8 animate-in fade-in duration-1000 p-4 bg-[#09090b]">
             {/* Header Info */}
-            <div className="flex flex-col gap-4 pb-2 border-b border-zinc-900">
+            <div className="flex flex-col gap-4 pb-2 border-b border-white/5">
                 {/* Title Row */}
                 <div className="flex items-end justify-between">
                     <div>
@@ -336,7 +336,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Common Words</h4>
                             <div className="space-y-2 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                                 {data.most_common_words && Object.entries(data.most_common_words).map(([word, count]: any, i) => (
-                                    <div key={word} className="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/50 border border-zinc-800/50 group hover:border-zinc-700 transition-colors">
+                                    <div key={word} className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/10 group hover:border-white/20 transition-colors">
                                         <span className="text-sm text-zinc-300 font-medium">{word}</span>
                                         <span className="text-xs text-zinc-500 group-hover:text-indigo-400 font-mono transition-colors">{count}x</span>
                                     </div>
@@ -348,7 +348,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Top Emojis</h4>
                             <div className="flex flex-wrap gap-2">
                                 {data.emoji_analysis && Object.entries(data.emoji_analysis).map(([emoji, count]: any) => (
-                                    <div key={emoji} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
+                                    <div key={emoji} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
                                         <span className="text-xl">{emoji}</span>
                                         <span className="text-xs text-zinc-500 font-mono">{count}</span>
                                     </div>
@@ -360,7 +360,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
             </div>
 
             {user === 'Overall' && (
-                <div className="p-1 border border-zinc-800/50 rounded-2xl bg-gradient-to-r from-indigo-500/5 to-purple-500/5">
+                <div className="p-1 border border-white/10 rounded-2xl bg-gradient-to-r from-indigo-500/5 to-purple-500/5">
                     <ChartContainer title="Performance Comparison" subtitle="Who is contributing the most to the conversation?" icon={<TrendingUp className="text-sky-500" />}>
                         <div className="h-[400px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -389,7 +389,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
 function ChartContainer({ title, subtitle, icon, children }: { title: string, subtitle: string, icon: React.ReactNode, children: React.ReactNode }) {
     return (
-        <section className="bg-zinc-900/20 border border-zinc-800/50 rounded-2xl p-4 md:p-6 backdrop-blur-sm flex flex-col h-full">
+        <section className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 backdrop-blur-sm flex flex-col h-full">
             <div className="flex items-start justify-between mb-8">
                 <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
