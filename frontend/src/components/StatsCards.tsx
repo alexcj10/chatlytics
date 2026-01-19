@@ -17,18 +17,18 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
         {
             label: 'Total Messages',
             value: stats['Total Number of Messages'].toLocaleString(),
-            icon: <MessageSquare className="w-5 h-5 text-indigo-400" />,
-            gradient: 'from-indigo-500/10 to-indigo-500/5',
-            borderColor: 'border-indigo-500/30',
-            bgColor: 'bg-indigo-950/20'
+            icon: <MessageSquare className="w-5 h-5 text-purple-400" />,
+            gradient: 'from-purple-500/10 to-purple-500/5',
+            borderColor: 'border-purple-500/30',
+            bgColor: 'bg-purple-950/20'
         },
         {
             label: 'Total Words',
             value: stats['Total Number of Words'].toLocaleString(),
-            icon: <Type className="w-5 h-5 text-purple-400" />,
-            gradient: 'from-purple-500/10 to-purple-500/5',
-            borderColor: 'border-purple-500/30',
-            bgColor: 'bg-purple-950/20'
+            icon: <Type className="w-5 h-5 text-amber-400" />,
+            gradient: 'from-amber-500/10 to-amber-500/5',
+            borderColor: 'border-amber-500/30',
+            bgColor: 'bg-amber-950/20'
         },
         {
             label: 'Media Shared',
@@ -41,10 +41,10 @@ export function StatsCards({ stats, links }: StatsCardsProps) {
         {
             label: 'Links Shared',
             value: links.toLocaleString(),
-            icon: <LinkIcon className="w-5 h-5 text-sky-400" />,
-            gradient: 'from-sky-500/10 to-sky-400/5',
-            borderColor: 'border-sky-500/30',
-            bgColor: 'bg-sky-950/20'
+            icon: <LinkIcon className="w-5 h-5 text-emerald-400" />,
+            gradient: 'from-emerald-500/10 to-emerald-500/5',
+            borderColor: 'border-emerald-500/30',
+            bgColor: 'bg-emerald-950/20'
         }
     ];
 
