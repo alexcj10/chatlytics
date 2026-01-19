@@ -6,20 +6,15 @@ export async function generatePDFReport(
   rootElement: HTMLElement,
   user: string
 ): Promise<void> {
-  let originalWidth = "";
-  let originalMinWidth = "";
-  let originalMaxWidth = "";
-  let originalOverflow = "";
-
   try {
     if (!rootElement) {
       throw new Error("Root element not found");
     }
 
-    originalWidth = rootElement.style.width;
-    originalMinWidth = rootElement.style.minWidth;
-    originalMaxWidth = rootElement.style.maxWidth;
-    originalOverflow = rootElement.style.overflow;
+    const originalWidth = rootElement.style.width;
+    const originalMinWidth = rootElement.style.minWidth;
+    const originalMaxWidth = rootElement.style.maxWidth;
+    const originalOverflow = rootElement.style.overflow;
 
     const DESKTOP_WIDTH = 1280;
     
@@ -28,22 +23,26 @@ export async function generatePDFReport(
     rootElement.style.maxWidth = `${DESKTOP_WIDTH}px`;
     rootElement.style.overflow = "visible";
 
-    await new Promise(resolve => setTimeout(resolve, 150));
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     const actualHeight = Math.max(
       rootElement.scrollHeight,
       rootElement.offsetHeight
     );
 
-    const PADDING = 32;
-    const SAFETY_BUFFER = 60;
+    const actualWidth = DESKTOP_WIDTH;
 
-    const finalWidth = Math.ceil(DESKTOP_WIDTH + PADDING * 2);
+    const PADDING = 24;
+    const SAFETY_BUFFER = 40;
+
+    const finalWidth = Math.ceil(actualWidth + PADDING * 2);
     const finalHeight = Math.ceil(actualHeight + PADDING * 2 + SAFETY_BUFFER);
+
+    const pixelRatio = Math.min(window.devicePixelRatio || 2, 2);
 
     const dataUrl = await toPng(rootElement, {
       backgroundColor: "#09090b",
-      pixelRatio: 2,
+      pixelRatio,
       cacheBust: true,
       width: finalWidth,
       height: finalHeight,
@@ -87,7 +86,7 @@ export async function generatePDFReport(
     const pageHeight = pdf.internal.pageSize.getHeight();
 
     const scale = pageWidth / img.width;
-    const scaledHeight = Math.ceil(img.height * scale);
+    const scaledHeight = img.height * scale;
 
     let yOffset = 0;
     let pageIndex = 0;
