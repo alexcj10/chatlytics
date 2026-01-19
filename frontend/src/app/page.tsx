@@ -36,7 +36,7 @@ export default function Home() {
             <nav className="flex items-center gap-4 md:gap-6 text-sm font-medium text-zinc-400">
               <button
                 onClick={() => data && setShowUpload(false)}
-                className={`flex items-center gap-2 transition-colors ${!showUpload && data ? 'text-indigo-400' : 'hover:text-white'}`}
+                className={`flex items-center gap-2 transition-colors ${!showUpload && data ? 'text-indigo-400' : 'hover:text-white'} cursor-pointer`}
                 disabled={!data}
                 aria-label="Dashboard"
               >

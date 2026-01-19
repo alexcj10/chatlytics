@@ -83,7 +83,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         <div className="relative" ref={desktopDropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center gap-2 pl-4 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                                className="flex items-center gap-2 pl-4 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer"
                             >
                                 <Users className="w-4 h-4 text-zinc-500" />
                                 <span className="max-w-[200px] truncate">{user}</span>
@@ -114,7 +114,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         </div>
                         <button
                             onClick={onReset}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all cursor-pointer"
                             aria-label="Upload New"
                         >
                             <RefreshCcw className="w-4 h-4" />
@@ -123,7 +123,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         <button
                             onClick={handleExport}
                             disabled={isExporting}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             aria-label="Export PDF"
                         >
                             {isExporting ? (
