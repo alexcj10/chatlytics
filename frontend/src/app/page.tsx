@@ -24,8 +24,8 @@ export default function Home() {
       <header className="border-b border-zinc-800/50 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-[1600px] mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-2.5">
-            <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 flex-shrink-0">
-              <MessageSquare className="w-4 h-4 md:w-5 md:h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
+              <img src="/chat.png" alt="Chatlytics Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-lg md:text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
               Chatlytics
