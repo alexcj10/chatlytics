@@ -6,43 +6,73 @@ export async function generatePDFReport(
   rootElement: HTMLElement,
   user: string
 ): Promise<void> {
+  let originalWidth = "";
+  let originalMinWidth = "";
+  let originalMaxWidth = "";
+  let originalOverflow = "";
+  let originalPosition = "";
+  let originalLeft = "";
+  let originalTop = "";
+
   try {
     if (!rootElement) {
       throw new Error("Root element not found");
     }
 
-    const originalWidth = rootElement.style.width;
-    const originalMinWidth = rootElement.style.minWidth;
-    const originalMaxWidth = rootElement.style.maxWidth;
-    const originalOverflow = rootElement.style.overflow;
+    originalWidth = rootElement.style.width;
+    originalMinWidth = rootElement.style.minWidth;
+    originalMaxWidth = rootElement.style.maxWidth;
+    originalOverflow = rootElement.style.overflow;
+    originalPosition = rootElement.style.position;
+    originalLeft = rootElement.style.left;
+    originalTop = rootElement.style.top;
 
     const DESKTOP_WIDTH = 1280;
     
+    rootElement.style.position = "absolute";
+    rootElement.style.left = "0";
+    rootElement.style.top = "0";
     rootElement.style.width = `${DESKTOP_WIDTH}px`;
     rootElement.style.minWidth = `${DESKTOP_WIDTH}px`;
     rootElement.style.maxWidth = `${DESKTOP_WIDTH}px`;
     rootElement.style.overflow = "visible";
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    const allElements: HTMLElement[] = [];
+    const collectElements = (el: Element) => {
+      if (el instanceof HTMLElement) {
+        allElements.push(el);
+      }
+      Array.from(el.children).forEach(collectElements);
+    };
+    collectElements(rootElement);
+
+    let maxHeight = 0;
+    allElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const rootRect = rootElement.getBoundingClientRect();
+      const bottom = rect.bottom - rootRect.top;
+      if (bottom > maxHeight) {
+        maxHeight = bottom;
+      }
+    });
 
     const actualHeight = Math.max(
+      maxHeight,
       rootElement.scrollHeight,
       rootElement.offsetHeight
     );
 
-    const actualWidth = DESKTOP_WIDTH;
+    const PADDING = 40;
+    const SAFETY_BUFFER = 100;
 
-    const PADDING = 24;
-    const SAFETY_BUFFER = 40;
-
-    const finalWidth = Math.ceil(actualWidth + PADDING * 2);
+    const finalWidth = Math.ceil(DESKTOP_WIDTH + PADDING * 2);
     const finalHeight = Math.ceil(actualHeight + PADDING * 2 + SAFETY_BUFFER);
-
-    const pixelRatio = Math.min(window.devicePixelRatio || 2, 2);
 
     const dataUrl = await toPng(rootElement, {
       backgroundColor: "#09090b",
-      pixelRatio,
+      pixelRatio: 2,
       cacheBust: true,
       width: finalWidth,
       height: finalHeight,
@@ -55,6 +85,9 @@ export async function generatePDFReport(
         maxWidth: "none",
         maxHeight: "none",
         transform: "translateZ(0)",
+        position: "absolute",
+        left: "0",
+        top: "0",
       },
       filter: (node) => {
         if (
@@ -71,6 +104,9 @@ export async function generatePDFReport(
     rootElement.style.minWidth = originalMinWidth;
     rootElement.style.maxWidth = originalMaxWidth;
     rootElement.style.overflow = originalOverflow;
+    rootElement.style.position = originalPosition;
+    rootElement.style.left = originalLeft;
+    rootElement.style.top = originalTop;
 
     const img = new Image();
     img.src = dataUrl;
@@ -86,7 +122,7 @@ export async function generatePDFReport(
     const pageHeight = pdf.internal.pageSize.getHeight();
 
     const scale = pageWidth / img.width;
-    const scaledHeight = img.height * scale;
+    const scaledHeight = Math.ceil(img.height * scale);
 
     let yOffset = 0;
     let pageIndex = 0;
@@ -125,6 +161,9 @@ export async function generatePDFReport(
     rootElement.style.minWidth = originalMinWidth;
     rootElement.style.maxWidth = originalMaxWidth;
     rootElement.style.overflow = originalOverflow;
+    rootElement.style.position = originalPosition;
+    rootElement.style.left = originalLeft;
+    rootElement.style.top = originalTop;
     
     throw error;
   }
