@@ -64,7 +64,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
     if (!data) return null;
 
     return (
-        <div ref={dashboardRef} className="space-y-8 animate-in fade-in duration-1000 p-4 bg-[#09090b]">
+        <div ref={dashboardRef} className="space-y-4 md:space-y-8 animate-in fade-in duration-1000 p-0 md:p-4 bg-[#09090b]">
             {/* Header Info */}
             <div className="flex flex-col gap-4 pb-2 border-b border-white/5">
                 {/* Title Row */}

@@ -17,9 +17,9 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
     const busyMonth = data.most_busy_month || {};
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-4 md:mt-8">
             {/* Response Time Analysis */}
-            <div className="bg-indigo-950/20 border border-indigo-500/30 rounded-2xl p-6 backdrop-blur-sm">
+            <div className="bg-indigo-950/20 border border-indigo-500/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
                         <Timer className="w-5 h-5 text-indigo-400" />
@@ -48,7 +48,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
             </div>
 
             {/* Conversation Initiators */}
-            <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-6 backdrop-blur-sm">
+            <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
                         <UserPlus className="w-5 h-5 text-emerald-400" />
@@ -69,7 +69,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
             </div>
 
             {/* Peak Activity */}
-            <div className="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-6 backdrop-blur-sm md:col-span-2 lg:col-span-1">
+            <div className="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm md:col-span-2 lg:col-span-1">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
                         <Zap className="w-5 h-5 text-amber-400" />
@@ -126,8 +126,8 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
             </div>
 
             {/* Message Extremes */}
-            <div className="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm relative overflow-hidden group">
+            <div className="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 backdrop-blur-sm relative overflow-hidden group">
                     <Sun className="absolute -right-4 -top-4 w-24 h-24 text-zinc-800/20 group-hover:text-indigo-500/10 transition-colors" />
                     <h4 className="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-4">Longest Message</h4>
                     <p className="text-sm text-zinc-300 italic mb-4 line-clamp-3">"{data.longest_message?.message}"</p>
@@ -137,7 +137,7 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     </div>
                 </div>
 
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm relative overflow-hidden group">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 backdrop-blur-sm relative overflow-hidden group">
                     <Moon className="absolute -right-4 -top-4 w-24 h-24 text-zinc-800/20 group-hover:text-purple-500/10 transition-colors" />
                     <h4 className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-4">Most Wordy Message</h4>
                     <p className="text-sm text-zinc-300 italic mb-4 line-clamp-3">"{data.most_wordy_message?.message}"</p>

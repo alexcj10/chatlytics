@@ -22,7 +22,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-indigo-500/30 overflow-x-hidden">
       {/* Header */}
       <header className="border-b border-zinc-800/50 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
-        <div className="max-w-[1600px] mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto px-3 md:px-6 h-14 md:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-2.5">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
               <img src="/chatlytics.png" alt="Chatlytics Logo" className="w-full h-full object-contain" />
@@ -52,7 +52,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-6 md:py-8">
+      <main className="max-w-[1600px] mx-auto px-3 md:px-6 py-6 md:py-8">
         {!data || showUpload ? (
           <div className="min-h-[calc(100vh-140px)] flex items-center justify-center py-8">
             <UploadSection onDataLoaded={handleDataLoaded} loading={loading} setLoading={setLoading} />
