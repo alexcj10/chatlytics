@@ -202,7 +202,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
             <ChartContainer title="Message Activity Timeline" subtitle="Daily distribution of messages over time" icon={<Calendar className="text-indigo-500" />}>
                 <div className="h-[350px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={data.daily_timeline} style={{ background: 'white', borderRadius: '12px' }}>
+                        <AreaChart data={data.daily_timeline}>
                             <defs>
                                 <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="#facc15" stopOpacity={0.3} />
@@ -236,7 +236,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 <ChartContainer title="Hourly Distribution" subtitle="When are people most active during the day?" icon={<Clock className="text-purple-500" />}>
                     <div className="h-[350px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data.hourly_activity} style={{ background: 'white', borderRadius: '12px' }}>
+                            <BarChart data={data.hourly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="hour" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(h) => `${h}:00`} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
@@ -254,7 +254,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 <ChartContainer title="Weekly Activity" subtitle="Comparison of messages sent each day of the week" icon={<Calendar className="text-pink-500" />}>
                     <div className="h-[350px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data.weekly_activity} layout="vertical" style={{ background: 'white', borderRadius: '12px' }}>
+                            <BarChart data={data.weekly_activity} layout="vertical">
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" horizontal={false} />
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="day" type="category" stroke="#a1a1aa" fontSize={12} tickLine={false} axisLine={false} width={80} />
@@ -280,7 +280,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 <ChartContainer title="Monthly Trends" subtitle="Seasonality of your conversations" icon={<BarChart3 className="text-blue-500" />}>
                     <div className="h-full min-h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={data.monthly_activity} style={{ background: 'white', borderRadius: '12px' }}>
+                            <AreaChart data={data.monthly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="month" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
@@ -297,7 +297,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 <ChartContainer title="Quarterly Growth" subtitle="Long-term engagement overview" icon={<PieChartIcon className="text-emerald-500" />}>
                     <div className="h-full min-h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data.quarterly_activity} style={{ background: 'white', borderRadius: '12px' }}>
+                            <BarChart data={data.quarterly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="quarter" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
@@ -364,7 +364,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                     <ChartContainer title="Performance Comparison" subtitle="Who is contributing the most to the conversation?" icon={<TrendingUp className="text-sky-500" />}>
                         <div className="h-[400px]">
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={Object.entries(data.most_active_users).map(([u, c]) => ({ name: u, count: c }))} style={{ background: 'white', borderRadius: '12px' }}>
+                                <BarChart data={Object.entries(data.most_active_users).map(([u, c]) => ({ name: u, count: c }))}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                     <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
                                     <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
