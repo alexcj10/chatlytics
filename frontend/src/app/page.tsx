@@ -54,7 +54,7 @@ export default function Home() {
 
       <main className="max-w-[1600px] mx-auto px-3 md:px-6 py-6 md:py-8">
         {!data || showUpload ? (
-          <div className="min-h-[calc(100vh-140px)] flex items-center justify-center py-8">
+          <div className="min-h-[calc(100dvh-140px)] w-full flex flex-col items-center justify-center py-8">
             <UploadSection onDataLoaded={handleDataLoaded} loading={loading} setLoading={setLoading} />
           </div>
         ) : (
