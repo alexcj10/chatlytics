@@ -1,3 +1,4 @@
+```typescript
 import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 
@@ -6,36 +7,42 @@ export async function generatePDFReport(
   user: string
 ): Promise<void> {
   try {
-    if (!rootElement) throw new Error("Root element not found");
+    if (!rootElement) {
+      throw new Error("Root element not found");
+    }
 
-    const isMobile = window.innerWidth <= 768;
+    const originalWidth = rootElement.style.width;
+    const originalMinWidth = rootElement.style.minWidth;
+    const originalMaxWidth = rootElement.style.maxWidth;
+    const originalOverflow = rootElement.style.overflow;
 
-    /* -------------------- Measure bounds -------------------- */
-    const rootRect = rootElement.getBoundingClientRect();
-    let maxBottom = 0;
-    let maxRight = 0;
+    const DESKTOP_WIDTH = 1280;
+    
+    rootElement.style.width = `${DESKTOP_WIDTH}px`;
+    rootElement.style.minWidth = `${DESKTOP_WIDTH}px`;
+    rootElement.style.maxWidth = `${DESKTOP_WIDTH}px`;
+    rootElement.style.overflow = "visible";
 
-    const scan = (node: Element) => {
-      const rect = node.getBoundingClientRect();
-      maxBottom = Math.max(maxBottom, rect.bottom - rootRect.top);
-      maxRight = Math.max(maxRight, rect.right - rootRect.left);
-      Array.from(node.children).forEach(
-        (c) => c instanceof Element && scan(c)
-      );
-    };
+    await new Promise(resolve => setTimeout(resolve, 100));
 
-    scan(rootElement);
+    const actualHeight = Math.max(
+      rootElement.scrollHeight,
+      rootElement.offsetHeight
+    );
+
+    const actualWidth = DESKTOP_WIDTH;
 
     const PADDING = 24;
-    const finalWidth = Math.ceil(
-      Math.min(maxRight + PADDING * 2, rootRect.width + PADDING * 2)
-    );
-    const finalHeight = Math.ceil(maxBottom + PADDING * 2);
+    const SAFETY_BUFFER = 40;
 
-    /* -------------------- Render image -------------------- */
+    const finalWidth = Math.ceil(actualWidth + PADDING * 2);
+    const finalHeight = Math.ceil(actualHeight + PADDING * 2 + SAFETY_BUFFER);
+
+    const pixelRatio = Math.min(window.devicePixelRatio || 2, 2);
+
     const dataUrl = await toPng(rootElement, {
       backgroundColor: "#09090b",
-      pixelRatio: 2,
+      pixelRatio,
       cacheBust: true,
       width: finalWidth,
       height: finalHeight,
@@ -45,29 +52,30 @@ export async function generatePDFReport(
         overflow: "visible",
         width: `${finalWidth}px`,
         height: `${finalHeight}px`,
+        maxWidth: "none",
+        maxHeight: "none",
+        transform: "translateZ(0)",
+      },
+      filter: (node) => {
+        if (
+          node instanceof HTMLElement &&
+          node.classList.contains("export-exclude")
+        ) {
+          return false;
+        }
+        return true;
       },
     });
+
+    rootElement.style.width = originalWidth;
+    rootElement.style.minWidth = originalMinWidth;
+    rootElement.style.maxWidth = originalMaxWidth;
+    rootElement.style.overflow = originalOverflow;
 
     const img = new Image();
     img.src = dataUrl;
     await img.decode();
 
-    /* -------------------- PDF -------------------- */
-
-    // ✅ MOBILE: single-page PDF (NO WHITE LINE EVER)
-    if (isMobile) {
-      const pdf = new jsPDF({
-        unit: "px",
-        format: [img.width, img.height],
-        compress: true,
-      });
-
-      pdf.addImage(img, "PNG", 0, 0, img.width, img.height, undefined, "FAST");
-      save(pdf, user);
-      return;
-    }
-
-    // ✅ DESKTOP: paginated PDF
     const pdf = new jsPDF({
       unit: "px",
       format: "a4",
@@ -76,14 +84,15 @@ export async function generatePDFReport(
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
+
     const scale = pageWidth / img.width;
     const scaledHeight = img.height * scale;
 
-    let y = 0;
-    let page = 0;
+    let yOffset = 0;
+    let pageIndex = 0;
 
-    while (y < scaledHeight) {
-      if (page > 0) pdf.addPage();
+    while (yOffset < scaledHeight) {
+      if (pageIndex > 0) pdf.addPage();
 
       pdf.setFillColor(9, 9, 11);
       pdf.rect(0, 0, pageWidth, pageHeight, "F");
@@ -92,25 +101,32 @@ export async function generatePDFReport(
         img,
         "PNG",
         0,
-        -y,
+        -yOffset,
         pageWidth,
         scaledHeight,
         undefined,
         "FAST"
       );
 
-      y += pageHeight;
-      page++;
+      yOffset += pageHeight;
+      pageIndex++;
     }
 
-    save(pdf, user);
-  } catch (e) {
-    console.error(e);
-    throw e;
+    const safeUser = user.replace(/[^a-zA-Z0-9]/g, "_");
+    const filename = `Chatlytics_${safeUser}_${new Date()
+      .toISOString()
+      .slice(0, 10)}.pdf`;
+
+    pdf.save(filename);
+  } catch (error) {
+    console.error("PDF generation failed:", error);
+    
+    rootElement.style.width = originalWidth;
+    rootElement.style.minWidth = originalMinWidth;
+    rootElement.style.maxWidth = originalMaxWidth;
+    rootElement.style.overflow = originalOverflow;
+    
+    throw error;
   }
 }
-
-function save(pdf: jsPDF, user: string) {
-  const safe = user.replace(/[^a-zA-Z0-9]/g, "_");
-  pdf.save(`Chatlytics_${safe}_${new Date().toISOString().slice(0, 10)}.pdf`);
-}
+```
