@@ -3,28 +3,31 @@ import jsPDF from 'jspdf';
 
 export async function generatePDFReport(element: HTMLElement, user: string): Promise<void> {
     try {
-        // STEP 1: Calculate Robust Height
-        // On mobile, scrollHeight is generally reliable if we force 'overflow: visible'
-        // We add a safe 200px buffer (reduced from 400px) which is the perfect balance
-        // This ensures mobile browser bars don't cut off content without adding too much empty space
-        const calculatedHeight = element.scrollHeight;
-        const CAPTURE_HEIGHT = calculatedHeight + 200;
-        const CAPTURE_WIDTH = element.scrollWidth + 80; // 40px padding on each side
+        // STEP 1: Calculate Basic Dimensions
+        // We use scrollWidth for the width to ensure we catch horizontal overflow
+        const CAPTURE_WIDTH = element.scrollWidth + 60; // 30px padding on each side
 
-        // STEP 2: Configure options with "Force Expand" logic
+        // STEP 2: Configure options with "Spacer Padding" logic
+        // Instead of verifying height, we simply force massive bottom padding
+        // This pushes the bottom edge of the canvas far below the last element
         const options = {
             backgroundColor: '#09090b',
             pixelRatio: 2,
             cacheBust: true,
             width: CAPTURE_WIDTH,
-            height: CAPTURE_HEIGHT,
+            // We set height to null/auto to let the engine determine it based on content + padding
+            height: element.scrollHeight + 400,
             style: {
-                // Critical: Force the node to be fully expanded during capture
-                height: `${CAPTURE_HEIGHT}px`,
+                // Critical: Force huge bottom padding internally
+                // This mechanically guarantees the last element is rendered with space below it
+                paddingBottom: '400px',
+                paddingTop: '40px',
+                paddingLeft: '30px',
+                paddingRight: '30px',
+                boxSizing: 'border-box',
+                height: 'auto',
                 maxHeight: 'none',
-                overflow: 'visible',
-                padding: '40px',
-                boxSizing: 'border-box'
+                overflow: 'visible'
             },
             filter: (node: HTMLElement) => {
                 if (node.classList && node.classList.contains('export-exclude')) return false;
