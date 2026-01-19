@@ -51,21 +51,26 @@ def preprocess_whatsapp_text(data: str) -> pd.DataFrame:
     # -----------------------------
     # 6. Extract users & clean messages
     # -----------------------------
-    users = []
-    clean_messages = []
+    # -----------------------------
+    # 6. Extract users & clean messages
+    # -----------------------------
+    # Vectorized pattern matching
+    # Pattern looks for "User: Message" format
+    # Captures: (User), (Message)
+    pattern = r'^(.+?):\s(.*)'
+    
+    split_df = df['user_messages'].str.extract(pattern)
+    
+    df['user'] = split_df[0]
+    df['message'] = split_df[1]
+    
+    # Rows that didn't match the pattern are group notifications
+    # For those, 'user' will be NaN. We fill it with 'group_notification'
+    # and the message is just the original text.
+    mask_notifications = df['user'].isna()
+    df.loc[mask_notifications, 'user'] = 'group_notification'
+    df.loc[mask_notifications, 'message'] = df.loc[mask_notifications, 'user_messages']
 
-    for text in df['user_messages']:
-        match = re.match(r'^(.+?):\s(.*)', text)
-
-        if match:
-            users.append(match.group(1))
-            clean_messages.append(match.group(2))
-        else:
-            users.append('group_notification')
-            clean_messages.append(text)
-
-    df['user'] = users
-    df['message'] = clean_messages
     df.drop(columns=['user_messages'], inplace=True)
 
     # -----------------------------
