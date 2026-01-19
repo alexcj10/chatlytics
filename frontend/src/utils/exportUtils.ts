@@ -3,50 +3,28 @@ import jsPDF from 'jspdf';
 
 export async function generatePDFReport(element: HTMLElement, user: string): Promise<void> {
     try {
-        // STEP 1: DEEP SCAN for the true bottom of the content
-        // We cannot trust scrollHeight alone because of CSS transforms / absolute positioning / negative margins
-        let maxBottom = 0;
+        // STEP 1: Calculate Robust Height
+        // On mobile, scrollHeight is generally reliable if we force 'overflow: visible'
+        // We add a safe 200px buffer (reduced from 400px) which is the perfect balance
+        // This ensures mobile browser bars don't cut off content without adding too much empty space
+        const calculatedHeight = element.scrollHeight;
+        const CAPTURE_HEIGHT = calculatedHeight + 200;
+        const CAPTURE_WIDTH = element.scrollWidth + 80; // 40px padding on each side
 
-        // Helper to recursively find the lowest point
-        const findDeepestBottom = (node: HTMLElement) => {
-            if (!node.getBoundingClientRect) return;
-            const rect = node.getBoundingClientRect();
-            // Calculate bottom position relative to the root element
-            const relativeBottom = rect.bottom - element.getBoundingClientRect().top + element.scrollTop;
-
-            if (relativeBottom > maxBottom) {
-                maxBottom = relativeBottom;
-            }
-
-            // Check all children
-            Array.from(node.children).forEach(child => findDeepestBottom(child as HTMLElement));
-        };
-
-        // Start scanning from the root
-        findDeepestBottom(element);
-
-        // Add a massive safety buffer to be 100% sure
-        const BOTTOM_BUFFER = 200;
-        const PADDING = 40;
-
-        // Also ensure width is sufficient
-        const finalWidth = element.scrollWidth + (PADDING * 2);
-        const finalHeight = maxBottom + BOTTOM_BUFFER;
-
-        // STEP 2: Configure options with the Calculated Deep Height
+        // STEP 2: Configure options with "Force Expand" logic
         const options = {
             backgroundColor: '#09090b',
             pixelRatio: 2,
             cacheBust: true,
-            width: finalWidth,
-            height: finalHeight,
+            width: CAPTURE_WIDTH,
+            height: CAPTURE_HEIGHT,
             style: {
-                padding: `${PADDING}px`,
-                boxSizing: 'border-box',
-                // FORCE the height to accommodate the deepest element found
-                height: `${finalHeight}px`,
-                minHeight: `${finalHeight}px`,
+                // Critical: Force the node to be fully expanded during capture
+                height: `${CAPTURE_HEIGHT}px`,
+                maxHeight: 'none',
                 overflow: 'visible',
+                padding: '40px',
+                boxSizing: 'border-box'
             },
             filter: (node: HTMLElement) => {
                 if (node.classList && node.classList.contains('export-exclude')) return false;
