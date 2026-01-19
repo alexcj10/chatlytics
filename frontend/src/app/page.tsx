@@ -25,7 +25,7 @@ export default function Home() {
         <div className="max-w-[1600px] mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-2.5">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
-              <img src="/chat.png" alt="Chatlytics Logo" className="w-full h-full object-contain" />
+              <img src="/chatlytics.png" alt="Chatlytics Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-lg md:text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
               Chatlytics

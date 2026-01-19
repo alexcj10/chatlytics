@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Chatlytics",
   description: "Deep insights into your WhatsApp conversations.",
+  icons: {
+    icon: "/chatlytics.png",
+  },
 };
 
 export default function RootLayout({
