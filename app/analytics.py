@@ -1,6 +1,7 @@
 import emoji
 from wordcloud import STOPWORDS
 import pandas as pd
+
 def get_user_list(df):
     users = df['user'].unique().tolist()
 
@@ -20,21 +21,26 @@ def filter_df_by_user(df, selected_user):
     
 # analytics function 
 def fetch_basic_stats(df, selected_user = 'Overall'):
-    if selected_user != 'Overall':
-        df = df[df['user'] == selected_user]
+    # Optimization: Expects df to be already filtered if called from main optimized loop
+    if selected_user != 'Overall' and 'user' in df.columns and not (df['user'] == selected_user).all():
+         df = df[df['user'] == selected_user]
 
     # Total num of messages
     num_messages = df.shape[0]
 
     # count total words
-    total_words = int(df['message'].apply(lambda x: len(x.split())).sum())
+    # Optimization: vectorized string ops are faster than apply
+    if num_messages > 0:
+        total_words = df['message'].str.split().str.len().sum()
+    else:
+        total_words = 0
 
     # count media messages
     media_messages = df[df['message'] == '<Media omitted>'].shape[0]
 
     return{
         'Total Number of Messages': num_messages,
-        'Total Number of Words': total_words,
+        'Total Number of Words': int(total_words),
         'Total Number of Media Messages': media_messages
     }
 
@@ -45,7 +51,7 @@ def most_active_users(df, top_n=10):
     return df['user'].value_counts().head(top_n)
 
 def count_links(df, selected_user='Overall'):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
     url_pattern = r'https?://\S+|www\.\S+'
@@ -55,12 +61,10 @@ def count_links(df, selected_user='Overall'):
     return int(link_count)
 
 def daily_timeline(df, selected_user="Overall"):
-
-    df = df.copy()
-
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
+    df = df.copy()
     df['only_date'] = df['date'].dt.date
 
     timeline = df.groupby('only_date').size().reset_index(name='message_count')
@@ -68,7 +72,7 @@ def daily_timeline(df, selected_user="Overall"):
     return timeline
 
 def hourly_activity(df, selected_user='Overall'):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
     hourly = df.groupby('hour').size().reset_index(name="message_count")
@@ -76,7 +80,7 @@ def hourly_activity(df, selected_user='Overall'):
     return hourly
 
 def weekly_activity(df, selected_user="Overall"):
-    if selected_user != "Overall":
+    if selected_user != "Overall" and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
     order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -92,20 +96,20 @@ def weekly_activity(df, selected_user="Overall"):
     return weekly
 
 def monthly_activity(df, selected_user="Overall"):
-    if selected_user != "Overall":
+    if selected_user != "Overall" and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
     monthly = (
         df.groupby(['month_num', 'month'])
-          .size()
-          .reset_index(name='message_count')
-          .sort_values('month_num')
+        .size()
+        .reset_index(name='message_count')
+        .sort_values('month_num')
     )
 
     return monthly[['month', 'message_count']]
 
 def quarterly_activity(df, selected_user="Overall"):
-    if selected_user != "Overall":
+    if selected_user != "Overall" and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
     df = df.copy()
@@ -121,7 +125,7 @@ def quarterly_activity(df, selected_user="Overall"):
     return quarterly
 
 def yearly_activity(df, selected_user="Overall"):
-    if selected_user != "Overall":
+    if selected_user != "Overall" and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
     yearly = (
@@ -135,9 +139,11 @@ def yearly_activity(df, selected_user="Overall"):
 
 def most_busy_day(df):
     timeline = daily_timeline(df)
+    if timeline.empty: return {}
     return timeline.loc[timeline['message_count'].idxmax()]
 
 def most_busy_weekday(df):
+    if df.empty: return "N/A"
     return df['day_name'].value_counts().idxmax()
 
 def most_busy_month(df):
@@ -146,16 +152,20 @@ def most_busy_month(df):
           .size()
           .reset_index(name='message_count')
     )
+    if monthly.empty: return {}
     return monthly.loc[monthly['message_count'].idxmax()]
 
 def most_common_words(df, selected_user='Overall', top_n=20):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
     
     df = df[df['user'] != 'group_notification']
     df = df[df['message'] != '<Media omitted>']
 
     words = []
+    # Vectorized check is hard for STOPWORDS without significant memory, 
+    # but we can at least avoid re-splitting everything if we passed pre-split data?
+    # For now, keep as is but rely on smaller df_filtered passed from main.
     for msg in df['message']:
         for word in msg.lower().split():
             if word not in STOPWORDS:
@@ -165,85 +175,105 @@ def most_common_words(df, selected_user='Overall', top_n=20):
 
 
 def emoji_analysis(df, selected_user='Overall', top_n=10):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
-    # Optimized emoji extraction
-    # 1. Filter out empty/media messages if needed (though existing code didn't explicitly filter all)
-    # Existing code: just iterated 'message' column.
-    
-    # 2. Join all text into one massive string? 
-    # For very large histograms, joining might be memory intensive but fast.
-    # Iterating characters in python is slow.
-    # We use emoji.emoji_list() which is generally cleaner than per-char check.
-    
-    # Filter to avoid processing irrelevant rows if any
+    # Filter messages
     messages = df['message'].dropna()
-    
-    # Concatenate all messages (careful with memory, but usually fine for chat logs)
-    all_text = " ".join(messages)
-    
-    # Use list comprehension with emoji.EMOJI_DATA check
-    # While still a loop, it runs over characters in a giant string which is simpler struct than DF rows
-    # Faster: 
-    emojis = [c for c in all_text if c in emoji.EMOJI_DATA]
+    if messages.empty:
+        return pd.Series([], dtype=int)
 
-    return pd.Series(emojis).value_counts().head(top_n)
+    # Convert to single string
+    all_text = "".join(messages)
+
+    # Use emoji.emoji_list which is optimized in C usually (in newer versions)
+    # The previous list comprehension [c for c in all_text if c in emoji.EMOJI_DATA] 
+    # is O(N) but Python loop overhead on 10MB string is bad.
+    
+    # Analyze all emojis
+    emoji_counts = emoji.emoji_count(all_text) # Just gives count
+    # We need frequency of each.
+    
+    # Newer emoji library:
+    all_emojis = [match['emoji'] for match in emoji.emoji_list(all_text)]
+    
+    return pd.Series(all_emojis).value_counts().head(top_n)
 
 
 def response_time_analysis(df, selected_user='Overall'):
-    # Optimized Vectorized Response Time Analysis
+    # Optimized:
+    # 1. df is already sorted by date from preprocess
+    # 2. If 'Overall' is passed to main loop, we compute ONCE.
+    # 3. If specific user is passed, we assume it's a lookup on PRE-COMPUTED data if provided,
+    #    BUT Main.py will handle the passing of "pre-computed" by manually calling this function once 
+    #    and then just filtering the dictionary.
     
-    # Filter out group notifications and ensure sorted by date
-    # Use .copy() to avoid SettingWithCopyWarning
-    df = df[df['user'] != 'group_notification'].copy()
-    df = df.sort_values('date').reset_index(drop=True)
+    # This function expects FULL dataframe to calculate correctly
+    # If selected_user is NOT 'Overall', we still need full DF context.
+    
+    # Filter out group notifications
+    df_clean = df[df['user'] != 'group_notification']
+    
+    # NO SORTING needed here if preprocess did it.
+    # df_clean = df_clean.sort_values('date') # Removed redundant sort
 
-    # Calculate time differences and user changes in one go
-    # prev_user = user at i-1
-    # prev_date = date at i-1
-    df['prev_user'] = df['user'].shift(1)
-    df['prev_date'] = df['date'].shift(1)
+    # Calculate time differences and user changes
+    # Use array access for speed
+    users = df_clean['user'].values
+    dates = df_clean['date'].values
     
-    # We only care about rows where the user CHANGED (someone responded to someone else)
-    # AND where it's not the very first message (prev_user is NaN)
-    mask = (df['user'] != df['prev_user']) & (df['prev_user'].notna())
-    
-    responses = df[mask].copy()
-    
-    if responses.empty:
+    if len(users) < 2:
         return {}
         
-    responses['time_diff'] = (responses['date'] - responses['prev_date']).dt.total_seconds() / 60
+    # Masks for user change
+    # Logic: If user[i] != user[i-1], it's a response
     
-    # Group by the responder (curr_user) -> average time diff
-    avg_times_series = responses.groupby('user')['time_diff'].mean()
+    # Create shifted arrays
+    prev_users = users[:-1]
+    curr_users = users[1:]
+    
+    prev_dates = dates[:-1]
+    curr_dates = dates[1:]
+    
+    # Boolean mask: where user changed
+    mask = (curr_users != prev_users)
+    
+    # Filter dates and users where change happened
+    # The 'responder' is the curr_user
+    responders = curr_users[mask]
+    response_durations = (curr_dates[mask] - prev_dates[mask])
+    
+    # Convert numpy timedelta64 to minutes
+    # One minute = 60 * 10 9 nanoseconds?
+    # Pandas timedelta conversion is easier
+    response_durations_min = pd.to_timedelta(response_durations).total_seconds() / 60
+    
+    # Create DataFrame for grouping
+    resp_df = pd.DataFrame({
+        'user': responders,
+        'time': response_durations_min
+    })
+    
+    avg_times = resp_df.groupby('user')['time'].mean().to_dict()
     
     if selected_user != 'Overall':
-        val = avg_times_series.get(selected_user, 0)
-        # If user has no response data, returning {user: 0} or empty dict?
-        # Original logic returned {} if not found/calculated? 
-        # Original: if not selected_user in avg_response_time: return {} 
-        # But wait, original code logic:
-        # if selected_user in avg_response_time: return {selected: val} else: return {}
-        if selected_user in avg_times_series:
-             return {selected_user: val}
+        if selected_user in avg_times:
+            return {selected_user: avg_times[selected_user]}
         else:
-             return {}
+            return {}
 
-    return avg_times_series.to_dict()
+    return avg_times
 
 def conversation_initiator(df, selected_user='Overall'):
+    # Expects FULL dataframe for correct context
+    df_clean = df[df['user'] != 'group_notification']
     
-    df = df[df['user'] != 'group_notification']
-    df = df.sort_values('date')
-
-    # Extract date only
-    df = df.copy()
-    df['only_date'] = df['date'].dt.date
+    # Assuming df is sorted
+    df_clean = df_clean.copy()
+    df_clean['only_date'] = df_clean['date'].dt.date
 
     # First message of each day
-    first_messages = df.groupby('only_date').first()
+    first_messages = df_clean.groupby('only_date').first()
 
     # Count initiators
     initiator_counts = first_messages['user'].value_counts()
@@ -257,52 +287,66 @@ def conversation_initiator(df, selected_user='Overall'):
     return initiator_counts
 
 def longest_message(df, selected_user='Overall'):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
 
+    # Optimized filter
     temp = df[
-        (df['user'] != 'group_notification') &
+        (df['user'] != 'group_notification') & 
         (df['message'] != '<Media omitted>')
-    ].copy()
+    ]
 
     if temp.empty:
         return {}
 
-    temp['char_length'] = temp['message'].str.len()
-
-    longest = temp.loc[temp['char_length'].idxmax()]
+    # Just Use .str.len() directly on series, no copy needed really
+    # But finding idxmax is faster on series
+    lengths = temp['message'].str.len()
+    try:
+        max_idx = lengths.idxmax()
+        longest = temp.loc[max_idx]
+    except ValueError:
+        return {}
 
     return {
         'user': longest['user'],
         'message': longest['message'],
-        'char_length': longest['char_length'],
+        'char_length': int(longest['message'].__len__()), # Faster than column lookup
         'date': longest['date']
     }
 
 def most_wordy_message(df, selected_user='Overall'):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
    
     temp = df[
         (df['user'] != 'group_notification') &
         (df['message'] != '<Media omitted>')
-    ].copy()
+    ]
 
     if temp.empty:
         return {}
 
-    temp['word_count'] = temp['message'].str.split().str.len()
-
-    most_wordy = temp.loc[temp['word_count'].idxmax()]
+    # This operation is heavy (split). 
+    word_counts = temp['message'].str.split().str.len()
+    
+    try:
+        max_idx = word_counts.idxmax()
+        most_wordy = temp.loc[max_idx]
+        count = word_counts.loc[max_idx]
+    except ValueError:
+        return {}
 
     return {
         'user': most_wordy['user'],
         'message': most_wordy['message'],
-        'word_count': most_wordy['word_count'],
+        'word_count': int(count),
         'date': most_wordy['date']
     }
 
 def most_busy_hour(df, selected_user='Overall'):
-    if selected_user != 'Overall':
+    if selected_user != 'Overall' and not (df['user'] == selected_user).all():
         df = df[df['user'] == selected_user]
+    if df.empty: return 0
     return int(df['hour'].value_counts().idxmax())
+

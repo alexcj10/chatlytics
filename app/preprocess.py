@@ -84,5 +84,11 @@ def preprocess_whatsapp_text(data: str) -> pd.DataFrame:
     df['hour'] = df['date'].dt.hour
     df['minute'] = df['date'].dt.minute
 
+    # -----------------------------
+    # 8. Global Sort
+    # -----------------------------
+    df.sort_values('date', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+
     return df
 

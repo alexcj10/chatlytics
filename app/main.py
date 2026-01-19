@@ -38,17 +38,22 @@ app.add_middleware(
 )
 
 
-def get_all_analytics(df, selected_user):
+
+# Pre-calc global stats function to avoid passing full DF repeatedly or recalculating
+def precompute_global_stats(df):
+    resp_times = response_time_analysis(df, 'Overall')
+    initiators = conversation_initiator(df, 'Overall')
+    return resp_times, initiators
+
+def get_all_analytics(df, selected_user, global_resp_times=None, global_initiators=None):
     # Ensure nested dicts and Series are fully converted to JSON-safe types
     
-    # Optimization: Filter dataframe once if specific user is selected
-    if selected_user != 'Overall':
-        df_filtered = df[df['user'] == selected_user]
-    else:
-        df_filtered = df
-
-    basic_stats = fetch_basic_stats(df_filtered, selected_user)
-    links_shared = count_links(df_filtered, selected_user)
+    # We expect 'df' to be already filtered for the specific user if selected_user != 'Overall'
+    # EXCEPT for response_time_analysis and conversation_initiator which might rely on global context
+    # But for those, we heavily prefer using the pre-calculated globals passed in.
+    
+    basic_stats = fetch_basic_stats(df, selected_user)
+    links_shared = count_links(df, selected_user)
     
     # Timelines - convert date objects to string
     def clean_timeline(timeline_df):
@@ -70,29 +75,66 @@ def get_all_analytics(df, selected_user):
         if not msg_dict: return {}
         return {k: (str(v) if 'date' in k or isinstance(v, pd.Timestamp) else v) for k, v in msg_dict.items()}
 
-    # response_time_analysis needs the FULL dataframe to calculate time diffs between users
-    # So we pass 'df', not 'df_filtered'
+    # Helper for extracting user specific stats from global dicts
+    def get_user_stat(global_dict, user):
+        if user == 'Overall': return global_dict
+        if isinstance(global_dict, (pd.Series, dict)):
+            val = global_dict.get(user, 0 if isinstance(global_dict, dict) else None)
+            if val is None: return {} # pandas series get might return None/NaN
+            # Standardize return format: {user: value}
+            return {user: val}
+        return {}
+
+    # Logic for response times: use global if provided
+    if global_resp_times is not None:
+        if selected_user == 'Overall':
+            resp_stats = global_resp_times
+        else:
+            # Reconstruct the expected {user: time} format
+            val = global_resp_times.get(selected_user)
+            resp_stats = {selected_user: val} if val is not None else {}
+    else:
+        # Fallback (slow)
+        resp_stats = response_time_analysis(df, selected_user)
+
+    # Logic for initiators: use global if provided
+    if global_initiators is not None:
+         if selected_user == 'Overall':
+             # Convert Series to dict for JSON
+             init_stats = global_initiators.to_dict()
+         else:
+             val = global_initiators.get(selected_user)
+             init_stats = {selected_user: val} if val is not None else {}
+    else:
+        init_stats = conversation_initiator(df, selected_user)
+        if hasattr(init_stats, 'to_dict'): init_stats = init_stats.to_dict()
+
     
     res = {
         "basic_stats": basic_stats,
         "links_shared": links_shared,
+        # most_active_users needs FULL df if calculating for Overall, but if selected_user is specific, it's just meant to be empty?
+        # Original code: if selected_user == 'Overall' else {}
+        # We can just return {} if filtered df is passed, or we'd need full df. 
+        # But usually client only asks mostly active users for Overall view. 
+        # If we passed filtered DF, we can't calculate most active users (it would just be the one user).
         "most_active_users": {str(k): v for k, v in most_active_users(df).to_dict().items()} if selected_user == 'Overall' else {},
-        "daily_timeline": clean_timeline(daily_timeline(df_filtered, selected_user)),
-        "hourly_activity": clean_timeline(hourly_activity(df_filtered, selected_user)),
-        "weekly_activity": clean_timeline(weekly_activity(df_filtered, selected_user)),
-        "monthly_activity": clean_timeline(monthly_activity(df_filtered, selected_user)),
-        "quarterly_activity": clean_timeline(quarterly_activity(df_filtered, selected_user)),
-        "yearly_activity": clean_timeline(yearly_activity(df_filtered, selected_user)),
+        "daily_timeline": clean_timeline(daily_timeline(df, selected_user)),
+        "hourly_activity": clean_timeline(hourly_activity(df, selected_user)),
+        "weekly_activity": clean_timeline(weekly_activity(df, selected_user)),
+        "monthly_activity": clean_timeline(monthly_activity(df, selected_user)),
+        "quarterly_activity": clean_timeline(quarterly_activity(df, selected_user)),
+        "yearly_activity": clean_timeline(yearly_activity(df, selected_user)),
         "most_busy_day": clean_series(most_busy_day(df)) if selected_user == 'Overall' else {},
         "most_busy_weekday": most_busy_weekday(df) if selected_user == 'Overall' else "",
         "most_busy_month": clean_series(most_busy_month(df)) if selected_user == 'Overall' else {},
-        "response_time_analysis": response_time_analysis(df, selected_user),
-        "conversation_initiator": {str(k): v for k, v in conversation_initiator(df_filtered, selected_user).to_dict().items()},
-        "longest_message": clean_message_dict(longest_message(df_filtered, selected_user)),
-        "most_wordy_message": clean_message_dict(most_wordy_message(df_filtered, selected_user)),
-        "most_common_words": {str(k): v for k, v in most_common_words(df_filtered, selected_user).to_dict().items()},
-        "emoji_analysis": {str(k): v for k, v in emoji_analysis(df_filtered, selected_user).to_dict().items()},
-        "most_busy_hour": most_busy_hour(df_filtered, selected_user)
+        "response_time_analysis": resp_stats,
+        "conversation_initiator": {str(k): v for k, v in init_stats.items()},
+        "longest_message": clean_message_dict(longest_message(df, selected_user)),
+        "most_wordy_message": clean_message_dict(most_wordy_message(df, selected_user)),
+        "most_common_words": {str(k): v for k, v in most_common_words(df, selected_user).to_dict().items()},
+        "emoji_analysis": {str(k): v for k, v in emoji_analysis(df, selected_user).to_dict().items()},
+        "most_busy_hour": most_busy_hour(df, selected_user)
     }
     return res
 
@@ -134,7 +176,7 @@ async def analyze_chat(file: UploadFile = File(...)):
             except UnicodeDecodeError:
                 data = raw_data.decode("latin-1")
 
-        # Preprocess chat
+        # Preprocess chat (Now returns GLOBALLY SORTED df)
         df = preprocess_whatsapp_text(data)
         
         if df.empty:
@@ -144,12 +186,27 @@ async def analyze_chat(file: UploadFile = File(...)):
         users = get_user_list(df)
         print(f"Found users: {users}")
         
+        # Pre-compute heavy global stats ONCE
+        print("Pre-computing global statistics...")
+        global_resp_times, global_initiators = precompute_global_stats(df)
+        
         # Store analytics for each user
         all_analytics = {}
         for user in users:
-            print(f"Computing analytics for user: {user}")
+            # print(f"Computing analytics for user: {user}") # Reduce log spam
             try:
-                raw_user_analytics = get_all_analytics(df, user)
+                # Efficient Filtering
+                if user == 'Overall':
+                    df_context = df
+                else:
+                    df_context = df[df['user'] == user]
+                
+                raw_user_analytics = get_all_analytics(
+                    df_context, 
+                    user, 
+                    global_resp_times=global_resp_times, 
+                    global_initiators=global_initiators
+                )
                 all_analytics[user] = json_safe(raw_user_analytics)
             except Exception as user_err:
                 print(f"Error computing analytics for user {user}: {user_err}")
