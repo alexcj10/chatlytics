@@ -3,28 +3,21 @@ import jsPDF from 'jspdf';
 
 export async function generatePDFReport(element: HTMLElement, user: string): Promise<void> {
     try {
-        // Use html-to-image with explicit dimensions to ensure full capture
-        // even if the element is scrollable or larger than the viewport.
+        // Capture the element AS-IS from the current viewport
+        // This ensures all React-rendered charts are fully intact
         const options = {
-            backgroundColor: '#09090b', // Match dark theme background
-            pixelRatio: 2, // 2x resolution for better quality
+            backgroundColor: '#09090b',
+            pixelRatio: 2, // High resolution
             cacheBust: true,
-            width: 1200, // Force Desktop Width
-            height: element.scrollHeight + 100, // Add buffer
-            windowWidth: 1200, // Force media queries to render as Desktop
+            width: element.scrollWidth,
+            height: element.scrollHeight + 80, // Buffer for bottom
             style: {
-                // Ensure the captured element is fully expanded and fixed to desktop width
-                transform: 'scale(1)',
-                transformOrigin: 'top left',
-                width: '1200px',
-                height: `${element.scrollHeight + 100}px`,
-                overflow: 'visible',
-                padding: '40px',
-                boxSizing: 'border-box'
+                padding: '20px',
+                boxSizing: 'border-box',
+                overflow: 'visible'
             },
             filter: (node: HTMLElement) => {
-                // Exclude elements marked for exclusion (like buttons)
-                // We check if the node has classList to avoid errors on non-element nodes
+                // Exclude export buttons from the capture
                 if (node.classList && node.classList.contains('export-exclude')) {
                     return false;
                 }
@@ -38,10 +31,8 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
         img.src = dataUrl;
         await new Promise((resolve) => { img.onload = resolve; });
 
-        // Create PDF with custom dimensions matching the captured image
-        // This creates a "long" single-page PDF that fits the dashboard exactly
         const pdf = new jsPDF({
-            orientation: 'portrait', // Usually long vertical for full dashboard
+            orientation: img.width > img.height ? 'landscape' : 'portrait',
             unit: 'px',
             format: [img.width, img.height]
         });
