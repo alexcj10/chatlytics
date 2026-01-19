@@ -3,24 +3,53 @@ import jsPDF from 'jspdf';
 
 export async function generatePDFReport(element: HTMLElement, user: string): Promise<void> {
     try {
-        // Capture the element AS-IS from the current viewport
-        // This ensures all React-rendered charts are fully intact
+        // STEP 1: DEEP SCAN for the true bottom of the content
+        // We cannot trust scrollHeight alone because of CSS transforms / absolute positioning / negative margins
+        let maxBottom = 0;
+
+        // Helper to recursively find the lowest point
+        const findDeepestBottom = (node: HTMLElement) => {
+            if (!node.getBoundingClientRect) return;
+            const rect = node.getBoundingClientRect();
+            // Calculate bottom position relative to the root element
+            const relativeBottom = rect.bottom - element.getBoundingClientRect().top + element.scrollTop;
+
+            if (relativeBottom > maxBottom) {
+                maxBottom = relativeBottom;
+            }
+
+            // Check all children
+            Array.from(node.children).forEach(child => findDeepestBottom(child as HTMLElement));
+        };
+
+        // Start scanning from the root
+        findDeepestBottom(element);
+
+        // Add a massive safety buffer to be 100% sure
+        const BOTTOM_BUFFER = 200;
+        const PADDING = 40;
+
+        // Also ensure width is sufficient
+        const finalWidth = element.scrollWidth + (PADDING * 2);
+        const finalHeight = maxBottom + BOTTOM_BUFFER;
+
+        // STEP 2: Configure options with the Calculated Deep Height
         const options = {
             backgroundColor: '#09090b',
-            pixelRatio: 2, // High resolution
+            pixelRatio: 2,
             cacheBust: true,
-            width: element.scrollWidth,
-            height: element.scrollHeight + 80, // Buffer for bottom
+            width: finalWidth,
+            height: finalHeight,
             style: {
-                padding: '20px',
+                padding: `${PADDING}px`,
                 boxSizing: 'border-box',
-                overflow: 'visible'
+                // FORCE the height to accommodate the deepest element found
+                height: `${finalHeight}px`,
+                minHeight: `${finalHeight}px`,
+                overflow: 'visible',
             },
             filter: (node: HTMLElement) => {
-                // Exclude export buttons from the capture
-                if (node.classList && node.classList.contains('export-exclude')) {
-                    return false;
-                }
+                if (node.classList && node.classList.contains('export-exclude')) return false;
                 return true;
             }
         };
@@ -34,12 +63,15 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
         const pdf = new jsPDF({
             orientation: img.width > img.height ? 'landscape' : 'portrait',
             unit: 'px',
-            format: [img.width, img.height]
+            format: [img.width, img.height],
+            compress: true
         });
 
-        pdf.addImage(dataUrl, 'PNG', 0, 0, img.width, img.height);
+        pdf.addImage(dataUrl, 'PNG', 0, 0, img.width, img.height, undefined, 'FAST');
 
-        const filename = `Chatlytics_Report_${user.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+        const safeUsername = user.replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = `Chatlytics_${safeUsername}_${new Date().toISOString().split('T')[0]}.pdf`;
+
         pdf.save(filename);
     } catch (error) {
         console.error("PDF Generation failed:", error);
