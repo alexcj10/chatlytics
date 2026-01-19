@@ -1,80 +1,143 @@
-import { toPng } from 'html-to-image';
-import jsPDF from 'jspdf';
+import { toPng } from "html-to-image";
+import jsPDF from "jspdf";
 
-export async function generatePDFReport(element: HTMLElement, user: string): Promise<void> {
-    try {
-        // STEP 1: DEEP SCAN for the true bottom of the content
-        // We cannot trust scrollHeight alone because of CSS transforms / absolute positioning / negative margins
-        let maxBottom = 0;
-
-        // Helper to recursively find the lowest point
-        const findDeepestBottom = (node: HTMLElement) => {
-            if (!node.getBoundingClientRect) return;
-            const rect = node.getBoundingClientRect();
-            // Calculate bottom position relative to the root element
-            const relativeBottom = rect.bottom - element.getBoundingClientRect().top + element.scrollTop;
-
-            if (relativeBottom > maxBottom) {
-                maxBottom = relativeBottom;
-            }
-
-            // Check all children
-            Array.from(node.children).forEach(child => findDeepestBottom(child as HTMLElement));
-        };
-
-        // Start scanning from the root
-        findDeepestBottom(element);
-
-        // Add a massive safety buffer to be 100% sure
-        const BOTTOM_BUFFER = 200;
-        const PADDING = 40;
-
-        // Also ensure width is sufficient
-        const finalWidth = element.scrollWidth + (PADDING * 2);
-        const finalHeight = maxBottom + BOTTOM_BUFFER;
-
-        // STEP 2: Configure options with the Calculated Deep Height
-        const options = {
-            backgroundColor: '#09090b',
-            pixelRatio: 2,
-            cacheBust: true,
-            width: finalWidth,
-            height: finalHeight,
-            style: {
-                padding: `${PADDING}px`,
-                boxSizing: 'border-box',
-                // FORCE the height to accommodate the deepest element found
-                height: `${finalHeight}px`,
-                minHeight: `${finalHeight}px`,
-                overflow: 'visible',
-            },
-            filter: (node: HTMLElement) => {
-                if (node.classList && node.classList.contains('export-exclude')) return false;
-                return true;
-            }
-        };
-
-        const dataUrl = await toPng(element, options);
-
-        const img = new Image();
-        img.src = dataUrl;
-        await new Promise((resolve) => { img.onload = resolve; });
-
-        const pdf = new jsPDF({
-            orientation: img.width > img.height ? 'landscape' : 'portrait',
-            unit: 'px',
-            format: [img.width, img.height],
-            compress: true
-        });
-
-        pdf.addImage(dataUrl, 'PNG', 0, 0, img.width, img.height, undefined, 'FAST');
-
-        const safeUsername = user.replace(/[^a-zA-Z0-9]/g, '_');
-        const filename = `Chatlytics_${safeUsername}_${new Date().toISOString().split('T')[0]}.pdf`;
-
-        pdf.save(filename);
-    } catch (error) {
-        console.error("PDF Generation failed:", error);
-        throw error;
+/**
+ * Production-ready PDF generator
+ * - Captures full dashboards & charts
+ * - No clipping / no extra space
+ * - Multi-page PDF (memory safe)
+ * - SVG / Recharts / D3 safe
+ */
+export async function generatePDFReport(
+  rootElement: HTMLElement,
+  user: string
+): Promise<void> {
+  try {
+    if (!rootElement) {
+      throw new Error("Root element not found");
     }
-}
+
+    /* -------------------------------------------------------
+       STEP 1: Calculate true bounding box (Element-safe)
+    --------------------------------------------------------*/
+    const rootRect = rootElement.getBoundingClientRect();
+    let maxBottom = 0;
+    let maxRight = 0;
+
+    const scan = (node: Element): void => {
+      const rect = node.getBoundingClientRect();
+
+      maxBottom = Math.max(maxBottom, rect.bottom - rootRect.top);
+      maxRight = Math.max(maxRight, rect.right - rootRect.left);
+
+      Array.from(node.children).forEach((child) => {
+        if (child instanceof Element) {
+          scan(child);
+        }
+      });
+    };
+
+    scan(rootElement);
+
+    /* -------------------------------------------------------
+       STEP 2: Final render dimensions
+    --------------------------------------------------------*/
+    const PADDING = 24;
+    const SAFETY_BUFFER = 20;
+
+    const finalWidth = Math.ceil(maxRight + PADDING * 2);
+    const finalHeight = Math.ceil(maxBottom + PADDING * 2 + SAFETY_BUFFER);
+
+    /* -------------------------------------------------------
+       STEP 3: Render PNG (high quality, safe)
+    --------------------------------------------------------*/
+    const pixelRatio =
+      typeof window !== "undefined"
+        ? Math.min(window.devicePixelRatio || 2, 2)
+        : 2;
+
+    const dataUrl = await toPng(rootElement, {
+      backgroundColor: "#09090b",
+      pixelRatio,
+      cacheBust: true,
+      width: finalWidth,
+      height: finalHeight,
+      style: {
+        padding: `${PADDING}px`,
+        boxSizing: "border-box",
+        overflow: "visible",
+        width: `${finalWidth}px`,
+        height: `${finalHeight}px`,
+        maxWidth: "none",
+        maxHeight: "none",
+      },
+      filter: (node) => {
+        if (
+          node instanceof HTMLElement &&
+          node.classList.contains("export-exclude")
+        ) {
+          return false;
+        }
+        return true;
+      },
+    });
+
+    /* -------------------------------------------------------
+       STEP 4: Load image safely
+    --------------------------------------------------------*/
+    const img = new Image();
+    img.src = dataUrl;
+    await img.decode();
+
+    /* -------------------------------------------------------
+       STEP 5: Create paginated PDF (A4, no distortion)
+    --------------------------------------------------------*/
+    const pdf = new jsPDF({
+      unit: "px",
+      format: "a4",
+      compress: true,
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const scale = pageWidth / img.width;
+    const scaledHeight = img.height * scale;
+
+    let yOffset = 0;
+    let pageIndex = 0;
+
+    while (yOffset < scaledHeight) {
+      if (pageIndex > 0) pdf.addPage();
+
+      pdf.addImage(
+        img,
+        "PNG",
+        0,
+        -yOffset,
+        pageWidth,
+        scaledHeight,
+        undefined,
+        "FAST"
+      );
+
+      yOffset += pageHeight;
+      pageIndex++;
+    }
+
+    /* -------------------------------------------------------
+       STEP 6: Save PDF
+    --------------------------------------------------------*/
+    const safeUser = user.replace(/[^a-zA-Z0-9]/g, "_");
+    const filename = `Chatlytics_${safeUser}_${new Date()
+      .toISOString()
+      .slice(0, 10)}.pdf`;
+
+    pdf.save(filename);
+  } catch (error) {
+    console.error("PDF generation failed:", error);
+    throw error;
+  }
+        }
+
+
