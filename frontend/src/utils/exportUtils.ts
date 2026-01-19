@@ -2,10 +2,11 @@ import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 
 /**
- * Production-ready PDF generator - FULL CHART CAPTURE
- * - No white lines/cuts through charts
- * - Captures complete content height
- * - Perfect on desktop, phones, tablets
+ * FINAL – Seam-proof, mobile-proof PDF export
+ * - No white lines (even on Android PDF viewers)
+ * - No extra width
+ * - Full charts
+ * - Multi-page
  */
 export async function generatePDFReport(
   rootElement: HTMLElement,
@@ -17,36 +18,45 @@ export async function generatePDFReport(
     }
 
     /* -------------------------------------------------------
-       STEP 1: Get ACTUAL content height (not viewport)
+       STEP 1: Calculate true bounding box
     --------------------------------------------------------*/
     const rootRect = rootElement.getBoundingClientRect();
-    
-    // Force full height calculation including scrollable content
-    const actualHeight = Math.max(
-      rootElement.scrollHeight,
-      rootElement.offsetHeight,
-      rootRect.height
-    );
+    let maxBottom = 0;
+    let maxRight = 0;
 
-    const actualWidth = Math.max(
-      rootElement.scrollWidth,
-      rootElement.offsetWidth,
-      rootRect.width
-    );
+    const scan = (node: Element): void => {
+      const rect = node.getBoundingClientRect();
+      maxBottom = Math.max(maxBottom, rect.bottom - rootRect.top);
+      maxRight = Math.max(maxRight, rect.right - rootRect.left);
+
+      Array.from(node.children).forEach((child) => {
+        if (child instanceof Element) scan(child);
+      });
+    };
+
+    scan(rootElement);
 
     /* -------------------------------------------------------
-       STEP 2: Calculate with padding
+       STEP 2: Tight dimensions
     --------------------------------------------------------*/
     const PADDING = 24;
-    const SAFETY_BUFFER = 40; // Extra buffer for charts
+    const SAFETY_BUFFER = 20;
 
-    const finalWidth = Math.ceil(actualWidth + PADDING * 2);
-    const finalHeight = Math.ceil(actualHeight + PADDING * 2 + SAFETY_BUFFER);
+    const finalWidth = Math.ceil(
+      Math.min(maxRight + PADDING * 2, rootRect.width + PADDING * 2)
+    );
+
+    const finalHeight = Math.ceil(
+      maxBottom + PADDING * 2 + SAFETY_BUFFER
+    );
 
     /* -------------------------------------------------------
-       STEP 3: Render FULL content as PNG
+       STEP 3: Render PNG
     --------------------------------------------------------*/
-    const pixelRatio = Math.min(window.devicePixelRatio || 2, 2);
+    const pixelRatio =
+      typeof window !== "undefined"
+        ? Math.min(window.devicePixelRatio || 2, 2)
+        : 2;
 
     const dataUrl = await toPng(rootElement, {
       backgroundColor: "#09090b",
@@ -62,7 +72,6 @@ export async function generatePDFReport(
         height: `${finalHeight}px`,
         maxWidth: "none",
         maxHeight: "none",
-        transform: "translateZ(0)", // Force GPU rendering
       },
       filter: (node) => {
         if (
@@ -83,7 +92,7 @@ export async function generatePDFReport(
     await img.decode();
 
     /* -------------------------------------------------------
-       STEP 5: Create PDF with proper pagination
+       STEP 5: PDF pagination (SEAM-PROOF)
     --------------------------------------------------------*/
     const pdf = new jsPDF({
       unit: "px",
@@ -94,9 +103,12 @@ export async function generatePDFReport(
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // Calculate scale to fit width
-    const scale = pageWidth / img.width;
+    const scale =
+      Math.floor((pageWidth / img.width) * 1000) / 1000;
+
     const scaledHeight = img.height * scale;
+
+    const BLEED = 2; // 🔥 removes seams completely
 
     let yOffset = 0;
     let pageIndex = 0;
@@ -108,7 +120,6 @@ export async function generatePDFReport(
       pdf.setFillColor(9, 9, 11);
       pdf.rect(0, 0, pageWidth, pageHeight, "F");
 
-      // Add image slice
       pdf.addImage(
         img,
         "PNG",
@@ -120,7 +131,7 @@ export async function generatePDFReport(
         "FAST"
       );
 
-      yOffset += pageHeight;
+      yOffset += pageHeight - BLEED; // 🔥 overlap pages
       pageIndex++;
     }
 
