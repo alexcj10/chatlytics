@@ -53,7 +53,7 @@ export function Sidebar({ users, selectedUser, onSelect }: SidebarProps) {
                 </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/50">
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
                 <p className="text-xs text-zinc-500 leading-relaxed">
                     Switching users updates charts instantly across all dimensions. Analytics are computed server-side for maximum precision.
                 </p>
