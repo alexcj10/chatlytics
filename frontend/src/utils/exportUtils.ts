@@ -1,66 +1,41 @@
 import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 
-/**
- * FINAL – Seam-proof, mobile-proof PDF export
- * - No white lines (even on Android PDF viewers)
- * - No extra width
- * - Full charts
- * - Multi-page
- */
 export async function generatePDFReport(
   rootElement: HTMLElement,
   user: string
 ): Promise<void> {
   try {
-    if (!rootElement) {
-      throw new Error("Root element not found");
-    }
+    if (!rootElement) throw new Error("Root element not found");
 
-    /* -------------------------------------------------------
-       STEP 1: Calculate true bounding box
-    --------------------------------------------------------*/
+    const isMobile = window.innerWidth <= 768;
+
+    /* -------------------- Measure bounds -------------------- */
     const rootRect = rootElement.getBoundingClientRect();
     let maxBottom = 0;
     let maxRight = 0;
 
-    const scan = (node: Element): void => {
+    const scan = (node: Element) => {
       const rect = node.getBoundingClientRect();
       maxBottom = Math.max(maxBottom, rect.bottom - rootRect.top);
       maxRight = Math.max(maxRight, rect.right - rootRect.left);
-
-      Array.from(node.children).forEach((child) => {
-        if (child instanceof Element) scan(child);
-      });
+      Array.from(node.children).forEach(
+        (c) => c instanceof Element && scan(c)
+      );
     };
 
     scan(rootElement);
 
-    /* -------------------------------------------------------
-       STEP 2: Tight dimensions
-    --------------------------------------------------------*/
     const PADDING = 24;
-    const SAFETY_BUFFER = 20;
-
     const finalWidth = Math.ceil(
       Math.min(maxRight + PADDING * 2, rootRect.width + PADDING * 2)
     );
+    const finalHeight = Math.ceil(maxBottom + PADDING * 2);
 
-    const finalHeight = Math.ceil(
-      maxBottom + PADDING * 2 + SAFETY_BUFFER
-    );
-
-    /* -------------------------------------------------------
-       STEP 3: Render PNG
-    --------------------------------------------------------*/
-    const pixelRatio =
-      typeof window !== "undefined"
-        ? Math.min(window.devicePixelRatio || 2, 2)
-        : 2;
-
+    /* -------------------- Render image -------------------- */
     const dataUrl = await toPng(rootElement, {
       backgroundColor: "#09090b",
-      pixelRatio,
+      pixelRatio: 2,
       cacheBust: true,
       width: finalWidth,
       height: finalHeight,
@@ -70,30 +45,29 @@ export async function generatePDFReport(
         overflow: "visible",
         width: `${finalWidth}px`,
         height: `${finalHeight}px`,
-        maxWidth: "none",
-        maxHeight: "none",
-      },
-      filter: (node) => {
-        if (
-          node instanceof HTMLElement &&
-          node.classList.contains("export-exclude")
-        ) {
-          return false;
-        }
-        return true;
       },
     });
 
-    /* -------------------------------------------------------
-       STEP 4: Load image
-    --------------------------------------------------------*/
     const img = new Image();
     img.src = dataUrl;
     await img.decode();
 
-    /* -------------------------------------------------------
-       STEP 5: PDF pagination (SEAM-PROOF)
-    --------------------------------------------------------*/
+    /* -------------------- PDF -------------------- */
+
+    // ✅ MOBILE: single-page PDF (NO WHITE LINE EVER)
+    if (isMobile) {
+      const pdf = new jsPDF({
+        unit: "px",
+        format: [img.width, img.height],
+        compress: true,
+      });
+
+      pdf.addImage(img, "PNG", 0, 0, img.width, img.height, undefined, "FAST");
+      save(pdf, user);
+      return;
+    }
+
+    // ✅ DESKTOP: paginated PDF
     const pdf = new jsPDF({
       unit: "px",
       format: "a4",
@@ -102,21 +76,15 @@ export async function generatePDFReport(
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-
-    const scale =
-      Math.floor((pageWidth / img.width) * 1000) / 1000;
-
+    const scale = pageWidth / img.width;
     const scaledHeight = img.height * scale;
 
-    const BLEED = 2; // 🔥 removes seams completely
+    let y = 0;
+    let page = 0;
 
-    let yOffset = 0;
-    let pageIndex = 0;
+    while (y < scaledHeight) {
+      if (page > 0) pdf.addPage();
 
-    while (yOffset < scaledHeight) {
-      if (pageIndex > 0) pdf.addPage();
-
-      // Fill background
       pdf.setFillColor(9, 9, 11);
       pdf.rect(0, 0, pageWidth, pageHeight, "F");
 
@@ -124,28 +92,25 @@ export async function generatePDFReport(
         img,
         "PNG",
         0,
-        -yOffset,
+        -y,
         pageWidth,
         scaledHeight,
         undefined,
         "FAST"
       );
 
-      yOffset += pageHeight - BLEED; // 🔥 overlap pages
-      pageIndex++;
+      y += pageHeight;
+      page++;
     }
 
-    /* -------------------------------------------------------
-       STEP 6: Save
-    --------------------------------------------------------*/
-    const safeUser = user.replace(/[^a-zA-Z0-9]/g, "_");
-    const filename = `Chatlytics_${safeUser}_${new Date()
-      .toISOString()
-      .slice(0, 10)}.pdf`;
-
-    pdf.save(filename);
-  } catch (error) {
-    console.error("PDF generation failed:", error);
-    throw error;
+    save(pdf, user);
+  } catch (e) {
+    console.error(e);
+    throw e;
   }
+}
+
+function save(pdf: jsPDF, user: string) {
+  const safe = user.replace(/[^a-zA-Z0-9]/g, "_");
+  pdf.save(`Chatlytics_${safe}_${new Date().toISOString().slice(0, 10)}.pdf`);
 }
