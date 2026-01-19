@@ -41,8 +41,14 @@ app.add_middleware(
 def get_all_analytics(df, selected_user):
     # Ensure nested dicts and Series are fully converted to JSON-safe types
     
-    basic_stats = fetch_basic_stats(df, selected_user)
-    links_shared = count_links(df, selected_user)
+    # Optimization: Filter dataframe once if specific user is selected
+    if selected_user != 'Overall':
+        df_filtered = df[df['user'] == selected_user]
+    else:
+        df_filtered = df
+
+    basic_stats = fetch_basic_stats(df_filtered, selected_user)
+    links_shared = count_links(df_filtered, selected_user)
     
     # Timelines - convert date objects to string
     def clean_timeline(timeline_df):
@@ -64,26 +70,29 @@ def get_all_analytics(df, selected_user):
         if not msg_dict: return {}
         return {k: (str(v) if 'date' in k or isinstance(v, pd.Timestamp) else v) for k, v in msg_dict.items()}
 
+    # response_time_analysis needs the FULL dataframe to calculate time diffs between users
+    # So we pass 'df', not 'df_filtered'
+    
     res = {
         "basic_stats": basic_stats,
         "links_shared": links_shared,
         "most_active_users": {str(k): v for k, v in most_active_users(df).to_dict().items()} if selected_user == 'Overall' else {},
-        "daily_timeline": clean_timeline(daily_timeline(df, selected_user)),
-        "hourly_activity": clean_timeline(hourly_activity(df, selected_user)),
-        "weekly_activity": clean_timeline(weekly_activity(df, selected_user)),
-        "monthly_activity": clean_timeline(monthly_activity(df, selected_user)),
-        "quarterly_activity": clean_timeline(quarterly_activity(df, selected_user)),
-        "yearly_activity": clean_timeline(yearly_activity(df, selected_user)),
+        "daily_timeline": clean_timeline(daily_timeline(df_filtered, selected_user)),
+        "hourly_activity": clean_timeline(hourly_activity(df_filtered, selected_user)),
+        "weekly_activity": clean_timeline(weekly_activity(df_filtered, selected_user)),
+        "monthly_activity": clean_timeline(monthly_activity(df_filtered, selected_user)),
+        "quarterly_activity": clean_timeline(quarterly_activity(df_filtered, selected_user)),
+        "yearly_activity": clean_timeline(yearly_activity(df_filtered, selected_user)),
         "most_busy_day": clean_series(most_busy_day(df)) if selected_user == 'Overall' else {},
         "most_busy_weekday": most_busy_weekday(df) if selected_user == 'Overall' else "",
         "most_busy_month": clean_series(most_busy_month(df)) if selected_user == 'Overall' else {},
         "response_time_analysis": response_time_analysis(df, selected_user),
-        "conversation_initiator": {str(k): v for k, v in conversation_initiator(df, selected_user).to_dict().items()},
-        "longest_message": clean_message_dict(longest_message(df, selected_user)),
-        "most_wordy_message": clean_message_dict(most_wordy_message(df, selected_user)),
-        "most_common_words": {str(k): v for k, v in most_common_words(df, selected_user).to_dict().items()},
-        "emoji_analysis": {str(k): v for k, v in emoji_analysis(df, selected_user).to_dict().items()},
-        "most_busy_hour": most_busy_hour(df, selected_user)
+        "conversation_initiator": {str(k): v for k, v in conversation_initiator(df_filtered, selected_user).to_dict().items()},
+        "longest_message": clean_message_dict(longest_message(df_filtered, selected_user)),
+        "most_wordy_message": clean_message_dict(most_wordy_message(df_filtered, selected_user)),
+        "most_common_words": {str(k): v for k, v in most_common_words(df_filtered, selected_user).to_dict().items()},
+        "emoji_analysis": {str(k): v for k, v in emoji_analysis(df_filtered, selected_user).to_dict().items()},
+        "most_busy_hour": most_busy_hour(df_filtered, selected_user)
     }
     return res
 

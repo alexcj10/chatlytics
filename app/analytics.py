@@ -168,52 +168,70 @@ def emoji_analysis(df, selected_user='Overall', top_n=10):
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    emojis = []
-
-    for msg in df['message']:
-        for char in msg:
-            if char in emoji.EMOJI_DATA:
-                emojis.append(char)
+    # Optimized emoji extraction
+    # 1. Filter out empty/media messages if needed (though existing code didn't explicitly filter all)
+    # Existing code: just iterated 'message' column.
+    
+    # 2. Join all text into one massive string? 
+    # For very large histograms, joining might be memory intensive but fast.
+    # Iterating characters in python is slow.
+    # We use emoji.emoji_list() which is generally cleaner than per-char check.
+    
+    # Filter to avoid processing irrelevant rows if any
+    messages = df['message'].dropna()
+    
+    # Concatenate all messages (careful with memory, but usually fine for chat logs)
+    all_text = " ".join(messages)
+    
+    # Use list comprehension with emoji.EMOJI_DATA check
+    # While still a loop, it runs over characters in a giant string which is simpler struct than DF rows
+    # Faster: 
+    emojis = [c for c in all_text if c in emoji.EMOJI_DATA]
 
     return pd.Series(emojis).value_counts().head(top_n)
 
 
 def response_time_analysis(df, selected_user='Overall'):
-    # For individual user, we still need the context of the chat to calculate response times 
-    # (time since *previous* message). 
-    # Ensuring we filter/calculate correctly for the selected user is tricky if we just filter the DF.
-    # Approach: Calculate all response times, then filter for the selected user.
+    # Optimized Vectorized Response Time Analysis
     
-    df = df[df['user'] != 'group_notification']
+    # Filter out group notifications and ensure sorted by date
+    # Use .copy() to avoid SettingWithCopyWarning
+    df = df[df['user'] != 'group_notification'].copy()
     df = df.sort_values('date').reset_index(drop=True)
 
-    response_times = {}
-
-    for i in range(1, len(df)):
-        current_user = df.loc[i, 'user']
-        previous_user = df.loc[i - 1, 'user']
-
-        if current_user != previous_user:
-            time_diff = (
-                df.loc[i, 'date'] - df.loc[i - 1, 'date']
-            ).total_seconds() / 60  # minutes
-
-            response_times.setdefault(current_user, []).append(time_diff)
-
-    avg_response_time = {
-        user: sum(times) / len(times)
-        for user, times in response_times.items()
-        if len(times) > 0
-    }
-
+    # Calculate time differences and user changes in one go
+    # prev_user = user at i-1
+    # prev_date = date at i-1
+    df['prev_user'] = df['user'].shift(1)
+    df['prev_date'] = df['date'].shift(1)
+    
+    # We only care about rows where the user CHANGED (someone responded to someone else)
+    # AND where it's not the very first message (prev_user is NaN)
+    mask = (df['user'] != df['prev_user']) & (df['prev_user'].notna())
+    
+    responses = df[mask].copy()
+    
+    if responses.empty:
+        return {}
+        
+    responses['time_diff'] = (responses['date'] - responses['prev_date']).dt.total_seconds() / 60
+    
+    # Group by the responder (curr_user) -> average time diff
+    avg_times_series = responses.groupby('user')['time_diff'].mean()
+    
     if selected_user != 'Overall':
-        # Return only the selected user's response time if available
-        if selected_user in avg_response_time:
-             return {selected_user: avg_response_time[selected_user]}
+        val = avg_times_series.get(selected_user, 0)
+        # If user has no response data, returning {user: 0} or empty dict?
+        # Original logic returned {} if not found/calculated? 
+        # Original: if not selected_user in avg_response_time: return {} 
+        # But wait, original code logic:
+        # if selected_user in avg_response_time: return {selected: val} else: return {}
+        if selected_user in avg_times_series:
+             return {selected_user: val}
         else:
              return {}
 
-    return avg_response_time
+    return avg_times_series.to_dict()
 
 def conversation_initiator(df, selected_user='Overall'):
     
