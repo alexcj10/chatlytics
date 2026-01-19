@@ -2,11 +2,12 @@ import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 
 /**
- * Production-ready PDF generator
- * - Captures full dashboards & charts
- * - No clipping / no extra space
- * - Multi-page PDF (memory safe)
- * - SVG / Recharts / D3 safe
+ * FINAL Production-ready PDF generator
+ * - No white lines
+ * - No extra width
+ * - Full charts (SVG / Recharts safe)
+ * - Multi-page, memory safe
+ * - Mobile & desktop perfect
  */
 export async function generatePDFReport(
   rootElement: HTMLElement,
@@ -40,13 +41,18 @@ export async function generatePDFReport(
     scan(rootElement);
 
     /* -------------------------------------------------------
-       STEP 2: Final render dimensions
+       STEP 2: Final tight dimensions (NO extra width)
     --------------------------------------------------------*/
     const PADDING = 24;
     const SAFETY_BUFFER = 20;
 
-    const finalWidth = Math.ceil(maxRight + PADDING * 2);
-    const finalHeight = Math.ceil(maxBottom + PADDING * 2 + SAFETY_BUFFER);
+    const finalWidth = Math.ceil(
+      Math.min(maxRight + PADDING * 2, rootRect.width + PADDING * 2)
+    );
+
+    const finalHeight = Math.ceil(
+      maxBottom + PADDING * 2 + SAFETY_BUFFER
+    );
 
     /* -------------------------------------------------------
        STEP 3: Render PNG (high quality, safe)
@@ -90,7 +96,7 @@ export async function generatePDFReport(
     await img.decode();
 
     /* -------------------------------------------------------
-       STEP 5: Create paginated PDF (A4, no distortion)
+       STEP 5: Create paginated PDF (NO white lines)
     --------------------------------------------------------*/
     const pdf = new jsPDF({
       unit: "px",
@@ -101,7 +107,10 @@ export async function generatePDFReport(
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    const scale = pageWidth / img.width;
+    // 🔒 Lock scale to avoid sub-pixel seams
+    const scale =
+      Math.floor((pageWidth / img.width) * 1000) / 1000;
+
     const scaledHeight = img.height * scale;
 
     let yOffset = 0;
@@ -109,6 +118,10 @@ export async function generatePDFReport(
 
     while (yOffset < scaledHeight) {
       if (pageIndex > 0) pdf.addPage();
+
+      // 🔥 Fill background to prevent white lines
+      pdf.setFillColor(9, 9, 11); // #09090b
+      pdf.rect(0, 0, pageWidth, pageHeight, "F");
 
       pdf.addImage(
         img,
@@ -138,6 +151,5 @@ export async function generatePDFReport(
     console.error("PDF generation failed:", error);
     throw error;
   }
-        }
-
+      }
 
