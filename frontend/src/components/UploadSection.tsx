@@ -32,8 +32,8 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
         try {
             const result = await analyzeChat(file);
             onDataLoaded(result);
-        } catch (err) {
-            setError('Failed to analyze the chat. Please make sure the file format is correct.');
+        } catch (err: any) {
+            setError(err.message || 'Failed to analyze the chat. Please make sure the file format is correct.');
             setLoading(false);
         }
     };

@@ -2,7 +2,10 @@ export async function analyzeChat(file: File) {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('http://localhost:8000/analyze', {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    console.log('Connecting to API:', API_URL);
+
+    const response = await fetch(`${API_URL}/analyze`, {
         method: 'POST',
         body: formData,
     });
