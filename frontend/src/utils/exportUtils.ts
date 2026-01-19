@@ -10,13 +10,13 @@ export async function generatePDFReport(element: HTMLElement, user: string): Pro
             pixelRatio: 2, // 2x resolution for better quality
             cacheBust: true,
             width: element.scrollWidth,
-            height: element.scrollHeight,
+            height: element.scrollHeight + 50, // Add buffer to prevent bottom clipping
             style: {
                 // Ensure the captured element is fully expanded and not constrained
                 transform: 'scale(1)',
                 transformOrigin: 'top left',
                 width: `${element.scrollWidth}px`,
-                height: `${element.scrollHeight}px`,
+                height: `${element.scrollHeight + 50}px`,
                 overflow: 'visible'
             },
             filter: (node: HTMLElement) => {
