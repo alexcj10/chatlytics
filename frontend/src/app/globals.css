@@ -102,3 +102,127 @@ body {
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+/* Global Recharts Tooltip Styling - Ensure clean white appearance without black borders */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+  filter: none !important;
+}
+
+.recharts-default-tooltip {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.recharts-tooltip-label {
+  color: #18181b !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+  font-size: 13px !important;
+}
+
+.recharts-tooltip-item {
+  color: #3f3f46 !important;
+  font-size: 12px !important;
+}
+
+/* Hide all axis lines and borders to prevent black lines */
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+  stroke: none !important;
+}
+
+.recharts-reference-line-line {
+  stroke: none !important;
+}
+
+/* Ensure chart surface has no borders */
+.recharts-surface {
+  overflow: visible !important;
+}
+
+.recharts-wrapper {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Prevent any chart container borders */
+.recharts-responsive-container {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Hide any remaining axis or grid artifacts */
+.recharts-cartesian-axis {
+  border: none !important;
+}
+
+.recharts-layer {
+  outline: none !important;
+}
+
+/* Dark mode tooltip adjustments */
+@media (prefers-color-scheme: dark) {
+  .recharts-default-tooltip {
+    background-color: rgba(24, 24, 27, 0.98) !important;
+    border: 1px solid rgba(63, 63, 70, 0.6) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .recharts-tooltip-label {
+    color: #fafafa !important;
+  }
+
+  .recharts-tooltip-item {
+    color: #d4d4d8 !important;
+  }
+}
+
+/* Mobile-specific panel containment and tap highlight fixes */
+@media (max-width: 768px) {
+
+  /* Remove tap highlights on mobile only */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  /* Ensure panels are properly contained */
+  section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Fix chart container overflow */
+  .recharts-wrapper {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  /* Ensure tooltips stay within bounds */
+  .recharts-tooltip-wrapper {
+    position: absolute !important;
+    pointer-events: none !important;
+    z-index: 100 !important;
+  }
+
+  /* Prevent touch highlight bleeding */
+  button,
+  a,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Ensure card hover states don't cause layout issues */
+  .group {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
