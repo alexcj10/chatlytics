@@ -7,9 +7,8 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell
 } from 'recharts';
-import { Download, RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity } from 'lucide-react';
+import { RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
-import { generatePDFReport } from '@/utils/exportUtils';
 
 interface DashboardProps {
     data: any;
@@ -25,9 +24,6 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const desktopDropdownRef = useRef<HTMLDivElement>(null);
     const mobileDropdownRef = useRef<HTMLDivElement>(null);
-    const dashboardRef = useRef<HTMLDivElement>(null);
-    // Explicitly initializing state again to clear any HMR ghosts
-    const [isExporting, setIsExporting] = useState<boolean>(false);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -44,27 +40,12 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
         };
     }, []);
 
-    const handleExport = async () => {
-        if (!data || !dashboardRef.current) {
-            console.error("No data or dashboard ref available for export");
-            return;
-        }
 
-        try {
-            setIsExporting(true);
-            await generatePDFReport(dashboardRef.current, user);
-        } catch (error) {
-            console.error("Error generating export:", error);
-            alert("Failed to generate PDF report.");
-        } finally {
-            setIsExporting(false);
-        }
-    };
 
     if (!data) return null;
 
     return (
-        <div ref={dashboardRef} className="space-y-4 md:space-y-8 animate-in fade-in duration-1000 p-0 md:p-4 bg-[#09090b]">
+        <div className="space-y-4 md:space-y-8 animate-in fade-in duration-1000 p-0 md:p-4 bg-[#09090b]">
             {/* Header Info */}
             <div className="flex flex-col gap-4 pb-2 border-b border-white/5">
                 {/* Title Row */}
@@ -120,19 +101,6 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <RefreshCcw className="w-4 h-4" />
                             <span>Upload New</span>
                         </button>
-                        <button
-                            onClick={handleExport}
-                            disabled={isExporting}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                            aria-label="Export PDF"
-                        >
-                            {isExporting ? (
-                                <RefreshCcw className="w-4 h-4 animate-spin" />
-                            ) : (
-                                <Download className="w-4 h-4" />
-                            )}
-                            <span>{isExporting ? "Exporting..." : "Export PDF"}</span>
-                        </button>
                     </div>
                 </div>
 
@@ -178,18 +146,6 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         aria-label="Upload New"
                     >
                         <RefreshCcw className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={handleExport}
-                        disabled={isExporting}
-                        className="flex items-center justify-center p-2 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                        aria-label="Export PDF"
-                    >
-                        {isExporting ? (
-                            <RefreshCcw className="w-4 h-4 animate-spin" />
-                        ) : (
-                            <Download className="w-4 h-4" />
-                        )}
                     </button>
                 </div>
             </div>
