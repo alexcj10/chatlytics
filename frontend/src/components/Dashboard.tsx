@@ -196,6 +196,11 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             </div>
                             <div className="h-8 w-[1px] bg-white/10" />
                             <div className="text-center">
+                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Neutral</p>
+                                <p className="text-lg font-black text-purple-400">{data.sentiment_analysis.neutral_percentage ?? (100 - data.sentiment_analysis.positive_percentage - data.sentiment_analysis.negative_percentage).toFixed(2)}%</p>
+                            </div>
+                            <div className="h-8 w-[1px] bg-white/10" />
+                            <div className="text-center">
                                 <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Negative</p>
                                 <p className="text-lg font-black text-red-400">{data.sentiment_analysis.negative_percentage}%</p>
                             </div>
