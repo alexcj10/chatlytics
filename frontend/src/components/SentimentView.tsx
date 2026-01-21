@@ -3,7 +3,7 @@
 import React from 'react';
 import {
     ArrowLeft, TrendingUp,
-    BarChart2, Heart, Sparkles
+    BarChart2, Heart, Sparkles, AlertTriangle
 } from 'lucide-react';
 import {
     PieChart, Pie, Cell, ResponsiveContainer,
@@ -63,6 +63,17 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
         }))
         .filter(u => u.name !== 'group_notification')
         .sort((a, b) => b.count - a.count)
+        .slice(0, 6);
+
+    const negativityComparisonData = Object.entries(userBreakdown)
+        .map(([name, stats]: any) => ({
+            name,
+            positive: stats.positive_percentage,
+            negative: stats.negative_percentage,
+            count: stats.message_count
+        }))
+        .filter(u => u.name !== 'group_notification')
+        .sort((a, b) => b.negative - a.negative)
         .slice(0, 6);
 
     return (
@@ -212,6 +223,51 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                     </div>
                 </div>
             </div>
+
+            {/* Negativity Comparison - Full Width/Grid */}
+            {user === 'Overall' && (
+                <div className="grid grid-cols-1 gap-6 md:gap-10 mt-6">
+                    <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
+                        <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <AlertTriangle className="w-20 h-20 md:w-24 md:h-24 text-white rotate-12" />
+                        </div>
+                        <div className="relative z-10 flex flex-col h-full">
+                            <div className="mb-8">
+                                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                    <TrendingUp className="w-5 h-5 text-red-400 transform rotate-180" />
+                                    Top Users Negativity
+                                </h3>
+                                <p className="text-sm text-zinc-500 mt-1">Who tends to be more critical?</p>
+                            </div>
+                            <div className="flex-1 min-h-[350px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={negativityComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                                        <defs>
+                                            <linearGradient id="barGradientNegative" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor="#f87171" stopOpacity={1} />
+                                                <stop offset="100%" stopColor="#dc2626" stopOpacity={1} />
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
+                                        <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                        <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                        <RechartsTooltip
+                                            cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
+                                            contentStyle={{ backgroundColor: '#18181b', borderRadius: '12px', border: '1px solid #3f3f46', color: '#fff' }}
+                                        />
+                                        <Bar dataKey="negative" fill="url(#barGradientNegative)" radius={[6, 6, 0, 0]} barSize={40} name="Negativity %" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <div className="mt-6 p-4 rounded-2xl bg-red-500/5 border border-red-500/10">
+                                <p className="text-sm text-zinc-400 leading-relaxed">
+                                    <span className="text-red-400 font-semibold">Observation:</span> Understanding critical feedback patterns can help improve group harmony.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Action Footer */}
             <div className="flex justify-center pt-6">
