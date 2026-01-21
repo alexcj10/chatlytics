@@ -114,7 +114,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             </h3>
                             <p className="text-sm text-zinc-500 mt-1">Ratio of positive vs negative interactions</p>
                         </div>
-                        <div className="flex-1 min-h-[350px] flex items-center justify-center relative pb-12">
+                        <div className="flex-1 min-h-[350px] flex items-center justify-center relative pb-24 lg:pb-12">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <defs>
