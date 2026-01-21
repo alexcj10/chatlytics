@@ -92,8 +92,8 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
                 {/* Sentiment Distribution Pie */}
                 <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
-                    <div className="absolute -top-4 -right-4 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <TrendingUp className="w-24 h-24 text-white rotate-12" />
+                    <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <TrendingUp className="w-20 h-20 md:w-24 md:h-24 text-white rotate-12" />
                     </div>
                     <div className="relative z-10 flex flex-col h-full">
                         <div className="mb-8">
@@ -153,8 +153,8 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
 
                 {/* User Comparison Chart - Only for Overall view */}
                 <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
-                    <div className="absolute -top-4 -right-4 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <Heart className="w-24 h-24 text-white rotate-12" />
+                    <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <Heart className="w-20 h-20 md:w-24 md:h-24 text-white rotate-12" />
                     </div>
                     <div className="relative z-10 flex flex-col h-full">
                         <div className="mb-8">
