@@ -26,6 +26,12 @@ from app.analytics import (
     most_busy_hour
 )
 
+from ml.sentiment_inference import (
+    overall_sentiment,
+    user_wise_sentiment,
+    attach_sentiment_to_df
+)
+
 app = FastAPI(title="WhatsApp Chat Analyzer API")
 
 # Enable CORS
@@ -134,7 +140,9 @@ def get_all_analytics(df, selected_user, global_resp_times=None, global_initiato
         "most_wordy_message": clean_message_dict(most_wordy_message(df, selected_user)),
         "most_common_words": {str(k): v for k, v in most_common_words(df, selected_user).to_dict().items()},
         "emoji_analysis": {str(k): v for k, v in emoji_analysis(df, selected_user).to_dict().items()},
-        "most_busy_hour": most_busy_hour(df, selected_user)
+        "most_busy_hour": most_busy_hour(df, selected_user),
+        "sentiment_analysis": overall_sentiment(df),
+        "user_sentiment_breakdown": user_wise_sentiment(df) if selected_user == 'Overall' else {}
     }
     return res
 
