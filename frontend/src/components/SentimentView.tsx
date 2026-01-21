@@ -77,7 +77,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                     </button>
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Advanced Sentiment Analysis</h2>
+                        <h2 className="text-xl md:text-3xl font-bold text-white tracking-tight">Advanced Analysis</h2>
                         <p className="text-sm text-zinc-500 mt-1">Detailed emotional insights for <span className="text-indigo-400 font-medium">{user}</span></p>
                     </div>
                 </div>
@@ -91,9 +91,9 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
                 {/* Sentiment Distribution Pie */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <TrendingUp className="w-32 h-32 text-white" />
+                <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
+                    <div className="absolute -top-4 -right-4 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <TrendingUp className="w-24 h-24 text-white rotate-12" />
                     </div>
                     <div className="relative z-10 flex flex-col h-full">
                         <div className="mb-8">
@@ -103,7 +103,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             </h3>
                             <p className="text-sm text-zinc-500 mt-1">Ratio of positive vs negative interactions</p>
                         </div>
-                        <div className="flex-1 min-h-[350px] flex items-center justify-center relative">
+                        <div className="flex-1 min-h-[350px] flex items-center justify-center relative pb-12">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <defs>
@@ -138,7 +138,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
-                            <div className="absolute inset-x-0 bottom-4 flex justify-center gap-8 py-4 border-t border-white/5 bg-black/20 rounded-2xl mx-4">
+                            <div className="absolute inset-x-0 bottom-4 flex flex-wrap justify-center gap-3 md:gap-8 py-3 md:py-4 border-t border-white/5 bg-black/20 rounded-2xl mx-4">
                                 {pieData.map(item => (
                                     <div key={item.name} className="flex items-center gap-2">
                                         <div className="w-3 h-3 rounded-full" style={{ background: item.name === 'Positive' ? 'linear-gradient(to bottom, #34d399, #059669)' : 'linear-gradient(to bottom, #f87171, #dc2626)' }} />
@@ -152,9 +152,9 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                 </div>
 
                 {/* User Comparison Chart - Only for Overall view */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <Heart className="w-32 h-32 text-white" />
+                <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
+                    <div className="absolute -top-4 -right-4 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <Heart className="w-24 h-24 text-white rotate-12" />
                     </div>
                     <div className="relative z-10 flex flex-col h-full">
                         <div className="mb-8">

@@ -179,9 +179,9 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                     onClick={() => setShowSentiment(true)}
                     className="grid grid-cols-1 gap-4 cursor-pointer group"
                 >
-                    <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl p-4 flex items-center justify-between hover:border-indigo-500/40 transition-all">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+                    <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl p-4 flex flex-col md:flex-row items-center md:justify-between gap-4 md:gap-0 hover:border-indigo-500/40 transition-all">
+                        <div className="flex items-center gap-4 w-full md:w-auto">
+                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex shrink-0 items-center justify-center">
                                 <Sparkles className="w-6 h-6 text-indigo-400" />
                             </div>
                             <div>
@@ -189,7 +189,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <p className="text-xs text-zinc-500">The conversation tone is mostly <span className="text-indigo-400 font-semibold">{data.sentiment_analysis.positive_percentage > 50 ? 'Positive' : 'Critical'}</span></p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-6 pr-4">
+                        <div className="flex items-center gap-6 w-full md:w-auto justify-evenly md:justify-end pr-0 md:pr-4">
                             <div className="text-center">
                                 <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Positive</p>
                                 <p className="text-lg font-black text-emerald-400">{data.sentiment_analysis.positive_percentage}%</p>
