@@ -6,3 +6,4 @@ wordcloud
 python-multipart
 scikit-learn
 joblib
+vaderSentiment

@@ -45,12 +45,14 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
     const sentiment = data.sentiment_analysis;
     const positive = sentiment.positive_percentage;
     const negative = sentiment.negative_percentage;
+    const neutral = sentiment.neutral_percentage ?? (100 - positive - negative);
     const total = sentiment.total_messages;
 
     const pieData = [
         { name: 'Positive', value: positive, color: '#10b981' },
+        { name: 'Neutral', value: neutral, color: '#8b5cf6' },
         { name: 'Negative', value: negative, color: '#ef4444' },
-    ];
+    ].filter(item => item.value > 0);
 
     // Peer comparison data if available
     const userBreakdown = data.user_sentiment_breakdown || {};
@@ -58,6 +60,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
         .map(([name, stats]: any) => ({
             name,
             positive: stats.positive_percentage,
+            neutral: stats.neutral_percentage ?? 0,
             negative: stats.negative_percentage,
             count: stats.message_count
         }))
@@ -122,6 +125,10 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                             <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} /> {/* Cyan */}
                                             <stop offset="100%" stopColor="#3b82f6" stopOpacity={1} /> {/* Blue */}
                                         </linearGradient>
+                                        <linearGradient id="colorNeutral" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stopColor="#a78bfa" stopOpacity={1} /> {/* Light Purple */}
+                                            <stop offset="100%" stopColor="#8b5cf6" stopOpacity={1} /> {/* Purple */}
+                                        </linearGradient>
                                         <linearGradient id="colorNegative" x1="0" y1="0" x2="1" y2="1">
                                             <stop offset="0%" stopColor="#fb923c" stopOpacity={1} /> {/* Orange */}
                                             <stop offset="100%" stopColor="#ef4444" stopOpacity={1} /> {/* Red */}
@@ -140,7 +147,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                         {pieData.map((entry, index) => (
                                             <Cell
                                                 key={`cell-${index}`}
-                                                fill={entry.name === 'Positive' ? 'url(#colorPositive)' : 'url(#colorNegative)'}
+                                                fill={entry.name === 'Positive' ? 'url(#colorPositive)' : entry.name === 'Neutral' ? 'url(#colorNeutral)' : 'url(#colorNegative)'}
                                             />
                                         ))}
                                     </Pie>
@@ -150,13 +157,20 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                 </PieChart>
                             </ResponsiveContainer>
                             <div className="absolute inset-x-0 bottom-4 flex flex-wrap justify-center gap-3 md:gap-8 py-3 md:py-4 border-t border-white/5 bg-black/20 rounded-2xl mx-4">
-                                {pieData.map(item => (
-                                    <div key={item.name} className="flex items-center gap-2">
-                                        <div className="w-3 h-3 rounded-full" style={{ background: item.name === 'Positive' ? 'linear-gradient(to right, #22d3ee, #3b82f6)' : 'linear-gradient(to right, #fb923c, #ef4444)' }} />
-                                        <span className="text-sm font-medium text-zinc-400">{item.name}</span>
-                                        <span className="text-sm font-bold text-white">{item.value}%</span>
-                                    </div>
-                                ))}
+                                {pieData.map(item => {
+                                    const gradient = item.name === 'Positive'
+                                        ? 'linear-gradient(to right, #22d3ee, #3b82f6)'
+                                        : item.name === 'Neutral'
+                                            ? 'linear-gradient(to right, #a78bfa, #8b5cf6)'
+                                            : 'linear-gradient(to right, #fb923c, #ef4444)';
+                                    return (
+                                        <div key={item.name} className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded-full" style={{ background: gradient }} />
+                                            <span className="text-sm font-medium text-zinc-400">{item.name}</span>
+                                            <span className="text-sm font-bold text-white">{item.value.toFixed(1)}%</span>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
