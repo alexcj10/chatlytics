@@ -4,3 +4,5 @@ pandas
 emoji
 wordcloud
 python-multipart
+scikit-learn
+joblib
