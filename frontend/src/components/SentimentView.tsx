@@ -114,7 +114,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             </h3>
                             <p className="text-sm text-zinc-500 mt-1">Ratio of positive vs negative interactions</p>
                         </div>
-                        <div className="flex-1 min-h-[350px] flex items-center justify-center relative pb-24 lg:pb-12">
+                        <div className="flex-1 min-h-[400px] flex items-center justify-center relative pb-24 lg:pb-12">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <defs>
@@ -131,8 +131,8 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                         data={pieData}
                                         cx="50%"
                                         cy="50%"
-                                        innerRadius={90}
-                                        outerRadius={130}
+                                        innerRadius="50%"
+                                        outerRadius="70%"
                                         paddingAngle={8}
                                         dataKey="value"
                                         stroke="none"
@@ -177,7 +177,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                 {user === 'Overall' ? 'Who is the most positive contributor?' : 'How your positivity compares to others'}
                             </p>
                         </div>
-                        <div className="flex-1 min-h-[350px]">
+                        <div className="flex-1 min-h-[400px]">
                             {user === 'Overall' && comparisonData.length > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={comparisonData} layout="vertical" margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
