@@ -180,21 +180,21 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                         <div className="flex-1 min-h-[350px]">
                             {user === 'Overall' && comparisonData.length > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                                    <BarChart data={comparisonData} layout="vertical" margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
                                         <defs>
                                             <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
                                                 <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} />
                                                 <stop offset="100%" stopColor="#3b82f6" stopOpacity={1} />
                                             </linearGradient>
                                         </defs>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
-                                        <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                        <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" horizontal={false} vertical={true} />
+                                        <XAxis type="number" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} hide />
+                                        <YAxis dataKey="name" type="category" stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} width={100} />
                                         <RechartsTooltip
                                             cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
                                             contentStyle={{ backgroundColor: '#18181b', borderRadius: '12px', border: '1px solid #3f3f46', color: '#fff' }}
                                         />
-                                        <Bar dataKey="positive" fill="url(#barGradient)" radius={[6, 6, 0, 0]} barSize={40} name="Positivity %" />
+                                        <Bar dataKey="positive" fill="url(#barGradient)" radius={[0, 4, 4, 0]} barSize={20} name="Positivity %" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             ) : (
@@ -241,21 +241,21 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             </div>
                             <div className="flex-1 min-h-[350px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={negativityComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                                    <BarChart data={negativityComparisonData} layout="vertical" margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
                                         <defs>
                                             <linearGradient id="barGradientNegative" x1="0" y1="0" x2="1" y2="0">
                                                 <stop offset="0%" stopColor="#fb923c" stopOpacity={1} />
                                                 <stop offset="100%" stopColor="#ef4444" stopOpacity={1} />
                                             </linearGradient>
                                         </defs>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
-                                        <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                        <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" horizontal={false} vertical={true} />
+                                        <XAxis type="number" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} hide />
+                                        <YAxis dataKey="name" type="category" stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} width={100} />
                                         <RechartsTooltip
                                             cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
                                             contentStyle={{ backgroundColor: '#18181b', borderRadius: '12px', border: '1px solid #3f3f46', color: '#fff' }}
                                         />
-                                        <Bar dataKey="negative" fill="url(#barGradientNegative)" radius={[6, 6, 0, 0]} barSize={40} name="Negativity %" />
+                                        <Bar dataKey="negative" fill="url(#barGradientNegative)" radius={[0, 4, 4, 0]} barSize={20} name="Negativity %" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
