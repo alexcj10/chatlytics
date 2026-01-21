@@ -1,0 +1,20 @@
+# Exclude frontend directory
+frontend/
+
+# Exclude git history
+.git/
+.gitignore
+
+# Exclude Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Exclude virtual environments
+venv/
+env/
+.env
+
+# Exclude local test data (optional, but good practice)
+# ml/data/ 
