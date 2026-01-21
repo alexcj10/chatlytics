@@ -118,13 +118,13 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <defs>
-                                        <linearGradient id="colorPositive" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
-                                            <stop offset="100%" stopColor="#059669" stopOpacity={1} />
+                                        <linearGradient id="colorPositive" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} /> {/* Cyan */}
+                                            <stop offset="100%" stopColor="#3b82f6" stopOpacity={1} /> {/* Blue */}
                                         </linearGradient>
-                                        <linearGradient id="colorNegative" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#f87171" stopOpacity={1} />
-                                            <stop offset="100%" stopColor="#dc2626" stopOpacity={1} />
+                                        <linearGradient id="colorNegative" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stopColor="#fb923c" stopOpacity={1} /> {/* Orange */}
+                                            <stop offset="100%" stopColor="#ef4444" stopOpacity={1} /> {/* Red */}
                                         </linearGradient>
                                     </defs>
                                     <Pie
@@ -152,7 +152,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             <div className="absolute inset-x-0 bottom-4 flex flex-wrap justify-center gap-3 md:gap-8 py-3 md:py-4 border-t border-white/5 bg-black/20 rounded-2xl mx-4">
                                 {pieData.map(item => (
                                     <div key={item.name} className="flex items-center gap-2">
-                                        <div className="w-3 h-3 rounded-full" style={{ background: item.name === 'Positive' ? 'linear-gradient(to bottom, #34d399, #059669)' : 'linear-gradient(to bottom, #f87171, #dc2626)' }} />
+                                        <div className="w-3 h-3 rounded-full" style={{ background: item.name === 'Positive' ? 'linear-gradient(to right, #22d3ee, #3b82f6)' : 'linear-gradient(to right, #fb923c, #ef4444)' }} />
                                         <span className="text-sm font-medium text-zinc-400">{item.name}</span>
                                         <span className="text-sm font-bold text-white">{item.value}%</span>
                                     </div>
@@ -182,9 +182,9 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                                         <defs>
-                                            <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
-                                                <stop offset="100%" stopColor="#059669" stopOpacity={1} />
+                                            <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
+                                                <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} />
+                                                <stop offset="100%" stopColor="#3b82f6" stopOpacity={1} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
@@ -243,9 +243,9 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={negativityComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                                         <defs>
-                                            <linearGradient id="barGradientNegative" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor="#f87171" stopOpacity={1} />
-                                                <stop offset="100%" stopColor="#dc2626" stopOpacity={1} />
+                                            <linearGradient id="barGradientNegative" x1="0" y1="0" x2="1" y2="0">
+                                                <stop offset="0%" stopColor="#fb923c" stopOpacity={1} />
+                                                <stop offset="100%" stopColor="#ef4444" stopOpacity={1} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
