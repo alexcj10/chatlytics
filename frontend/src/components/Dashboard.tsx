@@ -7,8 +7,9 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell
 } from 'recharts';
-import { RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity } from 'lucide-react';
+import { RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity, Sparkles } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
+import { SentimentView } from '@/components/SentimentView';
 
 interface DashboardProps {
     data: any;
@@ -22,6 +23,7 @@ const COLORS = ['#6366f1', '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e', '#f97316'
 
 export function Dashboard({ data, user, users, onSelectUser, onReset }: DashboardProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [showSentiment, setShowSentiment] = useState(false);
     const desktopDropdownRef = useRef<HTMLDivElement>(null);
     const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -43,6 +45,10 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
 
     if (!data) return null;
+
+    if (showSentiment) {
+        return <SentimentView data={data} user={user} onBack={() => setShowSentiment(false)} />;
+    }
 
     return (
         <div className="space-y-4 md:space-y-8 animate-in fade-in duration-1000 p-0 md:p-4 bg-[#09090b]">
@@ -94,6 +100,13 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             )}
                         </div>
                         <button
+                            onClick={() => setShowSentiment(true)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm font-semibold text-indigo-400 hover:bg-indigo-500/20 hover:border-indigo-500/40 transition-all cursor-pointer group"
+                        >
+                            <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                            <span>Advanced Analytics</span>
+                        </button>
+                        <button
                             onClick={onReset}
                             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all cursor-pointer"
                             aria-label="Upload New"
@@ -141,6 +154,13 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         )}
                     </div>
                     <button
+                        onClick={() => setShowSentiment(true)}
+                        className="flex items-center justify-center p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 shadow-sm transition-all"
+                        aria-label="Advanced Analytics"
+                    >
+                        <Sparkles className="w-4 h-4" />
+                    </button>
+                    <button
                         onClick={onReset}
                         className="flex items-center justify-center p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
                         aria-label="Upload New"
@@ -152,6 +172,37 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
 
             {/* Summary Cards */}
             <StatsCards stats={data.basic_stats} links={data.links_shared} />
+
+            {/* Sentiment Quick Overview */}
+            {data.sentiment_analysis && (
+                <div
+                    onClick={() => setShowSentiment(true)}
+                    className="grid grid-cols-1 gap-4 cursor-pointer group"
+                >
+                    <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl p-4 flex items-center justify-between hover:border-indigo-500/40 transition-all">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+                                <Sparkles className="w-6 h-6 text-indigo-400" />
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-bold text-white">Sentiment Insight</h3>
+                                <p className="text-xs text-zinc-500">The conversation tone is mostly <span className="text-indigo-400 font-semibold">{data.sentiment_analysis.positive_percentage > 50 ? 'Positive' : 'Critical'}</span></p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-6 pr-4">
+                            <div className="text-center">
+                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Positive</p>
+                                <p className="text-lg font-black text-emerald-400">{data.sentiment_analysis.positive_percentage}%</p>
+                            </div>
+                            <div className="h-8 w-[1px] bg-white/10" />
+                            <div className="text-center">
+                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Negative</p>
+                                <p className="text-lg font-black text-red-400">{data.sentiment_analysis.negative_percentage}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Charts Grid */}
             {/* Timeline Chart - Full Width */}
