@@ -63,7 +63,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
         }))
         .filter(u => u.name !== 'group_notification')
         .sort((a, b) => b.count - a.count)
-        .slice(0, 6);
+        .slice(0, 10);
 
     const negativityComparisonData = Object.entries(userBreakdown)
         .map(([name, stats]: any) => ({
@@ -74,7 +74,7 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
         }))
         .filter(u => u.name !== 'group_notification')
         .sort((a, b) => b.negative - a.negative)
-        .slice(0, 6);
+        .slice(0, 10);
 
     return (
         <div className="space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 bg-[#09090b] min-h-screen">
