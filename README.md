@@ -181,12 +181,12 @@ Upload a WhatsApp chat export file for analysis.
       },
       "links_shared": 45,
       "most_active_users": {"User1": 2500, "User2": 2500},
-      "daily_timeline": [{"date": "2023-01-01", "message_count": 42}, ...],
-      "hourly_activity": [{"hour": 14, "message_count": 120}, ...],
-      "weekly_activity": [{"day_name": "Monday", "message_count": 850}, ...],
-      "monthly_activity": [{"month": "January", "message_count": 1200}, ...],
-      "quarterly_activity": [{"quarter": "2023Q1", "message_count": 3500}, ...],
-      "yearly_activity": [{"year": 2023, "message_count": 15000}, ...],
+      "daily_timeline": [{"date": "2023-01-01", "message_count": 42}],
+      "hourly_activity": [{"hour": 14, "message_count": 120}],
+      "weekly_activity": [{"day_name": "Monday", "message_count": 850}],
+      "monthly_activity": [{"month": "January", "message_count": 1200}],
+      "quarterly_activity": [{"quarter": "2023Q1", "message_count": 3500}],
+      "yearly_activity": [{"year": 2023, "message_count": 15000}],
       "most_busy_day": {"2023-12-25": 450},
       "most_busy_weekday": "Sunday",
       "most_busy_month": {"December": 4500},
@@ -243,10 +243,17 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
 
 ```
 chatlytics/
-├── app/                    # Backend (FastAPI)
-│   ├── main.py            # API routes and main logic
-│   ├── analytics.py       # 19 analytics functions
-│   └── preprocess.py      # WhatsApp chat parser
+├── app/                    # Backend (FastAPI Layer)
+│   ├── main.py            # API routes and orchestration
+│   ├── analytics.py       # Core statistical functions
+│   ├── preprocess.py      # WhatsApp chat parser
+│   └── topics.py          # Topic modeling orchestrator
+├── ml/                     # Machine Learning Layer
+│   ├── anomalies.py       # Isolation Forest (Outlier Detection)
+│   ├── health.py          # Chat Health scoring logic
+│   ├── sentiment_vader.py # Enhanced Hinglish VADER engine
+│   ├── sentiment_inference.py # Sentiment orchestration
+│   └── topic_modeling.py  # LDA-based theme discovery
 ├── frontend/              # Frontend (Next.js)
 │   ├── src/
 │   │   ├── app/           # App router pages
