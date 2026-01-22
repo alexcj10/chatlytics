@@ -26,6 +26,11 @@ from app.analytics import (
     most_busy_hour
 )
 
+from app.topics import (
+    get_topics_analytics,
+    get_topic_timeline
+)
+
 from ml.sentiment_inference import (
     overall_sentiment,
     user_wise_sentiment,
@@ -142,7 +147,9 @@ def get_all_analytics(df, selected_user, global_resp_times=None, global_initiato
         "emoji_analysis": {str(k): v for k, v in emoji_analysis(df, selected_user).to_dict().items()},
         "most_busy_hour": most_busy_hour(df, selected_user),
         "sentiment_analysis": overall_sentiment(df),
-        "user_sentiment_breakdown": user_wise_sentiment(df) if selected_user == 'Overall' else {}
+        "user_sentiment_breakdown": user_wise_sentiment(df) if selected_user == 'Overall' else {},
+        "topic_modeling": get_topics_analytics(df, selected_user),
+        "topic_timeline": get_topic_timeline(df, selected_user)
     }
     return res
 

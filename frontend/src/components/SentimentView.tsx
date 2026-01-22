@@ -3,7 +3,7 @@
 import React from 'react';
 import {
     ArrowLeft, TrendingUp,
-    BarChart2, Heart, Sparkles, AlertTriangle
+    BarChart2, Heart, Sparkles, AlertTriangle, MessageSquare, Layers, Clock
 } from 'lucide-react';
 import {
     PieChart, Pie, Cell, ResponsiveContainer,
@@ -280,6 +280,84 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Topic Explorer Section */}
+            {(data.topic_modeling || data.topic_timeline) && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
+                    {/* Top Topics Card */}
+                    {data.topic_modeling && (
+                        <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
+                            <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <MessageSquare className="w-20 h-20 md:w-24 md:h-24 text-white rotate-12" />
+                            </div>
+                            <div className="relative z-10">
+                                <div className="mb-8">
+                                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                        <Layers className="w-5 h-5 text-emerald-400" />
+                                        Topic Explorer
+                                    </h3>
+                                    <p className="text-sm text-zinc-500 mt-1">Key themes discovered in the conversation</p>
+                                </div>
+
+                                <div className="space-y-4">
+                                    {data.topic_modeling.map((topic: any, idx: number) => (
+                                        <div key={idx} className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/30 transition-all group/topic">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xs font-bold text-emerald-400">
+                                                    {topic.topic_id}
+                                                </div>
+                                                <span className="text-sm font-bold text-white uppercase tracking-wider">Theme {idx + 1}</span>
+                                            </div>
+                                            <div className="flex flex-wrap gap-2">
+                                                {topic.words.map((word: string, winx: number) => (
+                                                    <span key={winx} className="px-2.5 py-1 rounded-md bg-zinc-800 text-xs text-zinc-400 border border-transparent group-hover/topic:border-emerald-500/10 transition-colors">
+                                                        {word}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Topic Timeline Card */}
+                    {data.topic_timeline && data.topic_timeline.length > 0 && (
+                        <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 md:p-8 backdrop-blur-xl relative overflow-hidden group">
+                            <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <Clock className="w-20 h-20 md:w-24 md:h-24 text-white -rotate-12" />
+                            </div>
+                            <div className="relative z-10">
+                                <div className="mb-8">
+                                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                        <TrendingUp className="w-5 h-5 text-indigo-400" />
+                                        Topic Evolution
+                                    </h3>
+                                    <p className="text-sm text-zinc-500 mt-1">How conversation subjects changed over time</p>
+                                </div>
+
+                                <div className="space-y-6 relative before:absolute before:left-4 before:top-2 before:bottom-2 before:w-[1px] before:bg-white/10">
+                                    {data.topic_timeline.map((item: any, idx: number) => (
+                                        <div key={idx} className="relative pl-10">
+                                            <div className="absolute left-3 top-1.5 w-2 h-2 rounded-full bg-indigo-500 border-4 border-zinc-950 ring-1 ring-white/10" />
+                                            <div className="mb-1 text-xs font-black text-indigo-400 uppercase tracking-widest">{item.month}</div>
+                                            <div className="space-y-2">
+                                                {item.topics.map((t: any, tidx: number) => (
+                                                    <div key={tidx} className="text-sm text-zinc-300">
+                                                        <span className="text-zinc-500 mr-2">•</span>
+                                                        {t.words.slice(0, 4).join(', ')}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 

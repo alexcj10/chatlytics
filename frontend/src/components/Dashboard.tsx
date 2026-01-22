@@ -7,7 +7,7 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell
 } from 'recharts';
-import { RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity, Sparkles } from 'lucide-react';
+import { RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity, Sparkles, Layers } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
 import { SentimentView } from '@/components/SentimentView';
 
@@ -204,6 +204,42 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Negative</p>
                                 <p className="text-lg font-black text-red-400">{data.sentiment_analysis.negative_percentage}%</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Topic Preview */}
+            {data.topic_modeling && data.topic_modeling.length > 0 && (
+                <div
+                    onClick={() => setShowSentiment(true)}
+                    className="grid grid-cols-1 gap-4 cursor-pointer group"
+                >
+                    <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-2xl p-5 flex flex-col gap-6 hover:border-emerald-500/40 transition-all transition-shadow shadow-lg shadow-emerald-500/5">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex shrink-0 items-center justify-center border border-emerald-500/20">
+                                <Layers className="w-6 h-6 text-emerald-400" />
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-bold text-white tracking-tight">Conversation Themes</h3>
+                                <p className="text-xs text-zinc-500 mt-0.5">Discovered <span className="text-emerald-400 font-bold">{data.topic_modeling.length}</span> core subjects in this chat</p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2 mt-1">
+                            {data.topic_modeling.slice(0, 5).map((topic: any, i: number) => (
+                                <div key={i} className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3 group-hover:bg-white/10 transition-colors">
+                                    <div className="w-5 h-5 rounded-md bg-emerald-500/10 flex items-center justify-center shrink-0">
+                                        <span className="text-[10px] font-black text-emerald-400 leading-none">{topic.topic_id}</span>
+                                    </div>
+                                    <span className="text-[11px] text-zinc-300 font-medium">{topic.words.slice(0, 3).join(', ')}</span>
+                                </div>
+                            ))}
+                            {data.topic_modeling.length > 5 && (
+                                <div className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center shrink-0">
+                                    <span className="text-[11px] text-zinc-500 font-bold">+{data.topic_modeling.length - 5} more</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
