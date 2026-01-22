@@ -73,8 +73,8 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 
 #### 🚨 Anomaly Detection (Pattern Scrutiny)
 *   **Algorithm:** **Isolation Forest** (Ensemble-based unsupervised outlier detection).
-*   **Impact Scoring:** Statistical significance calculated via **Z-Score ($\sigma$)**:
-    $$Z = \frac{x - \mu}{\sigma}$$
+*   **Impact Scoring:** Statistical significance calculated via our custom **Z-Score ($\sigma$)** formula:
+    $$Z = \frac{\text{MessageCount} - \text{MeanCount}}{\text{StandardDeviation}}$$
 *   **Dimensions:** Multidimensional analysis of volume, sentiment, media bursts, and link density.
 
 ### 🎨 User Experience
