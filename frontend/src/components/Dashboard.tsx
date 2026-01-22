@@ -227,14 +227,24 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                         </div>
 
                         <div className="flex flex-wrap gap-2 mt-1">
-                            {data.topic_modeling.slice(0, 5).map((topic: any, i: number) => (
-                                <div key={i} className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3 group-hover:bg-white/10 transition-colors">
-                                    <div className="w-5 h-5 rounded-md bg-emerald-500/10 flex items-center justify-center shrink-0">
-                                        <span className="text-[10px] font-black text-emerald-400 leading-none">{topic.topic_id}</span>
+                            {data.topic_modeling.slice(0, 5).map((topic: any, i: number) => {
+                                const colors = [
+                                    { text: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                                    { text: 'text-indigo-400', bg: 'bg-indigo-500/10' },
+                                    { text: 'text-rose-400', bg: 'bg-rose-500/10' },
+                                    { text: 'text-amber-400', bg: 'bg-amber-500/10' },
+                                    { text: 'text-sky-400', bg: 'bg-sky-500/10' },
+                                ];
+                                const color = colors[i % colors.length];
+                                return (
+                                    <div key={i} className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3 group-hover:bg-white/10 transition-colors">
+                                        <div className={`w-5 h-5 rounded-md ${color.bg} flex items-center justify-center shrink-0`}>
+                                            <span className={`text-[10px] font-black ${color.text} leading-none`}>{topic.topic_id}</span>
+                                        </div>
+                                        <span className="text-[11px] text-zinc-300 font-medium">{topic.words.slice(0, 3).join(', ')}</span>
                                     </div>
-                                    <span className="text-[11px] text-zinc-300 font-medium">{topic.words.slice(0, 3).join(', ')}</span>
-                                </div>
-                            ))}
+                                );
+                            })}
                             {data.topic_modeling.length > 5 && (
                                 <div className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center shrink-0">
                                     <span className="text-[11px] text-zinc-500 font-bold">+{data.topic_modeling.length - 5} more</span>

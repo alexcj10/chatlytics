@@ -16,6 +16,15 @@ interface SentimentViewProps {
     onBack: () => void;
 }
 
+const THEME_COLORS = [
+    { text: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', hover: 'hover:border-emerald-500/30' },
+    { text: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20', hover: 'hover:border-indigo-500/30' },
+    { text: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/20', hover: 'hover:border-rose-500/30' },
+    { text: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', hover: 'hover:border-amber-500/30' },
+    { text: 'text-sky-400', bg: 'bg-sky-500/10', border: 'border-sky-500/20', hover: 'hover:border-sky-500/30' },
+    { text: 'text-violet-400', bg: 'bg-violet-500/10', border: 'border-violet-500/20', hover: 'hover:border-violet-500/30' },
+];
+
 export function SentimentView({ data, user, onBack }: SentimentViewProps) {
     if (!data) return null;
 
@@ -302,23 +311,26 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                 </div>
 
                                 <div className="space-y-4">
-                                    {data.topic_modeling.map((topic: any, idx: number) => (
-                                        <div key={idx} className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/30 transition-all group/topic">
-                                            <div className="flex items-center gap-3 mb-3">
-                                                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xs font-bold text-emerald-400">
-                                                    {topic.topic_id}
+                                    {data.topic_modeling.map((topic: any, idx: number) => {
+                                        const color = THEME_COLORS[idx % THEME_COLORS.length];
+                                        return (
+                                            <div key={idx} className={`p-4 rounded-2xl bg-white/5 border border-white/10 ${color.hover} transition-all group/topic`}>
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    <div className={`w-8 h-8 rounded-lg ${color.bg} border ${color.border} flex items-center justify-center text-xs font-bold ${color.text}`}>
+                                                        {topic.topic_id}
+                                                    </div>
+                                                    <span className="text-sm font-bold text-white uppercase tracking-wider">Theme {idx + 1}</span>
                                                 </div>
-                                                <span className="text-sm font-bold text-white uppercase tracking-wider">Theme {idx + 1}</span>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {topic.words.map((word: string, winx: number) => (
+                                                        <span key={winx} className="px-2.5 py-1 rounded-md bg-zinc-800 text-xs text-zinc-400 border border-transparent group-hover/topic:border-white/10 transition-colors">
+                                                            {word}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             </div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {topic.words.map((word: string, winx: number) => (
-                                                    <span key={winx} className="px-2.5 py-1 rounded-md bg-zinc-800 text-xs text-zinc-400 border border-transparent group-hover/topic:border-emerald-500/10 transition-colors">
-                                                        {word}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -345,12 +357,15 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                                             <div className="absolute left-3 top-1.5 w-2 h-2 rounded-full bg-indigo-500 border-4 border-zinc-950 ring-1 ring-white/10" />
                                             <div className="mb-1 text-xs font-black text-indigo-400 uppercase tracking-widest">{item.month}</div>
                                             <div className="space-y-2">
-                                                {item.topics.map((t: any, tidx: number) => (
-                                                    <div key={tidx} className="text-sm text-zinc-300">
-                                                        <span className="text-zinc-500 mr-2">•</span>
-                                                        {t.words.slice(0, 4).join(', ')}
-                                                    </div>
-                                                ))}
+                                                {item.topics.map((t: any, tidx: number) => {
+                                                    const colorClass = THEME_COLORS[(t.topic_id - 1) % THEME_COLORS.length].text;
+                                                    return (
+                                                        <div key={tidx} className="text-sm text-zinc-300 flex items-start gap-2">
+                                                            <span className={`${colorClass} font-bold`}>{t.topic_id}</span>
+                                                            <span>{t.words.slice(0, 4).join(', ')}</span>
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                         </div>
                                     ))}
