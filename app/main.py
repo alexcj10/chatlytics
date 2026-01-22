@@ -37,6 +37,9 @@ from ml.sentiment_inference import (
     attach_sentiment_to_df
 )
 
+from ml.health import get_chat_health
+from ml.anomalies import get_anomalies
+
 app = FastAPI(title="WhatsApp Chat Analyzer API")
 
 # Enable CORS
@@ -149,7 +152,9 @@ def get_all_analytics(df, selected_user, global_resp_times=None, global_initiato
         "sentiment_analysis": overall_sentiment(df),
         "user_sentiment_breakdown": user_wise_sentiment(df) if selected_user == 'Overall' else {},
         "topic_modeling": get_topics_analytics(df, selected_user),
-        "topic_timeline": get_topic_timeline(df, selected_user)
+        "topic_timeline": get_topic_timeline(df, selected_user),
+        "chat_health": get_chat_health(df),
+        "anomalies": get_anomalies(df)
     }
     return res
 
@@ -193,6 +198,10 @@ async def analyze_chat(file: UploadFile = File(...)):
 
         # Preprocess chat (Now returns GLOBALLY SORTED df)
         df = preprocess_whatsapp_text(data)
+        
+        # Attach sentiment to DF globally for anomaly detection
+        print("Attaching sentiment scores...")
+        df = attach_sentiment_to_df(df)
         
         if df.empty:
             print("Error: DataFrame is empty")

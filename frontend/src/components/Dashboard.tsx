@@ -10,6 +10,8 @@ import {
 import { RefreshCcw, Info, TrendingUp, Calendar, Clock, MessageSquare, BarChart3, PieChart as PieChartIcon, ChevronDown, Users, History, Activity, Sparkles, Layers } from 'lucide-react';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
 import { SentimentView } from '@/components/SentimentView';
+import { ChatHealthScore } from '@/components/ChatHealthScore';
+import { AnomalyPanel } from '@/components/AnomalyPanel';
 
 interface DashboardProps {
     data: any;
@@ -251,6 +253,18 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 </div>
                             )}
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Advanced Intelligence Section */}
+            {(data.chat_health || (data.anomalies && data.anomalies.length > 0)) && (
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8 mt-4">
+                    <div className="lg:col-span-2">
+                        <ChatHealthScore health={data.chat_health} />
+                    </div>
+                    <div className="lg:col-span-3">
+                        <AnomalyPanel anomalies={data.anomalies} />
                     </div>
                 </div>
             )}
