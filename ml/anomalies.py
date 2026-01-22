@@ -88,4 +88,4 @@ def get_anomalies(df):
     # Sort by severity_score descending (most anomalous first)
     results.sort(key=lambda x: x.get('severity_score', 0), reverse=True)
     
-    return results
+    return results[:10]
