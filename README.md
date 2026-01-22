@@ -50,14 +50,32 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 - **Quarterly Growth** — Long-term engagement
 - **Yearly Overview** — Year-over-year comparison
 
-### 🔍 Advanced Insights
-- **Most Busy Day/Hour/Month** — Identify peak activity periods
-- **Response Time Analysis** — Average response times per user
-- **Conversation Initiator** — Who starts conversations the most
-- **Longest Message** — By character count
-- **Most Wordy Message** — By word count
-- **Common Words** — Top 20 frequently used words (excluding stopwords)
-- **Emoji Analysis** — Top 10 most used emojis
+### 🔍 Advanced ML & Algorithmic Insights
+
+#### 🎭 Sentiment Analysis (Hinglish Support)
+*   **Initial Approach:** Supervised Learning via **TF-IDF Vectorization & Logistic Regression** classifier.
+*   **Current Engine:** **VADER (Valence Aware Dictionary and sEntiment Reasoner)** for real-time rule-based intensity mapping.
+*   **Hinglish Implementation:** Augmented the VADER lexicon with a custom **Hinglish/Roman-Hindi Lexicon** (+350 words like *zabardast, mast, badiya, bakwas*) to handle code-switching in Indian chat contexts.
+
+#### 🏗️ Topic Modeling
+*   **Algorithm:** **LDA (Latent Dirichlet Allocation)** from `scikit-learn` for unsupervised theme discovery.
+*   **Methodology:** Uses **Count Vectorization** with a combined stopword engine (Standard English + Custom Hinglish Grammar) to extract semantic themes and their temporal distribution.
+
+#### 🏥 Chat Health Score (Conversational Fitness)
+*   **Mathematical Formula:**
+    $$Score = (0.30 \cdot S) + (0.25 \cdot E) + (0.20 \cdot R) + (0.15 \cdot B) - P$$
+*   **Metrics:** 
+    - **$S$ (Sentiment):** Positive/Negative compound ratio.
+    - **$E$ (Engagement):** Message frequency & active days.
+    - **$R$ (Response):** Temporal latency mapping.
+    - **$B$ (Balance):** Coefficient of Variation for participation.
+    - **$P$ (Penalty):** Anomaly deductions.
+
+#### 🚨 Anomaly Detection (Pattern Scrutiny)
+*   **Algorithm:** **Isolation Forest** (Ensemble-based unsupervised outlier detection).
+*   **Impact Scoring:** Statistical significance calculated via **Z-Score ($\sigma$)**:
+    $$Z = \frac{x - \mu}{\sigma}$$
+*   **Dimensions:** Multidimensional analysis of volume, sentiment, media bursts, and link density.
 
 ### 🎨 User Experience
 - **Per-User Analytics** — Filter all stats by individual participant
