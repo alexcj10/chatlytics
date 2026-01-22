@@ -215,14 +215,14 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                     onClick={() => setShowSentiment(true)}
                     className="grid grid-cols-1 gap-4 cursor-pointer group"
                 >
-                    <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-2xl p-5 flex flex-col gap-6 hover:border-emerald-500/40 transition-all transition-shadow shadow-lg shadow-emerald-500/5">
+                    <div className="bg-gradient-to-r from-rose-500/10 to-amber-500/10 border border-rose-500/20 rounded-2xl p-5 flex flex-col gap-6 hover:border-rose-500/40 transition-all transition-shadow shadow-lg shadow-rose-500/5">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex shrink-0 items-center justify-center border border-emerald-500/20">
-                                <Layers className="w-6 h-6 text-emerald-400" />
+                            <div className="w-12 h-12 rounded-xl bg-rose-500/20 flex shrink-0 items-center justify-center border border-rose-500/20">
+                                <Layers className="w-6 h-6 text-rose-400" />
                             </div>
                             <div>
                                 <h3 className="text-sm font-bold text-white tracking-tight">Conversation Themes</h3>
-                                <p className="text-xs text-zinc-500 mt-0.5">Discovered <span className="text-emerald-400 font-bold">{data.topic_modeling.length}</span> core subjects in this chat</p>
+                                <p className="text-xs text-zinc-500 mt-0.5">Discovered <span className="text-rose-400 font-bold">{data.topic_modeling.length}</span> core subjects in this chat</p>
                             </div>
                         </div>
 
