@@ -55,7 +55,7 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 #### 🎭 Sentiment Analysis (Hinglish Support)
 *   **Initial Approach:** Supervised Learning via **TF-IDF Vectorization & Logistic Regression** classifier.
 *   **Current Engine:** **VADER (Valence Aware Dictionary and sEntiment Reasoner)** for real-time rule-based intensity mapping.
-*   **Hinglish Implementation:** Augmented the VADER lexicon with a custom **Hinglish/Roman-Hindi Lexicon** (+350 words like *zabardast, mast, badiya, bakwas*) to handle code-switching in Indian chat contexts.
+*   **Hinglish Implementation:** Augmented the VADER lexicon with a custom **Hinglish/Roman-Hindi Lexicon** (+300 words like *zabardast, mast, badiya, bakwas*) to handle code-switching in Indian chat contexts.
 
 #### 🏗️ Topic Modeling
 *   **Algorithm:** **LDA (Latent Dirichlet Allocation)** from `scikit-learn` for unsupervised theme discovery.
@@ -181,22 +181,39 @@ Upload a WhatsApp chat export file for analysis.
       },
       "links_shared": 45,
       "most_active_users": {"User1": 2500, "User2": 2500},
-      "daily_timeline": [...],
-      "hourly_activity": [...],
-      "weekly_activity": [...],
-      "monthly_activity": [...],
-      "quarterly_activity": [...],
-      "yearly_activity": [...],
-      "most_busy_day": {...},
-      "most_busy_weekday": "Saturday",
-      "most_busy_month": {...},
+      "daily_timeline": [{"date": "2023-01-01", "message_count": 42}, ...],
+      "hourly_activity": [{"hour": 14, "message_count": 120}, ...],
+      "weekly_activity": [{"day_name": "Monday", "message_count": 850}, ...],
+      "monthly_activity": [{"month": "January", "message_count": 1200}, ...],
+      "quarterly_activity": [{"quarter": "2023Q1", "message_count": 3500}, ...],
+      "yearly_activity": [{"year": 2023, "message_count": 15000}, ...],
+      "most_busy_day": {"2023-12-25": 450},
+      "most_busy_weekday": "Sunday",
+      "most_busy_month": {"December": 4500},
       "most_busy_hour": 21,
-      "response_time_analysis": {...},
-      "conversation_initiator": {...},
-      "longest_message": {...},
-      "most_wordy_message": {...},
-      "most_common_words": {...},
-      "emoji_analysis": {...}
+      "response_time_analysis": {"User1": 45.5, "User2": 12.2},
+      "conversation_initiator": {"User1": 150, "User2": 140},
+      "longest_message": {"user": "User1", "message": "...", "date": "..."},
+      "most_wordy_message": {"user": "User2", "words": 150, "date": "..."},
+      "most_common_words": {"hello": 450, "thanks": 312},
+      "emoji_analysis": {"😂": 450, "❤️": 312},
+      "sentiment_analysis": {
+        "overall": "Positive",
+        "compound": 0.45,
+        "pos": 0.2, "neg": 0.05, "neu": 0.75
+      },
+      "user_sentiment_breakdown": {"User1": {...}, "User2": {...}},
+      "topic_modeling": [{"topic_id": 1, "words": ["vacation", "beach"]}],
+      "topic_timeline": [{"date": "2023-01-01", "topic_id": 1, "count": 5}],
+      "chat_health": {
+        "score": 82.5,
+        "rating": "Healthy",
+        "metrics": {"sentiment": 85, "engagement": 90, "response": 75, "balance": 80}
+      },
+      "anomalies": {
+        "spikes": [{"type": "Activity Burst", "date": "2023-12-25", "z_score": 7.08}],
+        "drops": [{"type": "Silent Period", "date": "2023-11-01", "gap_hours": 124}]
+      }
     }
   }
 }
