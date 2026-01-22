@@ -35,10 +35,13 @@ def detect_anomalies_if(df):
     # Model configuration
     # contamination=0.05 means we expect ~5% of days to be anomalies
     model = IsolationForest(contamination=0.05, random_state=42)
-    daily_stats['anomaly_score'] = model.fit_predict(features)
+    # anomaly_score is -1 for outliers, 1 for inliers
+    daily_stats['anomaly_label'] = model.fit_predict(features)
+    # raw_scores: lower is more anomalous
+    daily_stats['raw_severity'] = model.decision_function(features)
     
     # anomaly_score is -1 for outliers, 1 for inliers
-    outliers = daily_stats[daily_stats['anomaly_score'] == -1]
+    outliers = daily_stats[daily_stats['anomaly_label'] == -1]
     
     anomalies = []
     mean_count = daily_stats['message_count'].mean()
@@ -58,11 +61,15 @@ def detect_anomalies_if(df):
             
         desc = f"Unique pattern detected: {', '.join(reasons) if reasons else 'statistical outlier'}."
         
+        # Invert decision function: lower (more negative) means higher severity rank
+        severity_rank = abs(float(row['raw_severity']))
+
         anomalies.append({
             "type": "Pattern Anomaly",
             "date": str(date),
             "value": int(row['message_count']),
-            "severity": "High" if len(reasons) > 1 else "Medium",
+            "severity": "Critical" if row['raw_severity'] < -0.15 else "High" if row['raw_severity'] < -0.1 else "Medium",
+            "severity_score": round(severity_rank, 4),
             "description": desc,
             "metrics": {
                 "messages": int(row['message_count']),
@@ -74,12 +81,11 @@ def detect_anomalies_if(df):
 
 def get_anomalies(df):
     """
-    Compiles detected anomalies using Isolation Forest.
+    Compiles detected anomalies and sorts by severity (most anomalous first).
     """
     results = detect_anomalies_if(df)
     
-    # Also keep a simplified sentiment shift check for immediate context
-    # Sort by date descending
-    results.sort(key=lambda x: x['date'], reverse=True)
+    # Sort by severity_score descending (most anomalous first)
+    results.sort(key=lambda x: x.get('severity_score', 0), reverse=True)
     
-    return results[:10]
+    return results
