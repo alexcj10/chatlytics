@@ -13,7 +13,10 @@ export function ChatHealthScore({ health }: ChatHealthScoreProps) {
     const { score, rating, color, metrics, description } = health;
 
     return (
-        <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden group h-full">
+        <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden group h-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-white/[0.04] transition-all duration-500">
+            {/* Premium Gradient Stripe */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 shadow-[0_0_15px_rgba(99,102,241,0.5)] z-20" />
+
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Activity className="w-24 h-24 text-white" />
             </div>
