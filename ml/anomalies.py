@@ -33,8 +33,8 @@ def detect_anomalies_if(df):
     features = daily_stats[['message_count', 'avg_sentiment', 'media_count', 'link_count']]
     
     # Model configuration
-    # contamination=0.05 means we expect ~5% of days to be anomalies
-    model = IsolationForest(contamination=0.05, random_state=42)
+    # contamination=0.10 means we expect ~10% of days to be anomalies
+    model = IsolationForest(contamination=0.10, random_state=42)
     # anomaly_score is -1 for outliers, 1 for inliers
     daily_stats['anomaly_label'] = model.fit_predict(features)
     # raw_scores: lower is more anomalous
