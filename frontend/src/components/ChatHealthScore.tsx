@@ -13,7 +13,7 @@ export function ChatHealthScore({ health }: ChatHealthScoreProps) {
     const { score, rating, color, metrics, description } = health;
 
     return (
-        <div className="bg-fuchsia-950/20 border border-fuchsia-500/35 rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden group h-full hover:border-fuchsia-400/55 hover:bg-fuchsia-950/30 transition-all duration-500">
+        <div className="bg-fuchsia-950/20 border border-fuchsia-500/10 rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden group h-full hover:border-fuchsia-400/20 hover:bg-fuchsia-950/30 transition-all duration-500">
             {/* Premium Gradient Stripe */}
             <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-fuchsia-500 via-violet-400 to-indigo-400 z-20" />
 
