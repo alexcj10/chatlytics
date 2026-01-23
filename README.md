@@ -51,6 +51,7 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 #### 🏗️ Topic Modeling
 *   **Algorithm:** **LDA (Latent Dirichlet Allocation)** from `scikit-learn` for unsupervised theme discovery.
 *   **Methodology:** Uses **Count Vectorization** with a combined stopword engine (Standard English + Custom Hinglish Grammar) to extract semantic themes and their temporal distribution.
+*   **Note on Old Chats:** The **Topic Evolution** timeline focuses on the last 6 months of chat history. For older or sparse chats (fewer than 10 messages per month), the evolution chart may not appear if the data threshold is not met.
 
 #### 🏥 Chat Health Score (Conversational Fitness)
 *   **Mathematical Formula:**
@@ -296,6 +297,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 <p align="center">
   Made with ❤️ by <a href="https://github.com/alexcj10">alexcj10</a>
 </p>
+
 
 
 
