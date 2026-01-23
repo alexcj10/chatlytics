@@ -44,6 +44,10 @@ def assign_participant_roles(df):
         'link_count': 'sum'
     })
 
+    # 5. Night Owl Stats (11 PM - 5 AM)
+    df_clean['hour'] = df_clean['date'].dt.hour
+    night_stats = df_clean[(df_clean['hour'] >= 23) | (df_clean['hour'] < 5)].groupby('user').size().to_dict()
+
     # Calculate scores for each user
     user_metrics = {}
     for user in users:
@@ -52,6 +56,7 @@ def assign_participant_roles(df):
         starts = initiator_counts.get(user, 0)
         responses = response_counts.get(user, 0)
         media_links = media_link_stats.loc[user, 'is_media'] + media_link_stats.loc[user, 'link_count']
+        night_msgs = night_stats.get(user, 0)
         
         user_metrics[user] = {
             "starts": starts,
@@ -59,6 +64,7 @@ def assign_participant_roles(df):
             "msg_count": msg_count,
             "avg_words": avg_words,
             "media_links": media_links,
+            "night_msgs": night_msgs,
             "listener_score": -(msg_count * avg_words) # Lower engagement = higher score
         }
 
@@ -76,6 +82,7 @@ def assign_participant_roles(df):
     top_drivers = get_top_n("msg_count")
     top_broadcasters = get_top_n("media_links") if has_media else get_top_n("avg_words")
     top_listeners = get_top_n("listener_score")
+    top_night_owls = get_top_n("night_msgs")
     
     # Responder: High responses, Low starts relative to responses
     for u in user_metrics:
@@ -118,6 +125,11 @@ def assign_participant_roles(df):
             "top": format_top(top_broadcasters, "media_links" if has_media else "avg_words", " items" if has_media else " words"),
             "description": "Information hub. Shares long messages, interesting links, or media files.",
             "label": "Shared Info"
+        },
+        "Night Owl": {
+            "top": format_top(top_night_owls, "night_msgs", " msgs"),
+            "description": "Most active when the world sleeps. Frequently messages between 11 PM and 5 AM.",
+            "label": "Late Activity"
         }
     }
 

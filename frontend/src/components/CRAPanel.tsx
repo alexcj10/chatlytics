@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Zap, MessageSquare, Shield, Radio, Headphones, Reply, Crown, Award, Medal, AlertCircle } from 'lucide-react';
+import { User, Zap, MessageSquare, Shield, Radio, Headphones, Reply, Crown, Award, Medal, AlertCircle, Moon } from 'lucide-react';
 
 interface RankData {
     user: string;
@@ -23,6 +23,7 @@ const getRoleIcon = (role: string) => {
         case 'driver': return <Shield className="w-5 h-5 text-pink-400" />;
         case 'listener': return <Headphones className="w-5 h-5 text-purple-400" />;
         case 'responder': return <Reply className="w-5 h-5 text-blue-400" />;
+        case 'night owl': return <Moon className="w-5 h-5 text-indigo-400" />;
         default: return <User className="w-5 h-5 text-zinc-400" />;
     }
 };
@@ -34,6 +35,7 @@ const getRoleGradient = (role: string) => {
         case 'driver': return 'from-pink-500/20 to-transparent border-pink-500/30';
         case 'listener': return 'from-purple-500/20 to-transparent border-purple-500/30';
         case 'responder': return 'from-blue-500/20 to-transparent border-blue-500/30';
+        case 'night owl': return 'from-indigo-500/20 to-transparent border-indigo-500/30';
         default: return 'from-zinc-500/20 to-transparent border-zinc-500/30';
     }
 };
@@ -54,7 +56,7 @@ export const CRAPanel: React.FC<CRAPanelProps> = ({ roles }) => {
     const roleKeys = Object.keys(roles);
     if (roleKeys.length === 0) return null;
 
-    const roleOrder = ['Initiator', 'Responder', 'Driver', 'Broadcaster', 'Listener'];
+    const roleOrder = ['Initiator', 'Responder', 'Driver', 'Broadcaster', 'Listener', 'Night Owl'];
     // Ensure we show roles even if they are not in our preferred order list
     const actualRoles = roleOrder.filter(r => roleKeys.includes(r));
     const extraRoles = roleKeys.filter(r => !roleOrder.includes(r));
