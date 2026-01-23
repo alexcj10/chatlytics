@@ -203,14 +203,14 @@ export function MemoryGame({
                 </div>
 
                 {/* Compact Game Content */}
-                <div className="flex-1 flex flex-col items-center justify-center">
-                    <div className="text-center mb-4 md:mb-6 px-4">
+                <div className="flex-1 flex flex-col items-center justify-center py-8 md:py-12">
+                    <div className="text-center mb-6 md:mb-8 px-4 mt-2">
                         <h2 className="text-xl md:text-2xl font-bold text-white mb-1">Memory Match</h2>
                         <p className="text-xs md:text-sm text-zinc-400">Find all matching pairs!</p>
                     </div>
 
                     {/* Responsive Grid */}
-                    <div className="grid grid-cols-4 gap-2 md:gap-3 mb-6 px-4 max-w-[400px] w-full">
+                    <div className="grid grid-cols-4 gap-2 md:gap-3 mb-8 md:mb-10 px-4 max-w-[400px] w-full">
                         {cards.map((card) => {
                             const { Icon, color } = CARD_ICONS[card.iconIndex];
                             const isFlipped = card.isFlipped || card.isMatched;
@@ -246,7 +246,7 @@ export function MemoryGame({
                     {/* Compact Reset */}
                     <button
                         onClick={initializeGame}
-                        className="px-5 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm font-bold text-zinc-300 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
+                        className="px-5 py-2 mb-8 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm font-bold text-zinc-300 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
                     >
                         New Game
                     </button>
