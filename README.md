@@ -7,13 +7,11 @@ sdk: docker
 pinned: false
 ---
 
-<h1 align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="frontend/public/chatlytics.png">
-    <img src="frontend/public/chatlytics.png" alt="Chatlytics logo" width="45" style="vertical-align: middle;">
-  </picture>
-  Chatlytics
-</h1>
+<p align="center">
+  <img src="frontend/public/chatlytics.png" alt="Chatlytics Logo" width="80" height="80">
+</p>
+
+<h1 align="center">Chatlytics</h1>
 
 <p align="center">
   <strong>A powerful WhatsApp Chat Analyzer with beautiful visualizations</strong>
