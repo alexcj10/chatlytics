@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { AlertTriangle, TrendingUp, TrendingDown, Clock, Search } from 'lucide-react';
+import { AlertTriangle, TrendingUp, TrendingDown, Clock, Search, MessageSquare } from 'lucide-react';
 
 interface AnomalyPanelProps {
     anomalies: {
@@ -49,8 +49,8 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                     <button
                         onClick={() => setActiveTab('spikes')}
                         className={`flex-1 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'spikes'
-                                ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                                : 'text-zinc-500 hover:text-zinc-300'
+                            ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                            : 'text-zinc-500 hover:text-zinc-300'
                             }`}
                     >
                         ACTIVITY SPIKES ({data.spikes.length})
@@ -58,8 +58,8 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                     <button
                         onClick={() => setActiveTab('drops')}
                         className={`flex-1 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'drops'
-                                ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                                : 'text-zinc-500 hover:text-zinc-300'
+                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                            : 'text-zinc-500 hover:text-zinc-300'
                             }`}
                     >
                         ACTIVITY DROPS ({data.drops.length})
@@ -105,6 +105,24 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                         <p className="text-sm text-zinc-300 leading-relaxed mb-3">
                             {anomaly.description}
                         </p>
+
+                        {anomaly.breaking_message && (
+                            <div className="mb-4 p-3 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden group/msg">
+                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500/50" />
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <span className="text-[10px] font-bold text-amber-400/80 uppercase tracking-tighter flex items-center gap-1">
+                                        <MessageSquare className="w-3 h-3" />
+                                        Message that broke silence
+                                    </span>
+                                    <span className="text-[10px] font-bold text-zinc-500">
+                                        {anomaly.user}
+                                    </span>
+                                </div>
+                                <p className="text-xs text-zinc-400 italic line-clamp-2 group-hover/msg:line-clamp-none transition-all">
+                                    "{anomaly.breaking_message}"
+                                </p>
+                            </div>
+                        )}
 
                         <div className="flex items-center gap-4">
                             <div className="flex flex-col">

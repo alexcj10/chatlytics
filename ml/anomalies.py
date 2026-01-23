@@ -124,6 +124,10 @@ def detect_gaps(df, gap_threshold_hours=72):
     anomalies = []
     for _, row in gaps.iterrows():
         days = round(row['gap'] / 24, 1)
+        # Get the actual message and user that broke the silence
+        breaking_message = row['message']
+        author = row['user']
+        
         anomalies.append({
             "type": "Silent Period",
             "category": "drops",
@@ -134,7 +138,9 @@ def detect_gaps(df, gap_threshold_hours=72):
             "metrics": {
                 "gap_hours": int(row['gap']),
                 "duration_days": days
-            }
+            },
+            "breaking_message": breaking_message,
+            "user": author
         })
     return anomalies
 
