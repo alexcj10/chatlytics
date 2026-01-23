@@ -11,7 +11,7 @@ pinned: false
   <img src="frontend/public/chatlytics.png" alt="Chatlytics Logo" width="80" height="80">
 </p>
 
-<h1 align="center">Chatlytics</h1>
+<h1 align="center" style="font-size: 2.5em;">Chatlytics</h1>
 
 <p align="center">
   <strong>A powerful WhatsApp Chat Analyzer with beautiful visualizations</strong>
