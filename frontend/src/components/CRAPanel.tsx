@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Zap, MessageSquare, Shield, Radio, Headphones, Reply, Crown, Award, Medal, AlertCircle, Moon } from 'lucide-react';
+import { User, Zap, MessageSquare, Shield, Radio, Headphones, Reply, Crown, Award, Medal, AlertCircle, Moon, Brain } from 'lucide-react';
 
 interface RankData {
     user: string;
@@ -65,8 +65,8 @@ export const CRAPanel: React.FC<CRAPanelProps> = ({ roles }) => {
     return (
         <div className="mt-12 mb-8">
             <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                    <MessageSquare className="w-6 h-6 text-indigo-400" />
+                <div className="w-12 h-12 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center">
+                    <Brain className="w-6 h-6 text-fuchsia-400" />
                 </div>
                 <div>
                     <h3 className="text-2xl font-bold text-white leading-none mb-1.5">Conversation Roles</h3>
