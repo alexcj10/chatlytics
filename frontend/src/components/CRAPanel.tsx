@@ -23,7 +23,7 @@ const getRoleIcon = (role: string) => {
         case 'driver': return <Shield className="w-5 h-5 text-pink-400" />;
         case 'listener': return <Headphones className="w-5 h-5 text-purple-400" />;
         case 'responder': return <Reply className="w-5 h-5 text-blue-400" />;
-        case 'night owl': return <Moon className="w-5 h-5 text-indigo-400" />;
+        case 'night owl': return <Moon className="w-5 h-5 text-cyan-400" />;
         default: return <User className="w-5 h-5 text-zinc-400" />;
     }
 };
@@ -35,7 +35,7 @@ const getRoleGradient = (role: string) => {
         case 'driver': return 'from-pink-500/20 to-transparent border-pink-500/30';
         case 'listener': return 'from-purple-500/20 to-transparent border-purple-500/30';
         case 'responder': return 'from-blue-500/20 to-transparent border-blue-500/30';
-        case 'night owl': return 'from-indigo-500/20 to-transparent border-indigo-500/30';
+        case 'night owl': return 'from-cyan-500/20 to-transparent border-cyan-500/30';
         default: return 'from-zinc-500/20 to-transparent border-zinc-500/30';
     }
 };
