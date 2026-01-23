@@ -99,12 +99,13 @@ export default function Home() {
           processingError={processingError}
           onExit={() => {
             setShowGame(false);
-            if (processingError) {
-              setProcessingError(false);
-            }
+            setProcessingComplete(false);
+            setProcessingError(false);
           }}
           onViewDashboard={() => {
             setShowGame(false);
+            setProcessingComplete(false);
+            setProcessingError(false);
           }}
         />
       )}
