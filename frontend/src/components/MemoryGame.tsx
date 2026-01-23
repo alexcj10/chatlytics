@@ -188,8 +188,8 @@ export function MemoryGame({
                         {isProcessing && !processingComplete && !processingError && (
                             <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
                                 <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-                                <span className="text-xs font-semibold text-indigo-300 hidden md:inline">Processing...</span>
-                                <span className="text-[10px] font-semibold text-indigo-300 md:hidden">Processing</span>
+                                <span className="text-sm font-semibold text-indigo-300 hidden md:inline">Processing...</span>
+                                <span className="text-xs font-semibold text-indigo-300 md:hidden">Processing</span>
                             </div>
                         )}
                     </div>
