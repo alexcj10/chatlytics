@@ -1,12 +1,3 @@
----
-title: Chatlytics Backend
-emoji: 📊
-colorFrom: indigo
-colorTo: purple
-sdk: docker
-pinned: false
----
-
 <p align="center">
   <img src="frontend/public/chatlytics.png" alt="Chatlytics Logo" width="80" height="80">
 </p>
@@ -305,6 +296,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 <p align="center">
   Made with ❤️ by <a href="https://github.com/alexcj10">alexcj10</a>
 </p>
+
 
 
 
