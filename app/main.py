@@ -39,6 +39,7 @@ from ml.sentiment_inference import (
 
 from ml.health import get_chat_health
 from ml.anomalies import get_anomalies
+from ml.roles import assign_participant_roles
 
 app = FastAPI(title="WhatsApp Chat Analyzer API")
 
@@ -154,7 +155,8 @@ def get_all_analytics(df, selected_user, global_resp_times=None, global_initiato
         "topic_modeling": get_topics_analytics(df, selected_user),
         "topic_timeline": get_topic_timeline(df, selected_user),
         "chat_health": get_chat_health(df),
-        "anomalies": get_anomalies(df)
+        "anomalies": get_anomalies(df),
+        "conversation_roles": assign_participant_roles(df)
     }
     return res
 
