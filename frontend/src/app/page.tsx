@@ -3,13 +3,15 @@
 import React, { useState } from 'react';
 import { UploadSection } from '@/components/UploadSection';
 import { Dashboard } from '@/components/Dashboard';
-import { MessageSquare, LayoutDashboard, Github } from 'lucide-react';
+import { MessageSquare, LayoutDashboard, Github, Gamepad2 } from 'lucide-react';
+import { MemoryGame } from '@/components/MemoryGame';
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
   const [selectedUser, setSelectedUser] = useState<string>('Overall');
   const [loading, setLoading] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
+  const [showGame, setShowGame] = useState(false);
 
   const handleDataLoaded = (analyticsData: any) => {
     setData(analyticsData);
@@ -43,6 +45,14 @@ export default function Home() {
                 <LayoutDashboard className="w-4 h-4" />
                 <span className="hidden md:inline">Dashboard</span>
               </button>
+              <button
+                onClick={() => setShowGame(true)}
+                className="flex items-center gap-2 transition-colors hover:text-fuchsia-400 cursor-pointer group"
+                aria-label="Play Game"
+              >
+                <Gamepad2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span className="hidden md:inline">Play</span>
+              </button>
             </nav>
             <div className="h-4 w-[1px] bg-zinc-800" />
             <a href="https://github.com/alexcj10/chatlytics" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors">
@@ -69,6 +79,17 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* Memory Game Overlay */}
+      {showGame && (
+        <MemoryGame
+          isProcessing={false}
+          processingComplete={false}
+          processingError={false}
+          onExit={() => setShowGame(false)}
+          onViewDashboard={() => setShowGame(false)}
+        />
+      )}
     </div>
   );
 }
