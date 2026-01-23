@@ -50,7 +50,7 @@ export default function Home() {
                 className="flex items-center gap-2 transition-colors hover:text-fuchsia-400 cursor-pointer group"
                 aria-label="Play Game"
               >
-                <Gamepad2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <Gamepad2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="hidden md:inline">Play</span>
               </button>
             </nav>
