@@ -77,6 +77,17 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
     $$Z = \frac{\text{MessageCount} - \text{MeanCount}}{\text{StandardDeviation}}$$
 *   **Dimensions:** Multidimensional analysis of volume, sentiment, media bursts, and link density.
 
+#### 🧠 Conversation Role Analysis (CRA)
+*   **Methodology:** Behavioral mapping using multi-factor activity heatmaps and response latency patterns.
+*   **Scope:** **Global Ranking Only** (Reflects the intrinsic dynamics of the entire chat history, providing a static high-level behavioral overview).
+*   **The 6 Behavioral Personas:**
+    - **Initiator** (⚡) — The conversation starter who kicks off new threads.
+    - **Responder** (💬) — The fast-action engine who keeps the momentum going.
+    - **Driver** (🛡️) — The primary volume steering force in the chat.
+    - **Broadcaster** (📻) — Detailed communicators with the highest word-to-message ratios.
+    - **Listener** (🎧) — Concise participants who engage steadily with focused input.
+    - **Night Owl** (🌙) — The late-night specialist who dominates after-dark activity.
+
 ### 🎨 User Experience
 - **Per-User Analytics** — Filter all stats by individual participant
 - **Dark Theme** — Modern, eye-friendly dark UI
@@ -260,6 +271,7 @@ chatlytics/
 │   │   ├── components/    # React components
 │   │   │   ├── Dashboard.tsx
 │   │   │   ├── AdvancedAnalytics.tsx
+│   │   │   ├── CRAPanel.tsx         # Conversation Role Analysis Panel
 │   │   │   ├── StatsCards.tsx
 │   │   │   ├── UploadSection.tsx
 │   │   │   └── Sidebar.tsx
