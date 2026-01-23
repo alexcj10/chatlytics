@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useCallback, useState } from 'react';
-import { Upload, FileText, AlertCircle, Loader2 } from 'lucide-react';
+import { Upload, FileText, AlertCircle, Loader2, Gamepad2 } from 'lucide-react';
 import { analyzeChat } from '@/lib/api';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { MemoryGame } from './MemoryGame';
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -19,6 +20,9 @@ interface UploadSectionProps {
 export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSectionProps) {
     const [error, setError] = useState<string | null>(null);
     const [dragActive, setDragActive] = useState(false);
+    const [showGame, setShowGame] = useState(false);
+    const [processingComplete, setProcessingComplete] = useState(false);
+    const [processingError, setProcessingError] = useState(false);
 
     const handleFile = async (file: File) => {
         if (!file.name.endsWith('.txt')) {
@@ -31,9 +35,11 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
 
         try {
             const result = await analyzeChat(file);
+            setProcessingComplete(true);
             onDataLoaded(result);
         } catch (err: any) {
             setError(err.message || 'Failed to analyze the chat. Please make sure the file format is correct.');
+            setProcessingError(true);
             setLoading(false);
         }
     };
@@ -126,6 +132,22 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                 </div>
             </div>
 
+            {/* Play Game Button - shown during processing */}
+            {loading && (
+                <div className="mt-6 flex justify-center animate-in fade-in slide-in-from-bottom-2 duration-500">
+                    <button
+                        onClick={() => setShowGame(true)}
+                        className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-teal-950/30 border border-teal-500/10 hover:border-teal-500/30 hover:bg-teal-950/40 transition-all cursor-pointer"
+                    >
+                        <Gamepad2 className="w-5 h-5 text-teal-400 group-hover:scale-110 transition-transform" />
+                        <div className="text-left">
+                            <p className="text-sm font-bold text-white">Play While We Process</p>
+                            <p className="text-xs text-zinc-500">Memory Match Game</p>
+                        </div>
+                    </button>
+                </div>
+            )}
+
             {error && (
                 <div className="mt-6 flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm animate-in fade-in zoom-in-95">
                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -145,6 +167,25 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                     </div>
                 ))}
             </div>
+
+            {/* Memory Game Overlay */}
+            {showGame && (
+                <MemoryGame
+                    isProcessing={loading}
+                    processingComplete={processingComplete}
+                    processingError={processingError}
+                    onExit={() => {
+                        setShowGame(false);
+                        if (processingError) {
+                            setProcessingError(false);
+                        }
+                    }}
+                    onViewDashboard={() => {
+                        setShowGame(false);
+                        // Dashboard navigation is handled by parent component via onDataLoaded
+                    }}
+                />
+            )}
         </div>
     );
 }
