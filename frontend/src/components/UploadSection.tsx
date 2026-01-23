@@ -149,9 +149,9 @@ export function UploadSection({
                 <div className="mt-6 flex justify-center animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <button
                         onClick={() => setShowGame(true)}
-                        className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-teal-950/30 border border-teal-500/10 hover:border-teal-500/30 hover:bg-teal-950/40 transition-all cursor-pointer"
+                        className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800 transition-all cursor-pointer shadow-lg active:scale-95"
                     >
-                        <Gamepad2 className="w-5 h-5 text-teal-400 group-hover:scale-110 transition-transform" />
+                        <Gamepad2 className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" />
                         <div className="text-left">
                             <p className="text-sm font-bold text-white">Play While We Process</p>
                             <p className="text-xs text-zinc-500">Memory Match Game</p>

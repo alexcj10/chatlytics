@@ -249,23 +249,20 @@ export function MemoryGame({
             {/* Notification Overlay */}
             {
                 showNotification && (
-                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
+                    <div className="absolute inset-0 bg-black/70 flex items-center justify-center animate-in fade-in duration-300 shadow-2xl">
                         <div className={`
-                        max-w-md w-full mx-4 rounded-2xl p-6 border backdrop-blur-xl animate-in zoom-in-95 duration-300
+                        max-w-[320px] w-full mx-4 rounded-2xl p-6 border animate-in zoom-in-95 duration-300
                         ${gameCompleted
-                                ? 'bg-zinc-800/90 border-zinc-700'
+                                ? 'bg-[#121214] border-zinc-800'
                                 : processingComplete
-                                    ? 'bg-emerald-950/40 border-emerald-500/20'
-                                    : 'bg-red-950/40 border-red-500/20'
+                                    ? 'bg-[#121214] border-zinc-800'
+                                    : 'bg-[#121214] border-red-900/20'
                             }
                     `}>
                             <div className="flex flex-col items-center text-center">
                                 {gameCompleted ? (
                                     <>
-                                        <div className="w-16 h-16 rounded-full bg-zinc-700/50 border border-zinc-600 flex items-center justify-center mb-4">
-                                            <PartyPopper className="w-8 h-8 text-emerald-400" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">You Won!</h3>
+                                        <h3 className="text-xl font-bold text-white mb-1">You Won!</h3>
                                         <p className="text-sm text-zinc-400 mb-2">All pairs matched!</p>
                                         <div className="flex items-center gap-4 mb-6 text-zinc-400">
                                             <div className="flex items-center gap-2">
@@ -277,16 +274,16 @@ export function MemoryGame({
                                                 <span className="text-sm font-bold">{moves} moves</span>
                                             </div>
                                         </div>
-                                        <div className="flex gap-3 w-full">
+                                        <div className="flex flex-col gap-2.5 w-full">
                                             <button
                                                 onClick={initializeGame}
-                                                className="flex-1 px-6 py-2.5 rounded-lg bg-zinc-700/50 border border-zinc-600 text-sm font-bold text-white hover:bg-zinc-700 transition-all cursor-pointer"
+                                                className="w-full px-6 py-2.5 rounded-xl bg-white text-zinc-950 text-sm font-bold hover:bg-zinc-200 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Play Again
                                             </button>
                                             <button
                                                 onClick={handleExit}
-                                                className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
+                                                className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Exit
                                             </button>
@@ -294,21 +291,18 @@ export function MemoryGame({
                                     </>
                                 ) : processingComplete ? (
                                     <>
-                                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-4">
-                                            <CheckCircle className="w-8 h-8 text-emerald-400" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">Chat Processed!</h3>
+                                        <h3 className="text-xl font-bold text-white mb-1">Chat Processed!</h3>
                                         <p className="text-sm text-zinc-400 mb-6">Your analysis is ready to view.</p>
-                                        <div className="flex gap-3 w-full">
+                                        <div className="flex flex-col gap-2.5 w-full">
                                             <button
                                                 onClick={onViewDashboard}
-                                                className="flex-1 px-6 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-sm font-bold text-emerald-400 hover:bg-emerald-500/30 transition-all cursor-pointer"
+                                                className="w-full px-6 py-2.5 rounded-xl bg-white text-zinc-950 text-sm font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-lg active:scale-[0.98]"
                                             >
                                                 View Dashboard
                                             </button>
                                             <button
                                                 onClick={() => setShowNotification(false)}
-                                                className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
+                                                className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Keep Playing
                                             </button>
@@ -316,21 +310,18 @@ export function MemoryGame({
                                     </>
                                 ) : (
                                     <>
-                                        <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mb-4">
-                                            <AlertCircle className="w-8 h-8 text-red-400" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">Processing Failed</h3>
+                                        <h3 className="text-xl font-bold text-white mb-1">Processing Failed</h3>
                                         <p className="text-sm text-zinc-400 mb-6">Please try again.</p>
-                                        <div className="flex gap-3 w-full">
+                                        <div className="flex flex-col gap-2.5 w-full">
                                             <button
                                                 onClick={onExit}
-                                                className="flex-1 px-6 py-2.5 rounded-lg bg-red-500/20 border border-red-500/30 text-sm font-bold text-red-400 hover:bg-red-500/30 transition-all cursor-pointer"
+                                                className="w-full px-6 py-2.5 rounded-xl bg-red-500 text-white text-sm font-bold hover:bg-red-600 transition-all cursor-pointer shadow-lg shadow-red-500/20 active:scale-[0.98]"
                                             >
                                                 Back to Upload
                                             </button>
                                             <button
                                                 onClick={() => setShowNotification(false)}
-                                                className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
+                                                className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Keep Playing
                                             </button>
