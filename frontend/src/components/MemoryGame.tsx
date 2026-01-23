@@ -79,6 +79,16 @@ export function MemoryGame({
         }
     }, [matches, gameCompleted]);
 
+    useEffect(() => {
+        // Lock background scroll when game is open
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = originalStyle;
+        };
+    }, []);
+
     const initializeGame = () => {
         const cardPairs = CARD_ICONS.flatMap((_, index) => [
             { id: index * 2, iconIndex: index, isFlipped: false, isMatched: false },
