@@ -5,7 +5,6 @@ import { Upload, FileText, AlertCircle, Loader2, Gamepad2 } from 'lucide-react';
 import { analyzeChat } from '@/lib/api';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { MemoryGame } from './MemoryGame';
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -15,14 +14,25 @@ interface UploadSectionProps {
     onDataLoaded: (data: any) => void;
     loading: boolean;
     setLoading: (loading: boolean) => void;
+    setShowGame: (show: boolean) => void;
+    processingComplete: boolean;
+    setProcessingComplete: (complete: boolean) => void;
+    processingError: boolean;
+    setProcessingError: (error: boolean) => void;
 }
 
-export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSectionProps) {
+export function UploadSection({
+    onDataLoaded,
+    loading,
+    setLoading,
+    setShowGame,
+    processingComplete,
+    setProcessingComplete,
+    processingError,
+    setProcessingError
+}: UploadSectionProps) {
     const [error, setError] = useState<string | null>(null);
     const [dragActive, setDragActive] = useState(false);
-    const [showGame, setShowGame] = useState(false);
-    const [processingComplete, setProcessingComplete] = useState(false);
-    const [processingError, setProcessingError] = useState(false);
 
     const handleFile = async (file: File) => {
         if (!file.name.endsWith('.txt')) {
@@ -31,6 +41,8 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
         }
 
         setError(null);
+        setProcessingComplete(false);
+        setProcessingError(false);
         setLoading(true);
 
         try {
@@ -168,24 +180,6 @@ export function UploadSection({ onDataLoaded, loading, setLoading }: UploadSecti
                 ))}
             </div>
 
-            {/* Memory Game Overlay */}
-            {showGame && (
-                <MemoryGame
-                    isProcessing={loading}
-                    processingComplete={processingComplete}
-                    processingError={processingError}
-                    onExit={() => {
-                        setShowGame(false);
-                        if (processingError) {
-                            setProcessingError(false);
-                        }
-                    }}
-                    onViewDashboard={() => {
-                        setShowGame(false);
-                        // Dashboard navigation is handled by parent component via onDataLoaded
-                    }}
-                />
-            )}
         </div>
     );
 }

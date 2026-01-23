@@ -12,6 +12,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [showGame, setShowGame] = useState(false);
+  const [processingComplete, setProcessingComplete] = useState(false);
+  const [processingError, setProcessingError] = useState(false);
 
   const handleDataLoaded = (analyticsData: any) => {
     setData(analyticsData);
@@ -65,7 +67,16 @@ export default function Home() {
       <main className="max-w-[1600px] mx-auto px-3 md:px-6 py-6 md:py-8">
         {!data || showUpload ? (
           <div className="min-h-[calc(100dvh-140px)] w-full flex flex-col items-center justify-center py-8">
-            <UploadSection onDataLoaded={handleDataLoaded} loading={loading} setLoading={setLoading} />
+            <UploadSection
+              onDataLoaded={handleDataLoaded}
+              loading={loading}
+              setLoading={setLoading}
+              setShowGame={setShowGame}
+              processingComplete={processingComplete}
+              setProcessingComplete={setProcessingComplete}
+              processingError={processingError}
+              setProcessingError={setProcessingError}
+            />
           </div>
         ) : (
           <div>
@@ -83,11 +94,18 @@ export default function Home() {
       {/* Memory Game Overlay */}
       {showGame && (
         <MemoryGame
-          isProcessing={false}
-          processingComplete={false}
-          processingError={false}
-          onExit={() => setShowGame(false)}
-          onViewDashboard={() => setShowGame(false)}
+          isProcessing={loading}
+          processingComplete={processingComplete}
+          processingError={processingError}
+          onExit={() => {
+            setShowGame(false);
+            if (processingError) {
+              setProcessingError(false);
+            }
+          }}
+          onViewDashboard={() => {
+            setShowGame(false);
+          }}
         />
       )}
     </div>
