@@ -22,7 +22,7 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
 
     if (!data.spikes?.length && !data.drops?.length) {
         return (
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-8 flex flex-col items-center justify-center text-center">
+            <div className="bg-teal-950/30 border border-teal-500/10 rounded-3xl p-8 flex flex-col items-center justify-center text-center">
                 <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
                     <Search className="w-8 h-8 text-zinc-600" />
                 </div>
@@ -33,7 +33,7 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
     }
 
     return (
-        <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6 backdrop-blur-xl h-full">
+        <div className="bg-teal-950/30 border border-teal-500/10 rounded-3xl p-6 backdrop-blur-xl h-full">
             <div className="mb-6">
                 <div className="flex items-center justify-between mb-4">
                     <div>
