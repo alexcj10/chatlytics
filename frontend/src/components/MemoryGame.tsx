@@ -155,6 +155,13 @@ export function MemoryGame({
         }
     };
 
+    const handleContinue = () => {
+        setShowNotification(false);
+        if (!gameCompleted) {
+            setIsGameActive(true);
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex items-center justify-center overflow-hidden animate-in fade-in duration-300">
             <div className="w-full max-w-3xl h-full flex flex-col">
@@ -301,7 +308,7 @@ export function MemoryGame({
                                                 View Dashboard
                                             </button>
                                             <button
-                                                onClick={() => setShowNotification(false)}
+                                                onClick={handleContinue}
                                                 className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Keep Playing
@@ -320,7 +327,7 @@ export function MemoryGame({
                                                 Back to Upload
                                             </button>
                                             <button
-                                                onClick={() => setShowNotification(false)}
+                                                onClick={handleContinue}
                                                 className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Keep Playing
