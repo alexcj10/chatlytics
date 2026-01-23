@@ -163,8 +163,8 @@ export function MemoryGame({
     };
 
     return (
-        <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex flex-col overflow-y-auto animate-in fade-in duration-300">
-            <div className="w-full max-w-3xl mx-auto flex-1 flex flex-col min-h-full">
+        <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex items-center justify-center animate-in fade-in duration-300">
+            <div className="w-full max-w-3xl max-h-screen flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none">
                 {/* Compact Header */}
                 <div className="flex-shrink-0 px-4 md:px-6 py-3 flex items-center justify-between gap-4 border-b border-zinc-700/50">
                     <button
@@ -202,8 +202,8 @@ export function MemoryGame({
                     </div>
                 </div>
 
-                {/* Compact Game Content */}
-                <div className="flex-1 flex flex-col items-center justify-center py-8 md:py-12">
+                {/* Responsive Game Content */}
+                <div className="flex-1 flex flex-col items-center justify-center py-4 md:py-8">
                     <div className="text-center mb-6 md:mb-8 px-4 mt-2">
                         <h2 className="text-xl md:text-2xl font-bold text-white mb-1">Memory Match</h2>
                         <p className="text-xs md:text-sm text-zinc-400">Find all matching pairs!</p>
