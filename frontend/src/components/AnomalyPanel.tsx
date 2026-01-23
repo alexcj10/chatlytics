@@ -45,7 +45,7 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                     </div>
                 </div>
 
-                <div className="flex p-1 bg-white/5 rounded-xl border border-white/10">
+                <div className="flex p-1 bg-white/5 rounded-xl border border-white/10 border-t border-white/5">
                     <button
                         onClick={() => setActiveTab('spikes')}
                         className={`flex-1 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'spikes'
