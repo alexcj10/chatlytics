@@ -163,8 +163,8 @@ export function MemoryGame({
     };
 
     return (
-        <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex items-center justify-center overflow-hidden animate-in fade-in duration-300">
-            <div className="w-full max-w-3xl h-full flex flex-col">
+        <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex flex-col overflow-y-auto animate-in fade-in duration-300">
+            <div className="w-full max-w-3xl mx-auto flex-1 flex flex-col min-h-full">
                 {/* Compact Header */}
                 <div className="flex-shrink-0 px-4 md:px-6 py-3 flex items-center justify-between gap-4 border-b border-zinc-700/50">
                     <button
@@ -204,13 +204,13 @@ export function MemoryGame({
 
                 {/* Compact Game Content */}
                 <div className="flex-1 flex flex-col items-center justify-center">
-                    <div className="text-center mb-6">
-                        <h2 className="text-2xl font-bold text-white mb-1">Memory Match</h2>
-                        <p className="text-sm text-zinc-400">Find all matching pairs!</p>
+                    <div className="text-center mb-4 md:mb-6 px-4">
+                        <h2 className="text-xl md:text-2xl font-bold text-white mb-1">Memory Match</h2>
+                        <p className="text-xs md:text-sm text-zinc-400">Find all matching pairs!</p>
                     </div>
 
-                    {/* Compact Grid */}
-                    <div className="grid grid-cols-4 gap-3 mb-6">
+                    {/* Responsive Grid */}
+                    <div className="grid grid-cols-4 gap-2 md:gap-3 mb-6 px-4 max-w-[400px] w-full">
                         {cards.map((card) => {
                             const { Icon, color } = CARD_ICONS[card.iconIndex];
                             const isFlipped = card.isFlipped || card.isMatched;
@@ -221,21 +221,21 @@ export function MemoryGame({
                                     onClick={() => handleCardClick(card.id)}
                                     disabled={!isGameActive || card.isMatched}
                                     className={`
-                                        w-20 h-20 rounded-xl border transition-all duration-300 cursor-pointer
+                                        aspect-square rounded-xl border transition-all duration-300 cursor-pointer flex items-center justify-center
                                         ${isFlipped
                                             ? card.isMatched
                                                 ? 'bg-emerald-500/10 border-emerald-500/30 scale-95'
                                                 : 'bg-zinc-700/50 border-zinc-600'
-                                            : 'bg-zinc-800/50 border-zinc-700/50 hover:border-zinc-600 hover:scale-105'
+                                            : 'bg-zinc-800/50 border-zinc-700/50 hover:border-zinc-600 hover:active:scale-95'
                                         }
                                         ${!isGameActive && !card.isMatched ? 'opacity-50' : ''}
                                     `}
                                 >
-                                    <div className="w-full h-full flex items-center justify-center">
+                                    <div className="w-full h-full flex items-center justify-center p-2">
                                         {isFlipped ? (
-                                            <Icon className={`w-10 h-10 ${color}`} />
+                                            <Icon className={`w-full h-full max-w-[40px] max-h-[40px] ${color}`} />
                                         ) : (
-                                            <div className="w-8 h-8 rounded-full bg-zinc-700/50 border border-zinc-600/50" />
+                                            <div className="w-1/2 h-1/2 rounded-full bg-zinc-700/50 border border-zinc-600/50" />
                                         )}
                                     </div>
                                 </button>
