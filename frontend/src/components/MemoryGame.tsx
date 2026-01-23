@@ -159,7 +159,7 @@ export function MemoryGame({
         <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex items-center justify-center overflow-hidden animate-in fade-in duration-300">
             <div className="w-full max-w-3xl h-full flex flex-col">
                 {/* Compact Header */}
-                <div className="flex-shrink-0 px-6 py-3 flex items-center justify-between border-b border-zinc-700/50">
+                <div className="flex-shrink-0 px-4 md:px-6 py-3 flex items-center justify-between gap-4 border-b border-zinc-700/50">
                     <button
                         onClick={handleExit}
                         className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
@@ -167,8 +167,8 @@ export function MemoryGame({
                         <ArrowLeft className="w-4 h-4" />
                     </button>
 
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-3 px-4 py-1.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
+                    <div className="flex items-center gap-2 md:gap-4">
+                        <div className="flex items-center gap-2 md:gap-3 px-2.5 md:px-4 py-1.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
                             <div className="flex items-center gap-1.5">
                                 <Clock className="w-3.5 h-3.5 text-zinc-400" />
                                 <span className="text-xs font-bold text-white">{formatTime(gameTime)}</span>
@@ -186,9 +186,10 @@ export function MemoryGame({
                         </div>
 
                         {isProcessing && !processingComplete && !processingError && (
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                            <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
                                 <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-                                <span className="text-xs font-semibold text-indigo-300">Processing...</span>
+                                <span className="text-xs font-semibold text-indigo-300 hidden md:inline">Processing...</span>
+                                <span className="text-[10px] font-semibold text-indigo-300 md:hidden">Processing</span>
                             </div>
                         )}
                     </div>
@@ -246,99 +247,101 @@ export function MemoryGame({
             </div>
 
             {/* Notification Overlay */}
-            {showNotification && (
-                <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
-                    <div className={`
+            {
+                showNotification && (
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
+                        <div className={`
                         max-w-md w-full mx-4 rounded-2xl p-6 border backdrop-blur-xl animate-in zoom-in-95 duration-300
                         ${gameCompleted
-                            ? 'bg-zinc-800/90 border-zinc-700'
-                            : processingComplete
-                                ? 'bg-emerald-950/40 border-emerald-500/20'
-                                : 'bg-red-950/40 border-red-500/20'
-                        }
+                                ? 'bg-zinc-800/90 border-zinc-700'
+                                : processingComplete
+                                    ? 'bg-emerald-950/40 border-emerald-500/20'
+                                    : 'bg-red-950/40 border-red-500/20'
+                            }
                     `}>
-                        <div className="flex flex-col items-center text-center">
-                            {gameCompleted ? (
-                                <>
-                                    <div className="w-16 h-16 rounded-full bg-zinc-700/50 border border-zinc-600 flex items-center justify-center mb-4">
-                                        <PartyPopper className="w-8 h-8 text-emerald-400" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">You Won!</h3>
-                                    <p className="text-sm text-zinc-400 mb-2">All pairs matched!</p>
-                                    <div className="flex items-center gap-4 mb-6 text-zinc-400">
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="w-4 h-4" />
-                                            <span className="text-sm font-bold">{formatTime(gameTime)}</span>
+                            <div className="flex flex-col items-center text-center">
+                                {gameCompleted ? (
+                                    <>
+                                        <div className="w-16 h-16 rounded-full bg-zinc-700/50 border border-zinc-600 flex items-center justify-center mb-4">
+                                            <PartyPopper className="w-8 h-8 text-emerald-400" />
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <Trophy className="w-4 h-4" />
-                                            <span className="text-sm font-bold">{moves} moves</span>
+                                        <h3 className="text-2xl font-bold text-white mb-2">You Won!</h3>
+                                        <p className="text-sm text-zinc-400 mb-2">All pairs matched!</p>
+                                        <div className="flex items-center gap-4 mb-6 text-zinc-400">
+                                            <div className="flex items-center gap-2">
+                                                <Clock className="w-4 h-4" />
+                                                <span className="text-sm font-bold">{formatTime(gameTime)}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Trophy className="w-4 h-4" />
+                                                <span className="text-sm font-bold">{moves} moves</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="flex gap-3 w-full">
-                                        <button
-                                            onClick={initializeGame}
-                                            className="flex-1 px-6 py-2.5 rounded-lg bg-zinc-700/50 border border-zinc-600 text-sm font-bold text-white hover:bg-zinc-700 transition-all cursor-pointer"
-                                        >
-                                            Play Again
-                                        </button>
-                                        <button
-                                            onClick={handleExit}
-                                            className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
-                                        >
-                                            Exit
-                                        </button>
-                                    </div>
-                                </>
-                            ) : processingComplete ? (
-                                <>
-                                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-4">
-                                        <CheckCircle className="w-8 h-8 text-emerald-400" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">Chat Processed!</h3>
-                                    <p className="text-sm text-zinc-400 mb-6">Your analysis is ready to view.</p>
-                                    <div className="flex gap-3 w-full">
-                                        <button
-                                            onClick={onViewDashboard}
-                                            className="flex-1 px-6 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-sm font-bold text-emerald-400 hover:bg-emerald-500/30 transition-all cursor-pointer"
-                                        >
-                                            View Dashboard
-                                        </button>
-                                        <button
-                                            onClick={() => setShowNotification(false)}
-                                            className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
-                                        >
-                                            Keep Playing
-                                        </button>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mb-4">
-                                        <AlertCircle className="w-8 h-8 text-red-400" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">Processing Failed</h3>
-                                    <p className="text-sm text-zinc-400 mb-6">Please try again.</p>
-                                    <div className="flex gap-3 w-full">
-                                        <button
-                                            onClick={onExit}
-                                            className="flex-1 px-6 py-2.5 rounded-lg bg-red-500/20 border border-red-500/30 text-sm font-bold text-red-400 hover:bg-red-500/30 transition-all cursor-pointer"
-                                        >
-                                            Back to Upload
-                                        </button>
-                                        <button
-                                            onClick={() => setShowNotification(false)}
-                                            className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
-                                        >
-                                            Keep Playing
-                                        </button>
-                                    </div>
-                                </>
-                            )}
+                                        <div className="flex gap-3 w-full">
+                                            <button
+                                                onClick={initializeGame}
+                                                className="flex-1 px-6 py-2.5 rounded-lg bg-zinc-700/50 border border-zinc-600 text-sm font-bold text-white hover:bg-zinc-700 transition-all cursor-pointer"
+                                            >
+                                                Play Again
+                                            </button>
+                                            <button
+                                                onClick={handleExit}
+                                                className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
+                                            >
+                                                Exit
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : processingComplete ? (
+                                    <>
+                                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-4">
+                                            <CheckCircle className="w-8 h-8 text-emerald-400" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-white mb-2">Chat Processed!</h3>
+                                        <p className="text-sm text-zinc-400 mb-6">Your analysis is ready to view.</p>
+                                        <div className="flex gap-3 w-full">
+                                            <button
+                                                onClick={onViewDashboard}
+                                                className="flex-1 px-6 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-sm font-bold text-emerald-400 hover:bg-emerald-500/30 transition-all cursor-pointer"
+                                            >
+                                                View Dashboard
+                                            </button>
+                                            <button
+                                                onClick={() => setShowNotification(false)}
+                                                className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
+                                            >
+                                                Keep Playing
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mb-4">
+                                            <AlertCircle className="w-8 h-8 text-red-400" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-white mb-2">Processing Failed</h3>
+                                        <p className="text-sm text-zinc-400 mb-6">Please try again.</p>
+                                        <div className="flex gap-3 w-full">
+                                            <button
+                                                onClick={onExit}
+                                                className="flex-1 px-6 py-2.5 rounded-lg bg-red-500/20 border border-red-500/30 text-sm font-bold text-red-400 hover:bg-red-500/30 transition-all cursor-pointer"
+                                            >
+                                                Back to Upload
+                                            </button>
+                                            <button
+                                                onClick={() => setShowNotification(false)}
+                                                className="px-6 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-400 hover:text-white transition-all cursor-pointer"
+                                            >
+                                                Keep Playing
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
