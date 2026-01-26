@@ -268,7 +268,7 @@ export function MemoryGame({
                 showNotification && (
                     <div className="absolute inset-0 bg-black/70 flex items-center justify-center animate-in fade-in duration-300 shadow-2xl">
                         <div className={`
-                        max-w-[320px] w-full mx-4 rounded-2xl p-6 border animate-in zoom-in-95 duration-300
+                        max-w-[320px] md:[@media(pointer:coarse)]:max-w-md w-full mx-4 rounded-2xl p-6 md:[@media(pointer:coarse)]:p-8 border animate-in zoom-in-95 duration-300
                         ${gameCompleted
                                 ? 'bg-[#121214] border-zinc-800'
                                 : processingComplete
@@ -279,28 +279,28 @@ export function MemoryGame({
                             <div className="flex flex-col items-center text-center">
                                 {gameCompleted ? (
                                     <>
-                                        <h3 className="text-xl font-bold text-white mb-1">You Won!</h3>
-                                        <p className="text-sm text-zinc-400 mb-2">All pairs matched!</p>
-                                        <div className="flex items-center gap-4 mb-6 text-zinc-400">
+                                        <h3 className="text-xl md:[@media(pointer:coarse)]:text-2xl font-bold text-white mb-1">You Won!</h3>
+                                        <p className="text-sm md:[@media(pointer:coarse)]:text-base text-zinc-400 mb-2">All pairs matched!</p>
+                                        <div className="flex items-center gap-4 md:[@media(pointer:coarse)]:gap-6 mb-6 md:[@media(pointer:coarse)]:mb-8 text-zinc-400">
                                             <div className="flex items-center gap-2">
-                                                <Clock className="w-4 h-4" />
-                                                <span className="text-sm font-bold">{formatTime(gameTime)}</span>
+                                                <Clock className="w-4 h-4 md:[@media(pointer:coarse)]:w-5 md:[@media(pointer:coarse)]:h-5" />
+                                                <span className="text-sm md:[@media(pointer:coarse)]:text-lg font-bold">{formatTime(gameTime)}</span>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <Trophy className="w-4 h-4" />
-                                                <span className="text-sm font-bold">{moves} moves</span>
+                                                <Trophy className="w-4 h-4 md:[@media(pointer:coarse)]:w-5 md:[@media(pointer:coarse)]:h-5" />
+                                                <span className="text-sm md:[@media(pointer:coarse)]:text-lg font-bold">{moves} moves</span>
                                             </div>
                                         </div>
-                                        <div className="flex flex-col gap-2.5 w-full">
+                                        <div className="flex flex-col gap-2.5 md:[@media(pointer:coarse)]:gap-4 w-full">
                                             <button
                                                 onClick={initializeGame}
-                                                className="w-full px-6 py-2.5 rounded-xl bg-white text-zinc-950 text-sm font-bold hover:bg-zinc-200 transition-all cursor-pointer active:scale-[0.98]"
+                                                className="w-full px-6 py-2.5 md:[@media(pointer:coarse)]:px-8 md:[@media(pointer:coarse)]:py-4 rounded-xl bg-white text-zinc-950 text-sm md:[@media(pointer:coarse)]:text-lg font-bold hover:bg-zinc-200 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Play Again
                                             </button>
                                             <button
                                                 onClick={handleExit}
-                                                className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
+                                                className="w-full px-6 py-2.5 md:[@media(pointer:coarse)]:px-8 md:[@media(pointer:coarse)]:py-4 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm md:[@media(pointer:coarse)]:text-lg font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Exit
                                             </button>
@@ -308,18 +308,18 @@ export function MemoryGame({
                                     </>
                                 ) : processingComplete ? (
                                     <>
-                                        <h3 className="text-xl font-bold text-white mb-1">Chat Processed!</h3>
-                                        <p className="text-sm text-zinc-400 mb-6">Your analysis is ready to view.</p>
-                                        <div className="flex flex-col gap-2.5 w-full">
+                                        <h3 className="text-xl md:[@media(pointer:coarse)]:text-2xl font-bold text-white mb-1">Chat Processed!</h3>
+                                        <p className="text-sm md:[@media(pointer:coarse)]:text-base text-zinc-400 mb-6 md:[@media(pointer:coarse)]:mb-8">Your analysis is ready to view.</p>
+                                        <div className="flex flex-col gap-2.5 md:[@media(pointer:coarse)]:gap-4 w-full">
                                             <button
                                                 onClick={onViewDashboard}
-                                                className="w-full px-6 py-2.5 rounded-xl bg-white text-zinc-950 text-sm font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-lg active:scale-[0.98]"
+                                                className="w-full px-6 py-2.5 md:[@media(pointer:coarse)]:px-8 md:[@media(pointer:coarse)]:py-4 rounded-xl bg-white text-zinc-950 text-sm md:[@media(pointer:coarse)]:text-lg font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-lg active:scale-[0.98]"
                                             >
                                                 View Dashboard
                                             </button>
                                             <button
                                                 onClick={handleContinue}
-                                                className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
+                                                className="w-full px-6 py-2.5 md:[@media(pointer:coarse)]:px-8 md:[@media(pointer:coarse)]:py-4 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm md:[@media(pointer:coarse)]:text-lg font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Keep Playing
                                             </button>
@@ -327,18 +327,18 @@ export function MemoryGame({
                                     </>
                                 ) : (
                                     <>
-                                        <h3 className="text-xl font-bold text-white mb-1">Processing Failed</h3>
-                                        <p className="text-sm text-zinc-400 mb-6">Please try again.</p>
-                                        <div className="flex flex-col gap-2.5 w-full">
+                                        <h3 className="text-xl md:[@media(pointer:coarse)]:text-2xl font-bold text-white mb-1">Processing Failed</h3>
+                                        <p className="text-sm md:[@media(pointer:coarse)]:text-base text-zinc-400 mb-6 md:[@media(pointer:coarse)]:mb-8">Please try again.</p>
+                                        <div className="flex flex-col gap-2.5 md:[@media(pointer:coarse)]:gap-4 w-full">
                                             <button
                                                 onClick={onExit}
-                                                className="w-full px-6 py-2.5 rounded-xl bg-red-500 text-white text-sm font-bold hover:bg-red-600 transition-all cursor-pointer shadow-lg shadow-red-500/20 active:scale-[0.98]"
+                                                className="w-full px-6 py-2.5 md:[@media(pointer:coarse)]:px-8 md:[@media(pointer:coarse)]:py-4 rounded-xl bg-red-500 text-white text-sm md:[@media(pointer:coarse)]:text-lg font-bold hover:bg-red-600 transition-all cursor-pointer shadow-lg shadow-red-500/20 active:scale-[0.98]"
                                             >
                                                 Back to Upload
                                             </button>
                                             <button
                                                 onClick={handleContinue}
-                                                className="w-full px-6 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
+                                                className="w-full px-6 py-2.5 md:[@media(pointer:coarse)]:px-8 md:[@media(pointer:coarse)]:py-4 rounded-xl bg-zinc-800/50 border border-zinc-700 text-sm md:[@media(pointer:coarse)]:text-lg font-bold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer active:scale-[0.98]"
                                             >
                                                 Keep Playing
                                             </button>
