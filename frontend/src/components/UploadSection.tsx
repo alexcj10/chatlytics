@@ -82,7 +82,7 @@ export function UploadSection({
     return (
         <div className="w-full max-w-2xl md:[@media(pointer:coarse)]:max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <div className="text-center mb-6 md:mb-10 md:[@media(pointer:coarse)]:mb-16">
-                <h1 className="text-2xl md:text-4xl md:[@media(pointer:coarse)]:text-6xl font-bold mb-2 md:mb-4 md:[@media(pointer:coarse)]:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-700 pb-1">
+                <h1 className="text-2xl md:text-4xl md:[@media(pointer:coarse)]:text-6xl font-bold mb-2 md:mb-4 md:[@media(pointer:coarse)]:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-600 pb-1">
                     Analyze Your Conversations
                 </h1>
                 <p className="text-zinc-400 text-sm md:text-lg md:[@media(pointer:coarse)]:text-2xl max-w-md md:[@media(pointer:coarse)]:max-w-2xl mx-auto">
