@@ -174,53 +174,53 @@ export function MemoryGame({
 
     return (
         <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex items-center justify-center animate-in fade-in duration-300">
-            <div className="w-full max-w-3xl h-[100dvh] flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none">
+            <div className="w-full max-w-3xl md:[@media(pointer:coarse)]:max-w-5xl h-[100dvh] flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none">
                 {/* Compact Header */}
-                <div className="flex-shrink-0 px-4 md:px-6 py-3 flex items-center justify-between gap-4 border-b border-zinc-700/50">
+                <div className="flex-shrink-0 px-4 md:[@media(pointer:coarse)]:px-8 py-3 md:[@media(pointer:coarse)]:py-6 flex items-center justify-between gap-4 md:[@media(pointer:coarse)]:gap-8 border-b border-zinc-700/50">
                     <button
                         onClick={handleExit}
-                        className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
+                        className="p-2 md:[@media(pointer:coarse)]:p-3.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
                     >
-                        <ArrowLeft className="w-4 h-4" />
+                        <ArrowLeft className="w-4 h-4 md:[@media(pointer:coarse)]:w-6 md:[@media(pointer:coarse)]:h-6" />
                     </button>
 
-                    <div className="flex items-center gap-2 md:gap-4">
-                        <div className="flex items-center gap-2 md:gap-3 px-2.5 md:px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
-                            <div className="flex items-center gap-1.5">
-                                <Clock className="w-3.5 h-3.5 text-zinc-400" />
-                                <span className="text-xs font-bold text-white">{formatTime(gameTime)}</span>
+                    <div className="flex items-center gap-2 md:[@media(pointer:coarse)]:gap-6">
+                        <div className="flex items-center gap-2 md:[@media(pointer:coarse)]:gap-6 px-2.5 md:[@media(pointer:coarse)]:px-6 py-2 md:[@media(pointer:coarse)]:py-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
+                            <div className="flex items-center gap-1.5 md:[@media(pointer:coarse)]:gap-3">
+                                <Clock className="w-3.5 h-3.5 md:[@media(pointer:coarse)]:w-5 md:[@media(pointer:coarse)]:h-5 text-zinc-400" />
+                                <span className="text-xs md:[@media(pointer:coarse)]:text-lg font-bold text-white">{formatTime(gameTime)}</span>
                             </div>
-                            <div className="w-px h-3 bg-zinc-700" />
-                            <div className="flex items-center gap-1.5">
-                                <Trophy className="w-3.5 h-3.5 text-amber-400" />
-                                <span className="text-xs font-bold text-white">{moves}</span>
+                            <div className="w-px h-3 md:[@media(pointer:coarse)]:h-6 bg-zinc-700" />
+                            <div className="flex items-center gap-1.5 md:[@media(pointer:coarse)]:gap-3">
+                                <Trophy className="w-3.5 h-3.5 md:[@media(pointer:coarse)]:w-5 md:[@media(pointer:coarse)]:h-5 text-amber-400" />
+                                <span className="text-xs md:[@media(pointer:coarse)]:text-lg font-bold text-white">{moves}</span>
                             </div>
-                            <div className="w-px h-3 bg-zinc-700" />
-                            <div className="flex items-center gap-1.5">
-                                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                                <span className="text-xs font-bold text-white">{matches}/8</span>
+                            <div className="w-px h-3 md:[@media(pointer:coarse)]:h-6 bg-zinc-700" />
+                            <div className="flex items-center gap-1.5 md:[@media(pointer:coarse)]:gap-3">
+                                <CheckCircle className="w-3.5 h-3.5 md:[@media(pointer:coarse)]:w-5 md:[@media(pointer:coarse)]:h-5 text-emerald-400" />
+                                <span className="text-xs md:[@media(pointer:coarse)]:text-lg font-bold text-white">{matches}/8</span>
                             </div>
                         </div>
 
                         {isProcessing && !processingComplete && !processingError && (
-                            <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
-                                <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-                                <span className="text-sm font-semibold text-indigo-300 hidden md:inline">Processing...</span>
-                                <span className="text-xs font-semibold text-indigo-300 md:hidden">Processing</span>
+                            <div className="flex items-center gap-1.5 md:[@media(pointer:coarse)]:gap-3 px-2 md:[@media(pointer:coarse)]:px-5 py-1.5 md:[@media(pointer:coarse)]:py-3 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                                <div className="w-1.5 h-1.5 md:[@media(pointer:coarse)]:w-2.5 md:[@media(pointer:coarse)]:h-2.5 rounded-full bg-indigo-400 animate-pulse" />
+                                <span className="text-sm md:[@media(pointer:coarse)]:text-lg font-semibold text-indigo-300 hidden md:[@media(pointer:coarse)]:inline">Processing...</span>
+                                <span className="text-xs md:[@media(pointer:coarse)]:text-base font-semibold text-indigo-300 md:[@media(pointer:coarse)]:hidden">Processing</span>
                             </div>
                         )}
                     </div>
                 </div>
 
                 {/* Responsive Game Content */}
-                <div className="flex-1 flex flex-col items-center justify-center py-2 md:py-8 gap-4 md:gap-6">
+                <div className="flex-1 flex flex-col items-center justify-center py-2 md:[@media(pointer:coarse)]:py-12 gap-4 md:[@media(pointer:coarse)]:gap-10">
                     <div className="text-center px-4 mt-2">
-                        <h2 className="text-xl md:text-2xl font-bold text-white mb-1">Memory Match</h2>
-                        <p className="text-xs md:text-sm text-zinc-400">Find all matching pairs!</p>
+                        <h2 className="text-xl md:[@media(pointer:coarse)]:text-3xl font-bold text-white mb-1 md:[@media(pointer:coarse)]:mb-3">Memory Match</h2>
+                        <p className="text-xs md:[@media(pointer:coarse)]:text-lg text-zinc-400">Find all matching pairs!</p>
                     </div>
 
                     {/* Responsive Grid */}
-                    <div className="grid grid-cols-4 gap-2 md:gap-4 px-4 max-w-[min(400px,65vh)] md:[@media(pointer:coarse)]:max-w-[min(600px,75vh)] w-full">
+                    <div className="grid grid-cols-4 gap-2 md:[@media(pointer:coarse)]:gap-6 px-4 max-w-[min(400px,65vh)] md:[@media(pointer:coarse)]:max-w-[min(650px,75vh)] w-full">
                         {cards.map((card) => {
                             const { Icon, color } = CARD_ICONS[card.iconIndex];
                             const isFlipped = card.isFlipped || card.isMatched;
@@ -241,9 +241,9 @@ export function MemoryGame({
                                         ${!isGameActive && !card.isMatched ? 'opacity-50' : ''}
                                     `}
                                 >
-                                    <div className="w-full h-full flex items-center justify-center p-2">
+                                    <div className="w-full h-full flex items-center justify-center p-2 md:[@media(pointer:coarse)]:p-4">
                                         {isFlipped ? (
-                                            <Icon className={`w-full h-full max-w-[40px] max-h-[40px] ${color}`} />
+                                            <Icon className={`w-full h-full max-w-[40px] md:[@media(pointer:coarse)]:max-w-[72px] max-h-[40px] md:[@media(pointer:coarse)]:max-h-[72px] ${color}`} />
                                         ) : (
                                             <div className="w-1/2 h-1/2 rounded-full bg-zinc-700/50 border border-zinc-600/50" />
                                         )}
@@ -256,7 +256,7 @@ export function MemoryGame({
                     {/* Compact Reset */}
                     <button
                         onClick={initializeGame}
-                        className="px-5 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm font-bold text-zinc-300 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
+                        className="px-5 md:[@media(pointer:coarse)]:px-12 py-2 md:[@media(pointer:coarse)]:py-5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm md:[@media(pointer:coarse)]:text-xl font-bold text-zinc-300 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
                     >
                         New Game
                     </button>
