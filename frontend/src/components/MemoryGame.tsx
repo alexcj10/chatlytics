@@ -174,7 +174,7 @@ export function MemoryGame({
 
     return (
         <div className="fixed inset-0 bg-zinc-900/95 backdrop-blur-xl z-50 flex items-center justify-center animate-in fade-in duration-300">
-            <div className="w-full max-w-3xl max-h-screen flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none">
+            <div className="w-full max-w-3xl h-[100dvh] flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none">
                 {/* Compact Header */}
                 <div className="flex-shrink-0 px-4 md:px-6 py-3 flex items-center justify-between gap-4 border-b border-zinc-700/50">
                     <button
@@ -185,7 +185,7 @@ export function MemoryGame({
                     </button>
 
                     <div className="flex items-center gap-2 md:gap-4">
-                        <div className="flex items-center gap-2 md:gap-3 px-2.5 md:px-4 py-1.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
+                        <div className="flex items-center gap-2 md:gap-3 px-2.5 md:px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
                             <div className="flex items-center gap-1.5">
                                 <Clock className="w-3.5 h-3.5 text-zinc-400" />
                                 <span className="text-xs font-bold text-white">{formatTime(gameTime)}</span>
@@ -213,14 +213,14 @@ export function MemoryGame({
                 </div>
 
                 {/* Responsive Game Content */}
-                <div className="flex-1 flex flex-col items-center justify-center py-4 md:py-8">
-                    <div className="text-center mb-6 md:mb-8 px-4 mt-2">
+                <div className="flex-1 flex flex-col items-center justify-center py-2 md:py-8 gap-4 md:gap-6">
+                    <div className="text-center px-4 mt-2">
                         <h2 className="text-xl md:text-2xl font-bold text-white mb-1">Memory Match</h2>
                         <p className="text-xs md:text-sm text-zinc-400">Find all matching pairs!</p>
                     </div>
 
                     {/* Responsive Grid */}
-                    <div className="grid grid-cols-4 gap-2 md:gap-3 mb-8 md:mb-10 px-4 max-w-[400px] w-full">
+                    <div className="grid grid-cols-4 gap-2 md:gap-4 px-4 max-w-[min(400px,65vh)] md:[@media(pointer:coarse)]:max-w-[min(600px,75vh)] w-full">
                         {cards.map((card) => {
                             const { Icon, color } = CARD_ICONS[card.iconIndex];
                             const isFlipped = card.isFlipped || card.isMatched;
@@ -256,7 +256,7 @@ export function MemoryGame({
                     {/* Compact Reset */}
                     <button
                         onClick={initializeGame}
-                        className="px-5 py-2 mb-8 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm font-bold text-zinc-300 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
+                        className="px-5 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm font-bold text-zinc-300 hover:text-white hover:border-zinc-600 transition-all cursor-pointer"
                     >
                         New Game
                     </button>
