@@ -26,39 +26,39 @@ export default function Home() {
     <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-indigo-500/30 overflow-x-hidden">
       {/* Header */}
       <header className="border-b border-zinc-800/50 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
-        <div className="max-w-[1600px] mx-auto px-3 md:px-6 h-14 md:h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 md:gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
+        <div className="max-w-[1600px] mx-auto px-3 md:px-6 md:[@media(pointer:coarse)]:px-10 h-14 md:h-16 md:[@media(pointer:coarse)]:h-24 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-2.5 md:[@media(pointer:coarse)]:gap-4">
+            <div className="w-8 h-8 md:[@media(pointer:coarse)]:w-12 md:[@media(pointer:coarse)]:h-12 rounded-lg flex items-center justify-center flex-shrink-0">
               <img src="/chatlytics.png" alt="Chatlytics Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="text-lg md:text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
+            <span className="text-lg md:text-xl md:[@media(pointer:coarse)]:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
               Chatlytics
             </span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <nav className="flex items-center gap-4 md:gap-6 text-sm font-medium text-zinc-400">
+          <div className="flex items-center gap-6 md:[@media(pointer:coarse)]:gap-8">
+            <nav className="flex items-center gap-4 md:gap-6 md:[@media(pointer:coarse)]:gap-10 text-sm md:[@media(pointer:coarse)]:text-xl font-medium text-zinc-400">
               <button
                 onClick={() => data && setShowUpload(false)}
-                className={`flex items-center gap-2 transition-colors ${!showUpload && data ? 'text-indigo-400' : 'hover:text-white'} cursor-pointer`}
+                className={`flex items-center gap-2 md:[@media(pointer:coarse)]:gap-3 transition-colors ${!showUpload && data ? 'text-indigo-400' : 'hover:text-white'} cursor-pointer`}
                 disabled={!data}
                 aria-label="Dashboard"
               >
-                <LayoutDashboard className="w-4 h-4" />
+                <LayoutDashboard className="w-4 h-4 md:[@media(pointer:coarse)]:w-6 md:[@media(pointer:coarse)]:h-6" />
                 <span className="hidden md:inline">Dashboard</span>
               </button>
               <button
                 onClick={() => setShowGame(true)}
-                className="flex items-center gap-2 transition-colors hover:text-fuchsia-400 cursor-pointer group"
+                className="flex items-center gap-2 md:[@media(pointer:coarse)]:gap-3 transition-colors hover:text-fuchsia-400 cursor-pointer group"
                 aria-label="Play Game"
               >
-                <Gamepad2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Gamepad2 className="w-5 h-5 md:[@media(pointer:coarse)]:w-7 md:[@media(pointer:coarse)]:h-7 group-hover:scale-110 transition-transform" />
                 <span className="hidden md:inline">Play</span>
               </button>
             </nav>
-            <div className="h-4 w-[1px] bg-zinc-800" />
+            <div className="h-4 md:[@media(pointer:coarse)]:h-8 w-[1px] bg-zinc-800" />
             <a href="https://github.com/alexcj10/chatlytics" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors">
-              <Github className="w-5 h-5" />
+              <Github className="w-5 h-5 md:[@media(pointer:coarse)]:w-7 md:[@media(pointer:coarse)]:h-7" />
             </a>
           </div>
         </div>
