@@ -18,22 +18,22 @@
 
 ---
 
-## ✨ Overview
+## Overview
 
 Chatlytics is a modern web application that transforms your WhatsApp chat exports into insightful analytics and beautiful visualizations. Upload your chat file and discover patterns in your conversations with 19+ analytics metrics.
 
-**🌐 Live Application:** [chatlytics.netlify.app](https://chatlytics.netlify.app)
+**Live Application:** [chatlytics.netlify.app](https://chatlytics.netlify.app)
 
 ---
 
-## 🎯 Features
+## Features
 
-### 📊 Core Analytics
+### Core Analytics
 - **Basic Stats** — Total messages, words, and media shared
 - **Links Shared** — Count of all URLs in conversations
 - **Most Active Users** — Top 10 contributors (for group chats)
 
-### 📈 Time-Based Analysis
+### Time-Based Analysis
 - **Daily Timeline** — Message activity over days
 - **Hourly Distribution** — Peak hours of activity
 - **Weekly Activity** — Day-of-week patterns
@@ -41,19 +41,19 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 - **Quarterly Growth** — Long-term engagement
 - **Yearly Overview** — Year-over-year comparison
 
-### 🔍 Advanced ML & Algorithmic Insights
+### Advanced ML & Algorithmic Insights
 
-#### 🎭 Sentiment Analysis (Hinglish Support)
+#### Sentiment Analysis (Hinglish Support)
 *   **Initial Approach:** Supervised Learning via **TF-IDF Vectorization & Logistic Regression** classifier.
 *   **Current Engine:** **VADER (Valence Aware Dictionary and sEntiment Reasoner)** for real-time rule-based intensity mapping.
 *   **Hinglish Implementation:** Augmented the VADER lexicon with a custom **Hinglish/Roman-Hindi Lexicon** (+300 words like *zabardast, mast, badiya, bakwas*) to handle code-switching in Indian chat contexts.
 
-#### 🏗️ Topic Modeling
+#### Topic Modeling
 *   **Algorithm:** **LDA (Latent Dirichlet Allocation)** from `scikit-learn` for unsupervised theme discovery.
 *   **Methodology:** Uses **Count Vectorization** with a combined stopword engine (Standard English + Custom Hinglish Grammar) to extract semantic themes and their temporal distribution.
 *   **Note on Old Chats:** The **Topic Evolution** timeline focuses on the last 6 months of chat history. For older or sparse chats (fewer than 10 messages per month), the evolution chart may not appear if the data threshold is not met.
 
-#### 🏥 Chat Health Score (Conversational Fitness)
+#### Chat Health Score (Conversational Fitness)
 *   **Mathematical Formula:**
     $$Score = (0.30 \cdot S) + (0.25 \cdot E) + (0.20 \cdot R) + (0.15 \cdot B) - P$$
 *   **Metrics:** 
@@ -63,24 +63,24 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
     - **$B$ (Balance):** Coefficient of Variation for participation.
     - **$P$ (Penalty):** Anomaly deductions.
 
-#### 🚨 Anomaly Detection (Pattern Scrutiny)
+#### Anomaly Detection (Pattern Scrutiny)
 *   **Algorithm:** **Isolation Forest** (Ensemble-based unsupervised outlier detection).
 *   **Impact Scoring:** Statistical significance calculated via our custom **Z-Score ($\sigma$)** formula:
     $$Z = \frac{\text{MessageCount} - \text{MeanCount}}{\text{StandardDeviation}}$$
 *   **Dimensions:** Multidimensional analysis of volume, sentiment, media bursts, and link density.
 
-#### 🧠 Conversation Role Analysis (CRA)
+#### Conversation Role Analysis (CRA)
 *   **Methodology:** Behavioral mapping using multi-factor activity heatmaps and response latency patterns.
 *   **Scope:** **Global Ranking Only** (Reflects the intrinsic dynamics of the entire chat history, providing a static high-level behavioral overview).
 *   **The 6 Behavioral Personas:**
-    - **Initiator** (⚡) — The conversation starter who kicks off new threads.
-    - **Responder** (💬) — The fast-action engine who keeps the momentum going.
-    - **Driver** (🛡️) — The primary volume steering force in the chat.
-    - **Broadcaster** (📻) — Detailed communicators with the highest word-to-message ratios.
-    - **Listener** (🎧) — Concise participants who engage steadily with focused input.
-    - **Night Owl** (🌙) — The late-night specialist who dominates after-dark activity.
+    - **Initiator** — The conversation starter who kicks off new threads.
+    - **Responder** — The fast-action engine who keeps the momentum going.
+    - **Driver** — The primary volume steering force in the chat.
+    - **Broadcaster** — Detailed communicators with the highest word-to-message ratios.
+    - **Listener** — Concise participants who engage steadily with focused input.
+    - **Night Owl** — The late-night specialist who dominates after-dark activity.
 
-### 🎨 User Experience
+### User Experience
 - **Per-User Analytics** — Filter all stats by individual participant
 - **Dark Theme** — Modern, eye-friendly dark UI
 - **Responsive Design** — Works on desktop, tablet, and mobile
@@ -88,7 +88,7 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 | Technology | Purpose |
@@ -112,7 +112,7 @@ Chatlytics is a modern web application that transforms your WhatsApp chat export
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 - Node.js 18+
@@ -150,7 +150,7 @@ The frontend will be available at `http://localhost:3000` and the backend at `ht
 
 ---
 
-## 📤 How to Export WhatsApp Chat
+## How to Export WhatsApp Chat
 
 1. Open WhatsApp on your phone
 2. Go to the chat you want to analyze
@@ -161,7 +161,7 @@ The frontend will be available at `http://localhost:3000` and the backend at `ht
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### `POST /analyze`
 
@@ -224,7 +224,7 @@ Upload a WhatsApp chat export file for analysis.
 
 ---
 
-## 🌍 Deployment
+## Deployment
 
 ### Frontend (Netlify)
 The frontend is deployed on **Netlify** with automatic deployments from the main branch.
@@ -242,7 +242,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 chatlytics/
@@ -276,13 +276,13 @@ chatlytics/
 
 ---
 
-## 📜 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -297,6 +297,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 <p align="center">
   Made with ❤️ by <a href="https://github.com/alexcj10">alexcj10</a>
 </p>
+
 
 
 
