@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://chatlytics.netlify.app">🚀 Live Demo</a> •
+  <a href="https://chatlytics.netlify.app"> Live Demo</a> •
   <a href="#features">Features</a> •
   <a href="#tech-stack">Tech Stack</a> •
   <a href="#installation">Installation</a> •
@@ -297,6 +297,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 <p align="center">
   Made with ❤️ by <a href="https://github.com/alexcj10">alexcj10</a>
 </p>
+
 
 
 
