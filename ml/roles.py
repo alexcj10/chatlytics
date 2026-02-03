@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from app.analytics import response_time_analysis, conversation_initiator
 
-def assign_participant_roles(df):
+def assign_participant_roles(df, precomputed_initiators=None, precomputed_responses=None):
     """
     Identifies the Top 3 people who fit each role best.
     """
@@ -18,15 +18,22 @@ def assign_participant_roles(df):
         return {}
 
     # 1. Initiator Stats
-    initiator_counts = conversation_initiator(df_clean, 'Overall')
+    if precomputed_initiators is not None:
+        initiator_counts = precomputed_initiators
+    else:
+        initiator_counts = conversation_initiator(df_clean, 'Overall')
+    
     if isinstance(initiator_counts, pd.Series):
         initiator_counts = initiator_counts.to_dict()
     
     # 2. Response Stats
-    users_arr = df_clean['user'].values
-    mask = (users_arr[1:] != users_arr[:-1])
-    responders = users_arr[1:][mask]
-    response_counts = pd.Series(responders).value_counts().to_dict()
+    if precomputed_responses is not None:
+        response_counts = precomputed_responses
+    else:
+        users_arr = df_clean['user'].values
+        mask = (users_arr[1:] != users_arr[:-1])
+        responders = users_arr[1:][mask]
+        response_counts = pd.Series(responders).value_counts().to_dict()
     
     # 3. Basic Stats
     user_stats = df_clean.groupby('user').agg({

@@ -58,9 +58,17 @@ app.add_middleware(
 def precompute_global_stats(df):
     resp_times = response_time_analysis(df, 'Overall')
     initiators = conversation_initiator(df, 'Overall')
-    return resp_times, initiators
+    
+    # Pre-compute response counts (replies) for role consistency
+    df_clean = df[df['user'] != 'group_notification']
+    users_arr = df_clean['user'].values
+    mask = (users_arr[1:] != users_arr[:-1])
+    responders = users_arr[1:][mask]
+    response_counts = pd.Series(responders).value_counts().to_dict()
+    
+    return resp_times, initiators, response_counts
 
-def get_all_analytics(df, selected_user, global_resp_times=None, global_initiators=None):
+def get_all_analytics(df, selected_user, global_resp_times=None, global_initiators=None, global_response_counts=None):
     # Ensure nested dicts and Series are fully converted to JSON-safe types
     
     # We expect 'df' to be already filtered for the specific user if selected_user != 'Overall'
@@ -156,7 +164,11 @@ def get_all_analytics(df, selected_user, global_resp_times=None, global_initiato
         "topic_timeline": get_topic_timeline(df, selected_user),
         "chat_health": get_chat_health(df),
         "anomalies": get_anomalies(df),
-        "conversation_roles": assign_participant_roles(df)
+        "conversation_roles": assign_participant_roles(
+            df, 
+            precomputed_initiators=global_initiators, 
+            precomputed_responses=global_response_counts
+        )
     }
     return res
 
@@ -214,7 +226,7 @@ async def analyze_chat(file: UploadFile = File(...)):
         
         # Pre-compute heavy global stats ONCE
         print("Pre-computing global statistics...")
-        global_resp_times, global_initiators = precompute_global_stats(df)
+        global_resp_times, global_initiators, global_response_counts = precompute_global_stats(df)
         
         # Store analytics for each user
         all_analytics = {}
@@ -231,7 +243,8 @@ async def analyze_chat(file: UploadFile = File(...)):
                     df_context, 
                     user, 
                     global_resp_times=global_resp_times, 
-                    global_initiators=global_initiators
+                    global_initiators=global_initiators,
+                    global_response_counts=global_response_counts
                 )
                 all_analytics[user] = json_safe(raw_user_analytics)
             except Exception as user_err:
