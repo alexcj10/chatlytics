@@ -30,13 +30,25 @@ class TopicModeler:
     def _preprocess_text(self, text):
         if not isinstance(text, str):
             return ""
-        # Lowercase
+        
+        # 1. Lowercase
         text = text.lower()
-        # Remove media omitted
+        
+        # 2. Remove URLs (http/https/www)
+        text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
+        
+        # 3. Remove media omitted
         text = re.sub(r'<media omitted>', '', text)
-        # Remove non-alphabetic
-        text = re.sub(r'[^a-zA-Z\s]', '', text)
-        return text
+        
+        # 4. Remove non-alphabetic characters (keep spaces)
+        text = re.sub(r'[^a-z\s]', ' ', text)
+        
+        # 5. Remove long words (likely junk codes/hashes) and short words
+        # Keeping words between 3 and 15 characters
+        words = text.split()
+        cleaned_words = [w for w in words if 3 <= len(w) <= 15]
+        
+        return " ".join(cleaned_words)
 
     def fit_transform(self, messages):
         if not messages or len(messages) < 10: # Minimum messages to find meaningful topics
