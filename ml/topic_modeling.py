@@ -48,7 +48,12 @@ class TopicModeler:
         words = text.split()
         cleaned_words = [w for w in words if 3 <= len(w) <= 15]
         
-        return " ".join(cleaned_words)
+        result = " ".join(cleaned_words)
+        # Debug log for long strings (temporary)
+        if len(result) > 50 and "http" in text: 
+            print(f"[DEBUG] Original: {text[:50]}... -> Cleaned: {result[:50]}...")
+            
+        return result
 
     def fit_transform(self, messages):
         if not messages or len(messages) < 10: # Minimum messages to find meaningful topics
