@@ -11,7 +11,15 @@ export async function analyzeChat(file: File) {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to analyze chat');
+        let errorMessage = 'Failed to analyze chat';
+        try {
+            const errorData = await response.json();
+            errorMessage = errorData.detail || errorMessage;
+        } catch (e) {
+            // If response is not JSON, use default or status text
+            errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
     }
 
     return response.json();

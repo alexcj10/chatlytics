@@ -211,15 +211,25 @@ async def analyze_chat(file: UploadFile = File(...)):
                 data = raw_data.decode("latin-1")
 
         # Preprocess chat (Now returns GLOBALLY SORTED df)
-        df = preprocess_whatsapp_text(data)
+        try:
+            df = preprocess_whatsapp_text(data)
+        except Exception as e:
+            print(f"Preprocessing error: {e}")
+            raise HTTPException(status_code=400, detail=f"Failed to parse chat file. Please ensure it's a valid WhatsApp export (.txt). Details: {str(e)}")
         
         # Attach sentiment to DF globally for anomaly detection
         print("Attaching sentiment scores...")
-        df = attach_sentiment_to_df(df)
+        try:
+            df = attach_sentiment_to_df(df)
+        except Exception as e:
+            print(f"Sentiment analysis error: {e}")
+            # Continue without sentiment if it fails, or raise error? 
+            # For now let's assume if this fails, something is wrong with the data structure
+            pass
         
         if df.empty:
             print("Error: DataFrame is empty")
-            raise HTTPException(status_code=400, detail="No messages found. The file might be in an unsupported format or empty.")
+            raise HTTPException(status_code=400, detail="No valid messages found. The file format might not be supported. Try exporting without media.")
 
         users = get_user_list(df)
         print(f"Found users: {users}")
