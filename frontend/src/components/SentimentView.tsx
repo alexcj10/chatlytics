@@ -40,11 +40,22 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                 </p>
                 <div className="flex gap-4">
                     <button
-                        onClick={onBack}
-                        className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-sm font-medium text-zinc-400 hover:text-white hover:border-zinc-700 transition-all cursor-pointer"
+                        onClick={() => {
+                            window.scrollTo(0, 0);
+                            onBack();
+                        }}
+                        className="relative overflow-hidden rounded-xl flex items-center justify-center transition-transform active:scale-95 hover:opacity-90 border border-white/10 group px-6 py-3"
                     >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Dashboard
+                        <img 
+                            src="/two.jpg" 
+                            alt="" 
+                            className="absolute inset-0 w-full h-full object-cover" 
+                        />
+                        <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-transparent" />
+                        <div className="relative z-10 flex items-center gap-2">
+                            <ArrowLeft className="w-4 h-4 text-white drop-shadow-md group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-sm font-bold text-white tracking-wide drop-shadow-md">Return to Dashboard</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -377,16 +388,23 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
             )}
 
             {/* Action Footer */}
-            <div className="flex justify-center pt-6">
+            <div className="flex justify-center pt-6 pb-8">
                 <button
-                    onClick={onBack}
-                    className="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-900 rounded-xl overflow-hidden shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] border border-white/10 hover:border-indigo-500/30"
+                    onClick={() => {
+                        window.scrollTo(0, 0);
+                        onBack();
+                    }}
+                    className="relative overflow-hidden rounded-xl flex items-center justify-center transition-transform active:scale-95 hover:opacity-90 border border-white/10 group px-6 py-3"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
-                    <div className="relative flex items-center gap-2">
-                        <ArrowLeft className="w-4 h-4 text-indigo-400 group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-sm font-bold text-white tracking-wide">Return to Dashboard</span>
+                    <img 
+                        src="/two.jpg" 
+                        alt="" 
+                        className="absolute inset-0 w-full h-full object-cover" 
+                    />
+                    <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-transparent" />
+                    <div className="relative z-10 flex items-center gap-2">
+                        <ArrowLeft className="w-4 h-4 text-white drop-shadow-md group-hover:-translate-x-1 transition-transform" />
+                        <span className="text-sm font-bold text-white tracking-wide drop-shadow-md">Return to Dashboard</span>
                     </div>
                 </button>
             </div>
