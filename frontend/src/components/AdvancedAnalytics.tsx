@@ -33,9 +33,9 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     </div>
                     <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                         {Object.entries(responseTimes).map(([name, time]: any) => (
-                            <div key={name} className="flex items-center justify-between">
-                                <span className="text-sm text-zinc-400">{name}</span>
-                                <div className="flex items-center gap-2">
+                            <div key={name} className="flex items-center justify-between gap-3">
+                                <span className="text-sm text-zinc-400 break-words leading-tight flex-1 min-w-0">{name}</span>
+                                <div className="flex items-center gap-2 shrink-0">
                                     <span className="text-sm font-semibold text-white">{parseFloat(time).toFixed(1)}m</span>
                                     <div className="w-24 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                                         <div
@@ -62,9 +62,9 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     </div>
                     <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                         {Object.entries(initiators).map(([name, count]: any) => (
-                            <div key={name} className="flex items-center justify-between">
-                                <span className="text-sm text-zinc-400">{name}</span>
-                                <span className="text-sm font-bold text-emerald-400">{count} chats</span>
+                            <div key={name} className="flex items-center justify-between gap-3">
+                                <span className="text-sm text-zinc-400 break-words leading-tight flex-1 min-w-0">{name}</span>
+                                <span className="text-sm font-bold text-emerald-400 shrink-0">{count} chats</span>
                             </div>
                         ))}
                     </div>
