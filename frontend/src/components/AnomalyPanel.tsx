@@ -112,6 +112,26 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                                             <span className="hidden sm:inline">ACTIVITY </span>
                                             {anomaly.type.substring(9)}
                                         </>
+                                    ) : anomaly.type.startsWith('SILENT ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">SILENT </span>
+                                            {anomaly.type.replace('SILENT ', '')}
+                                        </>
+                                    ) : anomaly.type.startsWith('Silent ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">Silent </span>
+                                            {anomaly.type.replace('Silent ', '')}
+                                        </>
+                                    ) : anomaly.type.startsWith('silent ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">silent </span>
+                                            {anomaly.type.replace('silent ', '')}
+                                        </>
+                                    ) : anomaly.type.toUpperCase().startsWith('SILENT ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">SILENT </span>
+                                            {anomaly.type.substring(7)}
+                                        </>
                                     ) : (
                                         anomaly.type
                                     )}
@@ -133,7 +153,9 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                                 <div className="flex items-center justify-between gap-2 mb-1.5">
                                     <span className="text-[10px] font-bold text-amber-400/80 uppercase tracking-tighter flex items-center gap-1 shrink min-w-0 truncate">
                                         <MessageSquare className="w-3 h-3 shrink-0" />
-                                        <span className="truncate">Message that broke silence</span>
+                                        <span className="truncate">
+                                            <span className="hidden sm:inline">Message that </span>broke silence
+                                        </span>
                                     </span>
                                     <span className="text-[10px] font-bold text-zinc-500 shrink-0">
                                         {anomaly.user}
