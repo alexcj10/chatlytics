@@ -423,7 +423,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <BarChart data={Object.entries(data.most_active_users).map(([u, c]) => ({ name: u, count: c }))}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                     <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                    <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                    <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} width={35} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val} />
                                     <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                     <Bar dataKey="count" radius={[8, 8, 0, 0]} barSize={50}>
                                         {Object.entries(data.most_active_users).map((entry, index) => (
