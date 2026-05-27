@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     Heart, Star, Zap, MessageSquare, TrendingUp, Sparkles, Award, Coffee,
-    X, ArrowLeft, CheckCircle, AlertCircle, Trophy, Clock, PartyPopper
+    X, ArrowLeft, CheckCircle, AlertCircle, Trophy, Clock, PartyPopper, Loader2
 } from 'lucide-react';
 
 interface MemoryGameProps {
@@ -202,11 +202,10 @@ export function MemoryGame({
                             </div>
                         </div>
 
+                        {/* Processing Indicator (Icon Only, No Background) */}
                         {isProcessing && !processingComplete && !processingError && (
-                            <div className="flex items-center gap-1.5 md:[@media(pointer:coarse)]:gap-3 px-2 md:[@media(pointer:coarse)]:px-5 py-1.5 md:[@media(pointer:coarse)]:py-3 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
-                                <div className="w-1.5 h-1.5 md:[@media(pointer:coarse)]:w-2.5 md:[@media(pointer:coarse)]:h-2.5 rounded-full bg-indigo-400 animate-pulse" />
-                                <span className="text-sm md:[@media(pointer:coarse)]:text-lg font-semibold text-indigo-300 hidden md:[@media(pointer:coarse)]:inline">Processing...</span>
-                                <span className="text-xs md:[@media(pointer:coarse)]:text-base font-semibold text-indigo-300 md:[@media(pointer:coarse)]:hidden">Processing</span>
+                            <div className="flex items-center justify-center shrink-0 px-1 sm:px-2" title="Processing...">
+                                <Loader2 className="w-5 h-5 md:[@media(pointer:coarse)]:w-7 md:[@media(pointer:coarse)]:h-7 text-indigo-400 animate-spin" />
                             </div>
                         )}
                     </div>
