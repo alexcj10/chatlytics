@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from 'react';
-import { Upload, FileText, AlertCircle, Loader2, Gamepad2 } from 'lucide-react';
+import { Upload, FileText, AlertCircle, Loader2, Gamepad2, Shield } from 'lucide-react';
 import { analyzeChat } from '@/lib/api';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -133,13 +133,15 @@ export function UploadSection({
                         {!loading && <p className="text-zinc-500 text-sm md:[@media(pointer:coarse)]:text-lg">or click to browse files</p>}
                     </div>
 
-                    <div className="flex items-center justify-center gap-2 md:gap-4 md:[@media(pointer:coarse)]:gap-6 px-3 md:px-5 md:[@media(pointer:coarse)]:px-8 py-2 md:py-2.5 md:[@media(pointer:coarse)]:py-4 rounded-full bg-zinc-950 border border-zinc-800/50 text-xs md:text-sm md:[@media(pointer:coarse)]:text-lg text-zinc-400 text-center">
-                        <div className="flex items-center gap-1.5 md:[@media(pointer:coarse)]:gap-3">
-                            <FileText className="w-3 h-3 md:w-4 md:h-4 md:[@media(pointer:coarse)]:w-6 md:[@media(pointer:coarse)]:h-6" />
-                            <span>.txt files only</span>
+                    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+                        <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-zinc-950 border border-zinc-800/50 text-[11px] sm:text-xs md:text-sm text-zinc-400">
+                            <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
+                            <span className="whitespace-nowrap">.txt files only</span>
                         </div>
-                        <div className="w-1 h-1 md:[@media(pointer:coarse)]:w-2 md:[@media(pointer:coarse)]:h-2 rounded-full bg-zinc-700" />
-                        <span>End-to-end local analysis</span>
+                        <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-zinc-950 border border-zinc-800/50 text-[11px] sm:text-xs md:text-sm text-zinc-400">
+                            <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
+                            <span className="whitespace-nowrap">End-to-end local analysis</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,18 +169,7 @@ export function UploadSection({
                 </div>
             )}
 
-            <div className="mt-8 md:mt-12 md:[@media(pointer:coarse)]:mt-20 grid grid-cols-3 gap-3 md:gap-6 md:[@media(pointer:coarse)]:gap-10 text-center">
-                {[
-                    { label: 'Activity Charts', desc: 'Hourly to yearly' },
-                    { label: 'Word Analysis', desc: 'Common terms' },
-                    { label: 'User Roles', desc: 'Who starts charts' }
-                ].map((item, i) => (
-                    <div key={i} className="p-2 md:p-4 md:[@media(pointer:coarse)]:p-8 rounded-xl md:rounded-2xl md:[@media(pointer:coarse)]:rounded-[2.5rem] border border-white/10 bg-white/5">
-                        <p className="text-zinc-200 font-medium mb-0.5 md:mb-1 md:[@media(pointer:coarse)]:mb-2 text-xs md:text-sm md:[@media(pointer:coarse)]:text-xl">{item.label}</p>
-                        <p className="text-zinc-500 text-[10px] md:text-xs md:[@media(pointer:coarse)]:text-base">{item.desc}</p>
-                    </div>
-                ))}
-            </div>
+
 
         </div>
     );
