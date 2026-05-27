@@ -113,10 +113,10 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                     <div className="min-w-0">
                         <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium mb-1 truncate">
                             <TrendingUp className="w-4 h-4 shrink-0" />
-                            <span className="truncate">Advanced Emotional Analysis</span>
+                            <span className="truncate">Emotional Intelligence</span>
                         </div>
                         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white truncate max-w-[280px] sm:max-w-none">
-                            {user === 'Overall' ? "Overall Conversation" : user}
+                            {user === 'Overall' ? "Advanced Analysis" : user}
                         </h2>
                     </div>
                 </div>
