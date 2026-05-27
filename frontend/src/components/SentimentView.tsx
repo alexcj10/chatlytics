@@ -111,10 +111,13 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
                         <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
                     </button>
                     <div className="min-w-0">
-                        <h2 className="text-lg md:text-3xl font-bold text-white tracking-tight truncate">Advanced Analysis</h2>
-                        <p className="text-[11px] md:text-sm text-zinc-500 mt-0.5 md:mt-1 truncate">
-                            Detailed emotional insights for <span className="text-indigo-400 font-medium">{user}</span>
-                        </p>
+                        <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium mb-1 truncate">
+                            <TrendingUp className="w-4 h-4 shrink-0" />
+                            <span className="truncate">Advanced Emotional Analysis</span>
+                        </div>
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white truncate max-w-[280px] sm:max-w-none">
+                            {user === 'Overall' ? "Overall Conversation" : user}
+                        </h2>
                     </div>
                 </div>
                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 shrink-0">
