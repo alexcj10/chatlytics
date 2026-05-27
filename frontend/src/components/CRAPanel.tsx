@@ -74,7 +74,7 @@ export const CRAPanel: React.FC<CRAPanelProps> = ({ roles }) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 {finalDisplayRoles.map((roleName) => {
                     const data = roles[roleName];
                     if (!data || !data.top || !Array.isArray(data.top) || data.top.length === 0) return null;
@@ -85,7 +85,7 @@ export const CRAPanel: React.FC<CRAPanelProps> = ({ roles }) => {
                     return (
                         <div
                             key={roleName}
-                            className={`relative group overflow-hidden bg-[#09090b] bg-gradient-to-br ${getRoleGradient(roleName)} border rounded-2xl p-6 backdrop-blur-sm transition-all hover:border-white/20 hover:scale-[1.01]`}
+                            className={`relative group overflow-hidden bg-[#09090b] bg-gradient-to-br ${getRoleGradient(roleName)} border rounded-2xl p-4 md:p-6 backdrop-blur-sm transition-all hover:border-white/20 hover:scale-[1.01]`}
                         >
                             <div className="flex flex-col mb-4">
                                 <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-3">{roleName}</h4>
