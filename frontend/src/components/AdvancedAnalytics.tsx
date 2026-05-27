@@ -33,13 +33,13 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     </div>
                     <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                         {Object.entries(responseTimes).map(([name, time]: any) => (
-                            <div key={name} className="flex items-center justify-between gap-3">
-                                <span className="text-sm text-zinc-400 break-words leading-tight flex-1 min-w-0">{name}</span>
-                                <div className="flex items-center gap-2 shrink-0">
-                                    <span className="text-sm font-semibold text-white">{parseFloat(time).toFixed(1)}m</span>
-                                    <div className="w-24 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                            <div key={name} className="flex flex-col gap-1.5">
+                                <span className="text-sm text-zinc-400 break-words leading-tight">{name}</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-sm font-semibold text-white w-14 shrink-0">{parseFloat(time).toFixed(1)}m</span>
+                                    <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full bg-indigo-500"
+                                            className="h-full bg-indigo-500 rounded-full"
                                             style={{ width: `${Math.min(100, (time / 60) * 100)}%` }}
                                         />
                                     </div>
@@ -62,9 +62,9 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     </div>
                     <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                         {Object.entries(initiators).map(([name, count]: any) => (
-                            <div key={name} className="flex items-center justify-between gap-3">
-                                <span className="text-sm text-zinc-400 break-words leading-tight flex-1 min-w-0">{name}</span>
-                                <span className="text-sm font-bold text-emerald-400 shrink-0">{count} chats</span>
+                            <div key={name} className="flex flex-col gap-0.5 border-b border-white/5 pb-2 last:border-0 last:pb-0">
+                                <span className="text-sm text-zinc-400 break-words leading-tight">{name}</span>
+                                <span className="text-sm font-bold text-emerald-400">{count} chats</span>
                             </div>
                         ))}
                     </div>
