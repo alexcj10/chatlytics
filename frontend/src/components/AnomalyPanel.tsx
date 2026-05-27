@@ -48,21 +48,21 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                 <div className="flex p-1 bg-white/5 rounded-xl border border-white/10 border-t border-white/5">
                     <button
                         onClick={() => setActiveTab('spikes')}
-                        className={`flex-1 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'spikes'
+                        className={`flex-1 px-2 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'spikes'
                             ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                             : 'text-zinc-500 hover:text-zinc-300'
                             }`}
                     >
-                        ACTIVITY SPIKES ({data.spikes.length})
+                        <span className="hidden sm:inline">ACTIVITY </span>SPIKES ({data.spikes.length})
                     </button>
                     <button
                         onClick={() => setActiveTab('drops')}
-                        className={`flex-1 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'drops'
+                        className={`flex-1 px-2 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'drops'
                             ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                             : 'text-zinc-500 hover:text-zinc-300'
                             }`}
                     >
-                        ACTIVITY DROPS ({data.drops.length})
+                        <span className="hidden sm:inline">ACTIVITY </span>DROPS ({data.drops.length})
                     </button>
                 </div>
             </div>
@@ -92,7 +92,29 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                                     <TrendingDown className="w-4 h-4 text-rose-400 shrink-0" />
                                 )}
                                 <span className={`text-xs font-black uppercase tracking-wider truncate ${anomaly.type.includes('Joy') ? 'text-emerald-400' : 'text-rose-400'}`}>
-                                    {anomaly.type}
+                                    {anomaly.type.startsWith('ACTIVITY ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">ACTIVITY </span>
+                                            {anomaly.type.replace('ACTIVITY ', '')}
+                                        </>
+                                    ) : anomaly.type.startsWith('Activity ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">Activity </span>
+                                            {anomaly.type.replace('Activity ', '')}
+                                        </>
+                                    ) : anomaly.type.startsWith('activity ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">activity </span>
+                                            {anomaly.type.replace('activity ', '')}
+                                        </>
+                                    ) : anomaly.type.toUpperCase().startsWith('ACTIVITY ') ? (
+                                        <>
+                                            <span className="hidden sm:inline">ACTIVITY </span>
+                                            {anomaly.type.substring(9)}
+                                        </>
+                                    ) : (
+                                        anomaly.type
+                                    )}
                                 </span>
                             </div>
                             <div className="flex items-center gap-1.5 text-zinc-400 bg-black/20 px-2 py-1 rounded-md border border-white/5 shrink-0 mt-[-2px]">
