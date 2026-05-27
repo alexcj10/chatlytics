@@ -62,9 +62,9 @@ export function AdvancedAnalytics({ data, user }: AdvancedAnalyticsProps) {
                     </div>
                     <div className="space-y-4 overflow-y-auto max-h-[260px] pr-2 custom-scrollbar">
                         {Object.entries(initiators).map(([name, count]: any) => (
-                            <div key={name} className="flex flex-col gap-0.5 border-b border-white/5 pb-2 last:border-0 last:pb-0">
-                                <span className="text-sm text-zinc-400 break-words leading-tight">{name}</span>
-                                <span className="text-sm font-bold text-emerald-400">{count} chats</span>
+                            <div key={name} className="flex items-center justify-between gap-3 border-b border-white/5 pb-2 last:border-0 last:pb-0">
+                                <span className="text-[13px] md:text-sm text-zinc-400 leading-snug flex-1 break-words">{name}</span>
+                                <span className="text-[13px] md:text-sm font-bold text-emerald-400 shrink-0">{count} chats</span>
                             </div>
                         ))}
                     </div>
