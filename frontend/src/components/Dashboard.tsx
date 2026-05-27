@@ -183,8 +183,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 >
                     <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl p-4 flex flex-col md:flex-row items-center md:justify-between gap-4 md:gap-0 hover:border-indigo-500/40 transition-all">
                         <div className="flex items-center gap-4 w-full md:w-auto">
-                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex shrink-0 items-center justify-center">
-                                <Sparkles className="w-6 h-6 text-indigo-400" />
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/20 flex shrink-0 items-center justify-center">
+                                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-indigo-400" />
                             </div>
                             <div>
                                 <h3 className="text-sm font-bold text-white">Sentiment Insight</h3>
@@ -219,8 +219,8 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                 >
                     <div className="bg-gradient-to-r from-rose-500/10 to-amber-500/10 border border-rose-500/20 rounded-2xl p-5 flex flex-col gap-6 hover:border-rose-500/40 transition-all transition-shadow shadow-lg shadow-rose-500/5">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-rose-500/20 flex shrink-0 items-center justify-center border border-rose-500/20">
-                                <Layers className="w-6 h-6 text-rose-400" />
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-rose-500/20 flex shrink-0 items-center justify-center border border-rose-500/20">
+                                <Layers className="w-5 h-5 md:w-6 md:h-6 text-rose-400" />
                             </div>
                             <div>
                                 <h3 className="text-sm font-bold text-white tracking-tight">Conversation Themes</h3>
