@@ -102,20 +102,22 @@ export function SentimentView({ data, user, onBack }: SentimentViewProps) {
     return (
         <div className="space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 bg-[#09090b] min-h-screen">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/5">
-                <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between pb-3 md:pb-4 border-b border-white/5">
+                <div className="flex items-center gap-3 md:gap-4 min-w-0 pr-4">
                     <button
                         onClick={onBack}
-                        className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all cursor-pointer group"
+                        className="p-1.5 md:p-2 rounded-lg md:rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all cursor-pointer group shrink-0"
                     >
-                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
                     </button>
-                    <div>
-                        <h2 className="text-xl md:text-3xl font-bold text-white tracking-tight">Advanced Analysis</h2>
-                        <p className="text-sm text-zinc-500 mt-1">Detailed emotional insights for <span className="text-indigo-400 font-medium">{user}</span></p>
+                    <div className="min-w-0">
+                        <h2 className="text-lg md:text-3xl font-bold text-white tracking-tight truncate">Advanced Analysis</h2>
+                        <p className="text-[11px] md:text-sm text-zinc-500 mt-0.5 md:mt-1 truncate">
+                            Detailed emotional insights for <span className="text-indigo-400 font-medium">{user}</span>
+                        </p>
                     </div>
                 </div>
-                <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20">
+                <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 shrink-0">
                     <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
                     <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Live Model Analysis</span>
                 </div>
