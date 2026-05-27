@@ -82,23 +82,22 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                                 : 'bg-white/5 border-white/10 hover:border-white/20'
                             }`}
                     >
-                        <div className="flex items-start justify-between mb-3">
-                            <div className="flex items-center gap-2">
+                        <div className="flex items-start justify-between gap-2 mb-3">
+                            <div className="flex items-center gap-2 shrink min-w-0">
                                 {anomaly.type.includes('Burst') ? (
-                                    <TrendingUp className="w-4 h-4 text-rose-400" />
+                                    <TrendingUp className="w-4 h-4 text-rose-400 shrink-0" />
                                 ) : anomaly.type.includes('Joy') ? (
-                                    <TrendingUp className="w-4 h-4 text-emerald-400" />
+                                    <TrendingUp className="w-4 h-4 text-emerald-400 shrink-0" />
                                 ) : (
-                                    <TrendingDown className="w-4 h-4 text-rose-400" />
+                                    <TrendingDown className="w-4 h-4 text-rose-400 shrink-0" />
                                 )}
-                                <span className={`text-xs font-black uppercase tracking-wider ${anomaly.type.includes('Joy') ? 'text-emerald-400' : 'text-rose-400'
-                                    }`}>
+                                <span className={`text-xs font-black uppercase tracking-wider truncate ${anomaly.type.includes('Joy') ? 'text-emerald-400' : 'text-rose-400'}`}>
                                     {anomaly.type}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-zinc-500">
+                            <div className="flex items-center gap-1.5 text-zinc-400 bg-black/20 px-2 py-1 rounded-md border border-white/5 shrink-0 mt-[-2px]">
                                 <Clock className="w-3 h-3" />
-                                <span className="text-[10px] font-bold">{anomaly.date}</span>
+                                <span className="text-[10px] font-bold tracking-wide">{anomaly.date}</span>
                             </div>
                         </div>
 
@@ -109,12 +108,12 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                         {anomaly.breaking_message && (
                             <div className="mb-4 p-3 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden group/msg">
                                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500/50" />
-                                <div className="flex items-center justify-between mb-1.5">
-                                    <span className="text-[10px] font-bold text-amber-400/80 uppercase tracking-tighter flex items-center gap-1">
-                                        <MessageSquare className="w-3 h-3" />
-                                        Message that broke silence
+                                <div className="flex items-center justify-between gap-2 mb-1.5">
+                                    <span className="text-[10px] font-bold text-amber-400/80 uppercase tracking-tighter flex items-center gap-1 shrink min-w-0 truncate">
+                                        <MessageSquare className="w-3 h-3 shrink-0" />
+                                        <span className="truncate">Message that broke silence</span>
                                     </span>
-                                    <span className="text-[10px] font-bold text-zinc-500">
+                                    <span className="text-[10px] font-bold text-zinc-500 shrink-0">
                                         {anomaly.user}
                                     </span>
                                 </div>
@@ -124,24 +123,24 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                             </div>
                         )}
 
-                        <div className="flex items-center gap-4">
-                            <div className="flex flex-col">
+                        <div className="flex items-center gap-3 overflow-x-auto custom-scrollbar pb-1 min-w-0">
+                            <div className="flex flex-col shrink-0">
                                 <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Impact</span>
                                 <span className="text-xs font-bold text-white">{anomaly.severity}</span>
                             </div>
                             {anomaly.z_score && (
-                                <div className="flex flex-col border-l border-white/10 pl-4">
+                                <div className="flex flex-col border-l border-white/10 pl-3 shrink-0">
                                     <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Z-Score</span>
                                     <span className="text-xs font-bold text-white">+{anomaly.z_score}σ</span>
                                 </div>
                             )}
                             {anomaly.metrics && (
                                 <>
-                                    <div className="flex flex-col border-l border-white/10 pl-4">
+                                    <div className="flex flex-col border-l border-white/10 pl-3 shrink-0">
                                         <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Volume</span>
                                         <span className="text-xs font-bold text-white">{anomaly.metrics.messages}</span>
                                     </div>
-                                    <div className="flex flex-col border-l border-white/10 pl-4">
+                                    <div className="flex flex-col border-l border-white/10 pl-3 shrink-0">
                                         <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Tone</span>
                                         <span className={`text-xs font-bold ${anomaly.metrics.sentiment > 0.2 ? 'text-emerald-400' : anomaly.metrics.sentiment < -0.2 ? 'text-rose-400' : 'text-zinc-400'}`}>
                                             {anomaly.metrics.sentiment > 0 ? '+' : ''}{anomaly.metrics.sentiment}
@@ -150,7 +149,7 @@ export function AnomalyPanel({ anomalies }: AnomalyPanelProps) {
                                 </>
                             )}
                             {anomaly.change && (
-                                <div className="flex flex-col border-l border-white/10 pl-4">
+                                <div className="flex flex-col border-l border-white/10 pl-3 shrink-0">
                                     <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Shift</span>
                                     <span className={`text-xs font-bold ${anomaly.change > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                                         {anomaly.change > 0 ? '+' : ''}{anomaly.change}
