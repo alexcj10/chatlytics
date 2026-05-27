@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Upload, FileText, AlertCircle, Loader2, Gamepad2, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { analyzeChat } from '@/lib/api';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -34,6 +34,15 @@ export function UploadSection({
 }: UploadSectionProps) {
     const [error, setError] = useState<string | null>(null);
     const [dragActive, setDragActive] = useState(false);
+    const ANIMATED_WORDS = ['DNA', 'Habits', 'Patterns', 'Secrets', 'Stories'];
+    const [wordIndex, setWordIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setWordIndex((prev) => (prev + 1) % ANIMATED_WORDS.length);
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
 
     const handleFile = async (file: File) => {
         if (!file.name.endsWith('.txt')) {
@@ -185,8 +194,23 @@ export function UploadSection({
                             <Shield className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
                             <span className="text-[10px] md:text-xs font-black tracking-widest text-white uppercase">100% Local</span>
                         </div>
-                        <h3 className="text-base sm:text-lg md:text-xl font-black text-white tracking-tight text-center drop-shadow-lg">
-                            Uncover your chat DNA.
+                        <h3 className="text-base sm:text-lg md:text-xl font-black text-white tracking-tight text-center drop-shadow-lg flex flex-row items-center justify-center gap-1">
+                            <span>Uncover your chat</span>
+                            <span className="relative inline-block text-left min-w-[4rem] sm:min-w-[4.5rem] md:min-w-[5rem]">
+                                <AnimatePresence mode="popLayout">
+                                    <motion.span
+                                        key={ANIMATED_WORDS[wordIndex]}
+                                        initial={{ y: 20, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        exit={{ y: -20, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeOut" }}
+                                        className="absolute top-0 left-0 whitespace-nowrap text-cyan-200"
+                                    >
+                                        {ANIMATED_WORDS[wordIndex]}.
+                                    </motion.span>
+                                </AnimatePresence>
+                                <span className="opacity-0 pointer-events-none whitespace-nowrap">Patterns.</span>
+                            </span>
                         </h3>
                     </div>
                 </div>
