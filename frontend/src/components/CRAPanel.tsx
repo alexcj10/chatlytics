@@ -65,12 +65,12 @@ export const CRAPanel: React.FC<CRAPanelProps> = ({ roles }) => {
     return (
         <div className="mt-12 mb-8">
             <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center">
-                    <Brain className="w-6 h-6 text-fuchsia-400" />
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center shrink-0">
+                    <Brain className="w-5 h-5 md:w-6 md:h-6 text-fuchsia-400" />
                 </div>
-                <div>
-                    <h3 className="text-2xl font-bold text-white leading-none mb-1.5">Conversation Roles</h3>
-                    <p className="text-sm text-zinc-500 font-medium">Top performers identifying the chat dynamics</p>
+                <div className="min-w-0">
+                    <h3 className="text-xl md:text-2xl font-bold text-white leading-tight mb-1">Conversation Roles</h3>
+                    <p className="text-sm text-zinc-500 font-medium leading-snug">Top performers identifying the chat dynamics</p>
                 </div>
             </div>
 
