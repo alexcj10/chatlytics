@@ -191,20 +191,20 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 <p className="text-xs text-zinc-500">The conversation tone is mostly <span className="text-indigo-400 font-semibold">{data.sentiment_analysis.positive_percentage > 50 ? 'Positive' : 'Critical'}</span></p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-6 w-full md:w-auto justify-evenly md:justify-end pr-0 md:pr-4">
-                            <div className="text-center">
-                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Positive</p>
-                                <p className="text-lg font-black text-emerald-400">{data.sentiment_analysis.positive_percentage}%</p>
+                        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 w-full md:w-auto justify-between md:justify-end pr-0 md:pr-4">
+                            <div className="text-center flex-1 md:flex-initial min-w-0">
+                                <p className="text-[9px] sm:text-[10px] text-zinc-500 font-bold uppercase tracking-wider truncate">Positive</p>
+                                <p className="text-sm sm:text-base md:text-lg font-black text-emerald-400 truncate">{typeof data.sentiment_analysis.positive_percentage === 'number' ? data.sentiment_analysis.positive_percentage.toFixed(1) : data.sentiment_analysis.positive_percentage}%</p>
                             </div>
-                            <div className="h-8 w-[1px] bg-white/10" />
-                            <div className="text-center">
-                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Neutral</p>
-                                <p className="text-lg font-black text-purple-400">{data.sentiment_analysis.neutral_percentage ?? (100 - data.sentiment_analysis.positive_percentage - data.sentiment_analysis.negative_percentage).toFixed(2)}%</p>
+                            <div className="h-6 sm:h-8 w-[1px] bg-white/10 shrink-0" />
+                            <div className="text-center flex-1 md:flex-initial min-w-0">
+                                <p className="text-[9px] sm:text-[10px] text-zinc-500 font-bold uppercase tracking-wider truncate">Neutral</p>
+                                <p className="text-sm sm:text-base md:text-lg font-black text-purple-400 truncate">{typeof data.sentiment_analysis.neutral_percentage === 'number' ? data.sentiment_analysis.neutral_percentage.toFixed(1) : (100 - data.sentiment_analysis.positive_percentage - data.sentiment_analysis.negative_percentage).toFixed(1)}%</p>
                             </div>
-                            <div className="h-8 w-[1px] bg-white/10" />
-                            <div className="text-center">
-                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Negative</p>
-                                <p className="text-lg font-black text-red-400">{data.sentiment_analysis.negative_percentage}%</p>
+                            <div className="h-6 sm:h-8 w-[1px] bg-white/10 shrink-0" />
+                            <div className="text-center flex-1 md:flex-initial min-w-0">
+                                <p className="text-[9px] sm:text-[10px] text-zinc-500 font-bold uppercase tracking-wider truncate">Negative</p>
+                                <p className="text-sm sm:text-base md:text-lg font-black text-red-400 truncate">{typeof data.sentiment_analysis.negative_percentage === 'number' ? data.sentiment_analysis.negative_percentage.toFixed(1) : data.sentiment_analysis.negative_percentage}%</p>
                             </div>
                         </div>
                     </div>
