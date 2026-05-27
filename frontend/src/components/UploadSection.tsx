@@ -170,31 +170,22 @@ export function UploadSection({
                 </div>
             )}
 
-            {/* Thin Noise Gradient CTA Banner */}
+            {/* Image Background CTA Banner */}
             {!loading && (
-                <div className="mt-8 md:mt-12 md:[@media(pointer:coarse)]:mt-16 relative w-full rounded-2xl sm:rounded-full overflow-hidden flex flex-col sm:flex-row items-center gap-3 p-4 sm:p-5 md:px-8 group shadow-[0_0_40px_-10px_rgba(255,255,255,0.1)] border border-white/5 transition-transform hover:scale-[1.01]">
-                    
-                    {/* Rich Mixed Color Mesh Gradient Background */}
-                    <div className="absolute inset-0 bg-[#e0e7ff] transition-transform duration-1000 ease-out group-hover:scale-105">
-                        <div className="absolute top-[-50%] left-[-10%] w-[70%] h-[150%] bg-[#67e8f9] rounded-full mix-blend-multiply filter blur-3xl opacity-80" />
-                        <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[120%] bg-[#f9a8d4] rounded-full mix-blend-multiply filter blur-3xl opacity-80" />
-                        <div className="absolute bottom-[-50%] left-[20%] w-[60%] h-[150%] bg-[#d8b4fe] rounded-full mix-blend-multiply filter blur-3xl opacity-80" />
-                    </div>
-                    
-                    {/* Heavy SVG Noise Texture Overlay */}
-                    <div 
-                        className="absolute inset-0 opacity-[0.4] mix-blend-color-burn pointer-events-none"
-                        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E")' }}
-                    />
-                    <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px] pointer-events-none" />
+                <div 
+                    className="mt-8 md:mt-12 md:[@media(pointer:coarse)]:mt-16 relative w-full rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center p-4 md:p-5 md:px-6 group shadow-2xl border border-white/10 transition-transform hover:scale-[1.01] bg-cover bg-center"
+                    style={{ backgroundImage: 'url("/two.jpg")' }}
+                >
+                    {/* Subtle Overlay to ensure text readability */}
+                    <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
                     {/* Content */}
-                    <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 md:gap-6 w-full text-center sm:text-left">
-                        <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 rounded-full bg-white/40 backdrop-blur-md border border-white/50 shadow-sm shrink-0">
-                            <Shield className="w-3.5 h-3.5 md:w-4 md:h-4 text-indigo-950" />
-                            <span className="text-[10px] md:text-xs font-black tracking-widest text-indigo-950 uppercase">100% Local</span>
+                    <div className="relative z-10 flex flex-wrap sm:flex-row items-center justify-center gap-3 md:gap-5 w-full">
+                        <div className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-1.5 rounded-lg bg-black/40 backdrop-blur-md border border-white/20 shadow-sm shrink-0">
+                            <Shield className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
+                            <span className="text-[10px] md:text-xs font-black tracking-widest text-white uppercase">100% Local</span>
                         </div>
-                        <h3 className="text-lg sm:text-xl md:text-2xl font-black text-indigo-950 tracking-tight">
+                        <h3 className="text-base sm:text-lg md:text-xl font-black text-white tracking-tight text-center drop-shadow-lg">
                             Uncover your chat DNA.
                         </h3>
                     </div>
