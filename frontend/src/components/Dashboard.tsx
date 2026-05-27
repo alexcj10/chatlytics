@@ -290,7 +290,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                                 axisLine={false}
                                 tickFormatter={(val) => new Date(val).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                             />
-                            <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                            <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} width={35} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val} />
                             <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                             <Area type="monotone" dataKey="message_count" stroke="#facc15" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
                         </AreaChart>
@@ -308,7 +308,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <BarChart data={data.hourly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="hour" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(h) => `${h}:00`} />
-                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} width={35} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val} />
                                 <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                 <Bar dataKey="message_count" fill="#818cf8" radius={[4, 4, 0, 0]} />
                             </BarChart>
@@ -346,7 +346,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <AreaChart data={data.monthly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="month" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} width={35} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val} />
                                 <Tooltip />
                                 <Area type="monotone" dataKey="message_count" stroke="#3b82f6" fillOpacity={0.1} fill="#3b82f6" />
                             </AreaChart>
@@ -361,7 +361,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <BarChart data={data.quarterly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="quarter" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} width={35} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val} />
                                 <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
                                 <Bar dataKey="message_count" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
@@ -376,7 +376,7 @@ export function Dashboard({ data, user, users, onSelectUser, onReset }: Dashboar
                             <LineChart data={data.yearly_activity}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
                                 <XAxis dataKey="year" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
+                                <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} width={35} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val} />
                                 <Tooltip />
                                 <Line type="monotone" dataKey="message_count" stroke="#f97316" strokeWidth={3} dot={{ r: 4, fill: '#f97316' }} />
                             </LineChart>
