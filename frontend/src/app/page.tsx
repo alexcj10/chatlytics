@@ -28,7 +28,7 @@ export default function Home() {
       <header className="border-b border-zinc-800/50 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-[1600px] mx-auto px-3 md:px-6 md:[@media(pointer:coarse)]:px-10 h-14 md:h-16 md:[@media(pointer:coarse)]:h-24 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-2.5 md:[@media(pointer:coarse)]:gap-4">
-            <div className="w-8 h-8 md:[@media(pointer:coarse)]:w-12 md:[@media(pointer:coarse)]:h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-6 h-6 md:w-7 md:h-7 md:[@media(pointer:coarse)]:w-10 md:[@media(pointer:coarse)]:h-10 rounded-lg flex items-center justify-center flex-shrink-0">
               <img src="/chatlytics.png" alt="Chatlytics Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-lg md:text-xl md:[@media(pointer:coarse)]:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
@@ -36,7 +36,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="flex items-center gap-6 md:[@media(pointer:coarse)]:gap-8">
+          <div className="flex items-center gap-4 md:gap-6 md:[@media(pointer:coarse)]:gap-10">
             <nav className="flex items-center gap-4 md:gap-6 md:[@media(pointer:coarse)]:gap-10 text-sm md:[@media(pointer:coarse)]:text-xl font-medium text-zinc-400">
               <button
                 onClick={() => data && setShowUpload(false)}
