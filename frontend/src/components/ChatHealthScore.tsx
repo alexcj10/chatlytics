@@ -24,15 +24,15 @@ export function ChatHealthScore({ health }: ChatHealthScoreProps) {
             <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                            <Zap className="w-5 h-5 text-amber-400" />
+                        <h3 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                            <Zap className="w-4 h-4 md:w-5 md:h-5 text-amber-400" />
                             Chat Health
                         </h3>
                         <p className="text-xs text-zinc-500 mt-1">Algorithmic vitality assessment</p>
                     </div>
                     <div className="flex flex-col items-end">
-                        <span className={`text-2xl font-black ${color}`}>{score}%</span>
-                        <span className="text-[10px] uppercase font-black text-white/40 tracking-widest">{rating}</span>
+                        <span className={`text-xl md:text-2xl font-black ${color}`}>{score}%</span>
+                        <span className="text-[9px] md:text-[10px] uppercase font-black text-white/40 tracking-widest">{rating}</span>
                     </div>
                 </div>
 
