@@ -7,6 +7,12 @@
   --color-card-border: var(--card-border);
 }
 
+@media (max-width: 375px) {
+  html {
+    font-size: 13px !important;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #09090b;
