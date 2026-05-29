@@ -95,7 +95,7 @@ export function UploadSection({
                 <h1 className="text-2xl md:text-4xl md:[@media(pointer:coarse)]:text-6xl font-bold mb-2 md:mb-4 md:[@media(pointer:coarse)]:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-500 pb-1">
                     Analyze Your Conversations
                 </h1>
-                <p className="text-zinc-400 text-sm md:text-lg md:[@media(pointer:coarse)]:text-2xl max-w-md md:[@media(pointer:coarse)]:max-w-2xl mx-auto">
+                <p className="text-zinc-400 text-base sm:text-lg md:text-xl md:[@media(pointer:coarse)]:text-2xl max-w-md md:[@media(pointer:coarse)]:max-w-2xl mx-auto">
                     Upload your exported WhatsApp chat file and get deep insights into your social dynamics.
                 </p>
             </div>
